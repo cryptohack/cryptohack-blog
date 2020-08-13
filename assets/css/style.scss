@@ -139,7 +139,7 @@ a.site-title, a.site-title:visited, a.site-title:hover{
 }
 
 .post-meta{
-  color: #F9EAE1cc;
+  color: #c2bcb9;
 }
 
 
@@ -163,7 +163,7 @@ blockquote{
   font-size: 1em;
   font-style: normal;
   border-left: 4px solid #feb32b;
-  color: #F9EAE1cc;
+  color: #c2bcb9;
 }
 
 table, table td, table th{
@@ -286,12 +286,34 @@ footer .copyright{
 
 /* SMALL */
 @media only screen and (max-width : 600px) {
+  .site-icon{
+    background-color: #feb32b;
+    margin-right: -0.55em;
+  }
+
   table{
     display: table;
   }
 
   .post-content h2 + h3{
     margin-top: 0.5em;
+  }
+
+  footer{
+    flex-direction: column;
+  }
+
+  footer .footerLinks{
+    justify-content: space-between;
+  }
+
+  footer .credits{
+    margin-top: 1em;
+    text-align: left;
+  }
+
+  footer .copyright{
+    text-align: left;
   }
 }
 
@@ -357,12 +379,12 @@ html.light-mode footer .footerIcon a, html.light-mode footer .footerIcon a:hover
 // post
 
 html.light-mode .post-meta{
-  color: #10294ccc;
+  color: #515f72;
 }
 
 html.light-mode blockquote{
   border-color: #6420e0;
-  color: #10294ccc;
+  color: #515f72;
 }
 
 
