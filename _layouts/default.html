@@ -23,8 +23,7 @@
           var newClass = html.className == 'dark-mode' ? 'light-mode' : 'dark-mode'
           html.className = newClass
 
-          // document.cookie = 'theme=' + (newClass == 'light-mode' ? 'light' : 'dark') + '; SameSite=Strict; path=/; domain=cryptohack.org; expires=Fri, 31 Dec 9999 23:59:59 GMT'
-          document.cookie = 'theme=' + (newClass == 'light-mode' ? 'light' : 'dark') + '; SameSite=Strict; path=/; domain=127.0.0.1; expires=Fri, 31 Dec 9999 23:59:59 GMT'
+          document.cookie = 'theme=' + (newClass == 'light-mode' ? 'light' : 'dark') + '; SameSite=Strict; path=/; domain=cryptohack.org; expires=Fri, 31 Dec 9999 23:59:59 GMT'
           console.log('Cookies are now: ' + document.cookie)
 
           var elem = document.querySelector('#changeTheme');
