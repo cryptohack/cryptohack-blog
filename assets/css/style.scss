@@ -60,6 +60,10 @@ a:hover{
   text-decoration: none!important;
 }
 
+a, a:visited, a:hover{
+  color: #e85154;
+}
+
 
 // Header
 
@@ -98,6 +102,65 @@ a.site-title, a.site-title:visited, a.site-title:hover{
 
 .post-list li p{
   text-align: justify;
+}
+
+// post
+
+.post-title, .post-content h1{
+  font-size: 2.2em;
+}
+
+.post-content p{
+  text-align: justify;
+}
+
+.post-meta{
+  color: #F9EAE1cc;
+}
+
+
+// code
+
+code{
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #feb32b;
+  background-color: #ffffff10;
+  border-radius: 4px;
+  word-break: break-all;
+  border: none;
+}
+
+blockquote{
+  font-size: 1em;
+  font-style: normal;
+  border-left: 4px solid #feb32b;
+  color: #F9EAE1cc;
+}
+
+table, table td, table th{
+  border: 0;
+  color: inherit;
+}
+
+table{
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+table thead{
+  border-bottom: 1px solid #feb32b;
+}
+
+table th{
+  background-color: #0c1221;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(255,255,255,0);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(255,255,255,0.04);
 }
 
 
@@ -195,8 +258,13 @@ footer .copyright{
 
 /* SMALL */
 @media only screen and (max-width : 600px) {
+  table{
+    display: table;
+  }
 
-
+  .post-content h2 + h3{
+    margin-top: 0.5em;
+  }
 }
 
 
@@ -215,7 +283,16 @@ html.light-mode a.site-title:hover{
   color: #f04e23;
 }
 
-
+html.light-mode a,
+html.light-mode a:visited{
+  color: #6420e0;
+  border-bottom: 1px solid #ffffff00;
+  transition: border ease 0.3s;
+}
+html.light-mode a{
+  color: #6420e0;
+  border-bottom: 1px solid #6420e0;
+}
 
 
 
@@ -239,4 +316,49 @@ html.light-mode footer a:hover{
 
 html.light-mode footer .footerIcon a, html.light-mode footer .footerIcon a:hover, html.light-mode footer .footerIcon a:visited{
   border: 0
+}
+
+
+// post
+
+html.light-mode .post-meta{
+  color: #10294ccc;
+}
+
+html.light-mode blockquote{
+  border-color: #6420e0;
+  color: #10294ccc;
+}
+
+
+// code
+
+html.light-mode code{
+  background-color: rgba(249, 245, 255,1);
+  color: #6420e0;
+}
+
+
+// table
+
+html.light-mode table{
+  box-shadow: none;
+}
+
+html.light-mode th{
+  background-color: #fff;
+  border-bottom: 1px #f04e23 solid;
+}
+
+html.light-mode table a, html.light-mode table a:visited{
+  border-bottom: 1px #ffffff00 solid;
+  transition: border 0.3s ease;
+}
+
+html.light-mode table a:hover{
+  border-bottom: 1px #6420e0 solid;
+}
+
+html.light-mode tbody tr:nth-child(odd){
+  background-color: rgba(0,0,0,0.035);
 }
