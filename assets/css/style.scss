@@ -66,10 +66,34 @@ a, a:visited, a:hover{
 
 
 // Header
-
+.top-nav{
+  display: flex;
+  justify-content: space-between;
+}
 .site-header{
   border: 0;
   margin: 0.2em 1em;
+}
+
+.site-icon{
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  line-height: 2em;
+  margin-top: 0.45em;
+  margin-bottom: 0.45em;
+}
+
+.site-icon:hover{
+  background-color: #feb32b;
+  transition: background-color 0.4s ease;
+}
+
+.site-icon img{
+  width: 30px;
+  height: 30px;
+  margin-bottom: -4px;
 }
 
 .site-title{
@@ -120,6 +144,10 @@ a.site-title, a.site-title:visited, a.site-title:hover{
 
 
 // code
+
+pre, code{
+  font-family: "IBM Plex Mono", "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace;
+}
 
 code{
   padding: 2px 4px;
@@ -287,12 +315,18 @@ html.light-mode a.site-title:hover{
 html.light-mode a,
 html.light-mode a:visited{
   color: #6420e0;
-  border-bottom: 1px solid #ffffff00;
+  border-bottom: 1px solid #ffffff;
   transition: border ease 0.3s;
 }
 html.light-mode a{
   color: #6420e0;
   border-bottom: 1px solid #6420e0;
+}
+
+html.light-mode a.post-link,html.light-mode a.post-link:visited, html.light-mode a.hover{
+  color: #6420e0;
+  border-bottom: 1px solid #ffffff;
+  transition: border ease 0.3s;
 }
 
 

@@ -13,6 +13,10 @@
   background-color: #070b14;
 }
 
+.highlight .o{
+  font-weight: normal;
+}
+
 .highlight .k, .highlight .kv, .highlight .ow{
   color: #faba09;
 }
@@ -40,10 +44,6 @@
 .highlight .kt {
   color: #00cca0;
 }
-
-
-
-
 
 
 html.light-mode .highlight code{
