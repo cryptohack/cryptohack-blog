@@ -1,4 +1,4 @@
-<footer class="site-footer h-card">
+<!-- <footer class="site-footer h-card">
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
 
   <div class="wrapper">
@@ -34,4 +34,48 @@
 
   </div>
 
+</footer> -->
+
+<footer class="site-footer h-card">
+  <div class="footer-wrap">
+    <div class="footerLinks">
+        <div>
+          <h5>CryptoHack</h5>
+          <a id="changeTheme">Light Mode</a><br>
+          <a href="{{ url_for('index.faq') }}">FAQ</a><br>
+          <span class="footerIcon">
+            <a href="{{ config.twitter_url }}" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="{{ config.discord_url }}" aria-label="Discord"><i class="fab fa-discord"></i></a>
+          </span><br>
+        </div>
+
+        <div>
+          <h5>Categories</h5>
+          <a href="{{url_for('challenges.list', category_alias='general')}}">General</a><br>
+          <a href="{{url_for('challenges.list', category_alias='maths')}}">Mathematics</a><br>
+          <a href="{{url_for('challenges.list', category_alias='aes')}}">Block Ciphers</a><br>
+          <a href="{{url_for('challenges.list', category_alias='rsa')}}">RSA</a><br>
+          <a href="{{url_for('challenges.list', category_alias='diffie-hellman')}}">Diffie-Hellman</a><br>
+          <a href="{{url_for('challenges.list', category_alias='ecc')}}">Elliptic Curves</a><br>
+          <a href="{{url_for('challenges.list', category_alias='misc')}}">Miscellaneous</a><br>
+        </div>
+      </div>
+
+
+      <div class="credits">
+        <h5>Credits</h5>
+        Illustrations from <a href="https://icons8.com">Ouch.pics</a><br>
+        Drawn by <a href="https://dribbble.com/thierryfousse">Thierry Fousse</a>
+      </div>
+
+      <div class="copyright">
+        <span>
+          <a href="{{ url_for('index.privacy') }}">Privacy Policy</a> &nbsp;
+        </span>
+
+        <span>
+          © 2020 CryptoHack
+        </span>
+      </div>
+  </div>
 </footer>
