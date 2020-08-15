@@ -1,5 +1,15 @@
  /* Python highlighting */
 
+pre{
+  overflow: auto;
+  -webkit-overflow-scrolling: touch
+}
+
+pre code{
+  overflow: initial;
+  word-wrap: normal;
+}
+
 .highlight{
   border: none;
 }

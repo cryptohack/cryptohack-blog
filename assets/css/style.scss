@@ -56,6 +56,10 @@ h1,h2,h3,h4,h5,h6,thead{
     text-transform: uppercase;
 }
 
+hr{
+  border: 0.5px solid #2e74c6;
+}
+
 a:hover{
   text-decoration: none!important;
 }
@@ -140,6 +144,10 @@ a.site-title, a.site-title:visited, a.site-title:hover{
 
 .post-meta{
   color: #c2bcb9;
+}
+
+.post-content h2 + h3{
+  margin-top: 0.5em;
 }
 
 
@@ -295,10 +303,6 @@ footer .copyright{
     display: table;
   }
 
-  .post-content h2 + h3{
-    margin-top: 0.5em;
-  }
-
   footer{
     flex-direction: column;
   }
@@ -325,6 +329,10 @@ footer .copyright{
 html.light-mode body{
    background-color: #ffffff;
    color: #10294c;
+}
+
+html.light-mode hr{
+  border: 1px solid #e4d2ff;
 }
 
 html.light-mode a.site-title,
