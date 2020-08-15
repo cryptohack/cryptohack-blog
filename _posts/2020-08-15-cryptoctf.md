@@ -7,7 +7,9 @@ author:
 meta: "CryptoCTF 2020"
 ---
 
-## Contents
+Challenge writeups from the CryptoCTF 2020 competition. CryptoHack played under the team "CryptoHackers" and came second overall, solving 18 of the 20 challenges during the 24 hour competition. This was the first time we all played a CTF together and ...
+
+## Challenges
 
 | Challenge Name  | Category | Solved By | Points |
 | --------------- | -------- | --------- | -----: |
