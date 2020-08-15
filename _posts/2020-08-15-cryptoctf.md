@@ -30,7 +30,7 @@ _We will be publishing more writeups here as soon as they are finished. If you s
 | [Mad Hat](#mad-hat)     | Matrices     | rkm0959     | 217
 | [Classic](#classic)     | Classical     | Tux, hyperreality | 226
 | [Heaven](#heaven)     | LFSR     | Q7, Robin_Jadoul     | 226
-| [Strip](#strip)     |    Primes  		| pcback     | 285 |
+| [Strip](#strip)     |    Primes  		| pcback, rkm0959     | 285 |
 | [Complex to Hell](#complex-to-hell)     | Hill Cipher     | pcback, joseph, UnblvR  | 300
 | [Fatima](#fatima)     |  Reversing | pcback  | 316
 | [Namura](#namura)     | Knapsack     | Q7     | 375
@@ -472,6 +472,77 @@ print(long_to_bytes(m))
 
 ---
 
+## One Line Crypto
+
+### Challenge
+
+> A profile, a look, a voice, can capture a heart ♥ in no time at all.”
+
+We're given this very short snippet:
+```python
+#!/usr/bin/python
+
+from Crypto.Util.number import *
+from secret import m, n, x, y, flag
+
+p, q = x**(m+1) - (x+1)**m, y**(n+1) - (y+1)**n
+assert isPrime(p) and isPrime(q) and p < q < p << 3 and len(bin(p*q)[2:]) == 2048
+enc = bytes_to_long(flag)
+print(pow(enc, 0x10001, p*q))
+```
+
+and the output of the print function, which consists of just a single, giant number. This is typical RSA encryption, with a slight twist: `n` is not given!
+
+### Solution
+
+The prime selection for `p` and `q` is identical. Two secret numbers `x` and `m` are used, such that `x^(m+1) - (x+1)^m` is a prime. Calculating `q` uses differently named constants, but there's no cross-dependencies between the parameters.
+
+Knowing that `p*q` contains 2048 bits, counting from the MSB, puts some rather strict bounds on the parameters. Just playing around with random numbers, it quickly becomes clear that `m`/`n` can't be very big.
+
+The plan simply becomes:
+1. Start off with a low bound like 500 or 1000
+2. Brute-force all `m` and `x` less than the bound, such that `x^(m+1) - (x+1)^m` is max 2048 bits.
+3. When we got ourselves a small pool of candidate values, pair up two and two random values from the pool
+4. Check if their product is 2048 bits, and try to decrypt the ciphertext.
+
+### Implementation
+
+```python
+#!/usr/bin/python3
+from Crypto.Util.number import long_to_bytes
+from gmpy2 import invert, is_prime
+from tqdm import tqdm
+
+primes = []
+
+for xy in tqdm(range(500)):
+    for mn in range(500):
+        prime = xy**(mn+1) - (xy+1)**mn
+        if prime.bit_length() > 2048: break
+        if is_prime(prime):
+            primes.append(prime)
+
+c = 14608474132952352328897080717325464308438322623319847428447933943202421270837793998477083014291941466731019653023483491235062655934244065705032549531016125948268383108879698723118735440224501070612559381488973867339949208410120554358243554988690125725017934324313420395669218392736333195595568629468510362825066512708008360268113724800748727389663826686526781051838485024304995256341660882888351454147057956887890382690983135114799585596506505555357140161761871724188274546128208872045878153092716215744912986603891814964771125466939491888724521626291403272010814738087901173244711311698792435222513388474103420001421
+
+for i in range(len(primes)):
+    for j in range(i, len(primes)):
+        pq = primes[i]*primes[j]
+        if len(bin(pq)[2:]) == 2048:
+            try:
+                d = invert(0x10001, (primes[i]-1)*(primes[j]-1))
+                dec = long_to_bytes(pow(c, d, pq))
+                if b"CCTF" in dec:
+                    print(dec)
+            except ValueError:
+                pass
+```
+
+### Flag
+
+`CCTF{0N3_1!nE_CrYp7O_iN_202O}`
+
+---
+
 ## Butterfly Effect
 
 ### Challenge
@@ -594,6 +665,203 @@ print(long_to_bytes(flag))
 ### Flag
 
 `CCTF{r341Ly_v3ryYyyyYY_s3cUrE___PRNG___}`
+
+---
+
+## Abbot
+
+### Challenge
+> It isn't the big troubles in life that require character. Anybody can rise to a crisis and face a crushing tragedy with courage, but to meet the petty hazards of the day with a laugh.
+
+```python
+import string
+import random
+from fractions import Fraction as frac
+from secret import flag
+
+
+def me(msg):
+	if len(msg) == 1 :
+		return ord(msg)
+	msg = msg[::-1]
+	reducer = len(msg) - 1
+	resultNum, resultDen = frac(ord(msg[0]), reducer).denominator, frac(ord(msg[0]), reducer).numerator
+	reducer -= 1
+	for i in range(1, len(msg)-1):
+		result =  ord(msg[i]) +  frac(resultNum, resultDen)
+		resultDen, resultNum  = result.denominator, result.numerator
+		resultDen, resultNum =  resultNum, reducer * resultDen
+		reducer -= 1
+	result = ord(msg[-1]) + frac(resultNum, resultDen)
+	resultDen, resultNum  = result.denominator, result.numerator
+	return (resultNum, resultDen)
+
+def you(msg):
+	if len(msg) == 1 :
+		return ord(msg)
+	msg = msg[::-1]
+	reducer = (-1) ** len(msg)
+	result = frac(ord(msg[0]), reducer)
+	resultNum, resultDen = result.denominator, result.numerator
+	reducer *= -1
+	for i in range(1, len(msg)-1):
+		result =  ord(msg[i]) +  frac(resultNum, resultDen)
+		resultDen, resultNum  = result.denominator, result.numerator
+		resultDen, resultNum =  resultNum, reducer * resultDen
+		reducer *= -1
+
+	result = ord(msg[-1]) + frac(resultNum, resultDen)
+	resultDen, resultNum  = result.denominator, result.numerator
+	return (resultNum, resultDen)
+
+def us(msg):
+	if len(msg) == 1 :
+		return ord(msg)
+	msg = msg[::-1]
+	reducer = (-1) ** int(frac(len(msg), len(msg)**2))
+	result = frac(ord(msg[0]), reducer)
+	resultNum, resultDen = result.denominator, result.numerator
+	reducer **= -1
+	reducer = int(reducer)
+	for i in range(1, len(msg)-1):
+		result =  ord(msg[i]) +  frac(resultNum, resultDen)
+		resultDen, resultNum  = result.denominator, result.numerator
+		resultDen, resultNum =  resultNum, reducer * resultDen
+		reducer **= -1
+		reducer = int(reducer)
+	result = ord(msg[-1]) + frac(resultNum, resultDen)
+	resultDen, resultNum  = result.denominator, result.numerator
+	return (resultNum, resultDen)
+
+dict_encrypt = {
+	1: me,
+	2: you,
+	3: us,
+	4: you,
+	5: me
+}
+cipher = [[] for _ in range(5)]
+S = list(range(1,6))
+random.shuffle(S)
+print("enc = [")
+for i in range(4):
+	cipher[i] = dict_encrypt[S[i]](flag[int(i * len(flag) // 5) : int(i * len(flag) // 5 + len(flag) // 5)])
+	print(cipher[i])
+	print(", ")
+i += 1
+cipher[i] = dict_encrypt[S[i]](flag[int(i * len(flag) // 5) : int(i * len(flag) // 5 + len(flag) // 5)])
+print(cipher[i])
+print( " ]")
+
+enc = [(4874974328610108385835995981839358584964018454799387862L, 72744608672130404216404640268150609115102538654479393L),(39640220997840521464725453281273913920171987264976009809L, 366968282179507143583456804992018400453304099650742276L),(145338791483840102508854650881795321139259790204977L, 1529712573230983998328149700664285268430918011078L),(84704403065477663839636886654846156888046890191627L, 717773708720775877427974283328022404459326394028L),(287605888305597385307725138275886061497915866633976011L, 8712550395581704680675139804565590824398265004367939L)]
+```
+
+### Solution
+The code breaks the flag to five pieces, applies three types of encryption function to them, then combines them into an array. Therefore, it suffices to write codes that reverse these encryptions. Then, we can try to reverse each ciphertext with all types of encryption function, and see what strings it gives us.
+
+We'll start with the `me` encryption function and work from there.
+The key intuition is that the value of `resultNum` / `resultDen` is kept between 0 and 1 at the end of each iteration. If this holds, this implies that we can calculate each character of the plaintext by simply taking the integer part of the fraction and using `chr()` function. Why would this be true? Well, we can guess that the length of the each broken message is less than, say, 30. Since each character of the string is readable, the ASCII value of them will be at least 33. With this idea in hand, one can prove the claim by induction. Reversing is also straightforward. Take the integer part, change it into character, take the remaining fractional part and reverse it accordingly.
+
+`you` encryption is a bit trickier since negative values appear. By inspection, we can see that `resultNum` / `resultDen` changes its sign every iteration. The absolute value is kept between 0 and 1. The key idea remains the same, but we need to be careful.
+
+`us` encryption is easy, since the value of `reducer` equals `1` the entire time. Noting this, the code remains very similar to the one of `me` encryption.
+
+
+### Implementation
+```python
+def me(resultNum, resultDen, dg):
+	st = ""
+	if resultNum == 0 or resultDen == 0:
+		return ""
+	if dg == 0:
+		TT = resultNum // resultDen
+		if TT < 0 or TT > 256:
+			return ""
+		st = chr(TT)
+		resultNum = resultNum - TT * resultDen
+		st += me(resultNum, resultDen, dg+1)
+		return st
+	acnum = resultDen * dg
+	acden = resultNum
+	if acden == 0:
+		return ""
+	TT = acnum // acden
+	if TT < 0 or TT > 256:
+		return ""
+	st = chr(TT)
+	acnum = acnum - TT * acden
+	st += me(acnum, acden, dg+1)
+	return st
+
+def you(resultNum, resultDen, dg, cv):
+	st = ""
+	if resultNum == 0 or resultDen == 0:
+		return ""
+	if cv == 0:
+		TT = resultNum // resultDen
+		if TT < 0 or TT > 256:
+			return ""
+		st = chr(TT)
+		resultNum %= resultDen
+		st += you(resultNum, resultDen, dg, cv+1)
+		return st
+	acnum = resultDen
+	acden = resultNum * dg
+	if acden < 0:
+		acden = -acden
+		acnum = acnum
+	if acden == 0:
+		return ""
+	if cv % 2 == 0:
+		TT = acnum // acden
+		if TT < 0 or TT > 256:
+			return ""
+		st = chr(TT)
+		acnum %= acden
+		st += you(acnum, acden, dg*-1, cv+1)
+		return st
+	else:
+		TT = (acnum + acden - 1) // acden
+		if TT < 0 or TT > 256:
+			return ""
+		st = chr(TT)
+		acnum = acnum - TT * acden
+		st += you(acnum, acden, dg*-1, cv+1)
+		return st
+
+def us(resultNum, resultDen, dg):
+	st = ""
+	if resultNum == 0 or resultDen == 0:
+		return ""
+	if dg == 0:
+		TT = resultNum // resultDen
+		if TT < 0 or TT > 256:
+			return ""
+		st = chr(TT)
+		resultNum %= resultDen
+		st += us(resultNum, resultDen, dg+1)
+		return st
+	acnum = resultDen
+	acden = resultNum // dg
+	if acden == 0:
+		return ""
+	TT = acnum // acden
+	if TT < 0 or TT > 256:
+		return ""
+	st = chr(TT)
+	acnum %= acden
+	st += us(acnum, acden, dg)
+	return st
+
+for i in range(0, 5):
+	print(me(enc[i][0], enc[i][1], 0))
+	print(you(enc[i][0], enc[i][1], -1, 0))
+	print(us(enc[i][0], enc[i][1], 0))
+
+```
+
+### Flag
+``` CCTF{This_13_n0t_Arthur_Who_l0ves_Short_st0ries_This_IS___ASIS___Crypto_CTF____with_very_m0d3rn_arthur_Enc0d1ng!!_D0_you_Enj0y_IT_as_w311??} ```
 
 ---
 
