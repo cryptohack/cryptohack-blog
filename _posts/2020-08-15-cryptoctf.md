@@ -1426,7 +1426,7 @@ Doing this quickly reveals the first row of the plaintext: `CCTF{This_0n3_Is_Sta
 
 With this, we can reduce the bruteforce amount to at most $66^3$. Fortunately for us, it turns out that the last 4 characters of the plaintext are `}000`, so we have enough information to enumerate possible keys with minimal bruteforce. We can use the exact same setup as above, except instead of bruteforcing $m_{34}, m_{35}, m_{36}$ and $m_{37}$, we take them to be `}000`. Solving the system will give us a vector $\mathbf{k} = (a,b,c,d,e,f,g,h)$, but this might not be the correct key.
 
-Any vector of the form $\mathbf{k} + \mathbf{t}$ where $\mathbf{t}$ is in the kernel of the coefficients matrix, $A$, will satisfy the system. We can find all vectors in the kernel of $A$ by finding a basis for the kernel modulo each of the prime factors of $66$, and then combining them with the Chinese Remainder Theorem. In this case, the nullity of $A$ in $\mathbb{F}_3$ and $\mathbb{F}_{11}$ is $0$, and the nullity of $A$ in $\mathbb{F}_2$ is $4$. This means we'll need to enumerate at most $2^4$ possible keys.
+Any vector of the form $\mathbf{k} + \mathbf{t}$ where $\mathbf{t}$ is in the kernel of the coefficients matrix, $A$, will satisfy the system. We can find all vectors in the kernel of $A$ by finding a basis for the kernel modulo each of the prime factors of $66$, and then combining them with the Chinese Remainder Theorem. In this case, the nullity of $A$ in $\mathbb{F}\_3$ and $\mathbb{F}\_{11}$ is $0$, and the nullity of $A$ in $\mathbb{F}_2$ is $4$. This means we'll need to enumerate at most $2^4$ possible keys.
 
 Note on `inv(key)`: I couldn't find a way to use Sage's built-ins to find the inverse of a matrix with complex entries so I just used the following theory:
 
