@@ -36,7 +36,7 @@ _We will be publishing more writeups here as soon as they are finished. If you s
 | [Fatima](#fatima)     |  Reversing | pcback  | 316
 | [Namura](#namura)     | Knapsack     | Q7     | 375
 | [Decent RSA](#decent-rsa)  |   RSA   | jack  | 423 |
-| [Gengol](#gengol)   |    Boneh-Durfee   | pcback, hyperreality, UnblvR   | 450 |
+| [Gengol](#gengol)   |  Goldwasser, RSA   | pcback, hyperreality, UnblvR   | 450 |
 
 
 ## Trailing Bits
