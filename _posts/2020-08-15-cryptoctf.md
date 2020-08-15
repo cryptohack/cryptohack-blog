@@ -2,6 +2,7 @@
 layout: post
 title: "CryptoCTF 2020"
 categories: CTF Writeup
+permalink: cryptoctf2020
 author:
 - CryptoHackers
 meta: "CryptoCTF 2020"
