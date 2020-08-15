@@ -291,6 +291,8 @@ from Crypto.Util.number import long_to_bytes
 
 debug = False
 
+r.recvuntil(b'|\t[Q]uit\n')
+
 r.sendline('C')
 data = r.recvuntil(b'|\t[Q]uit\n')
 enc = int(data.split()[3].decode().strip())
@@ -307,7 +309,7 @@ b = encrypt_int(0)
 c = encrypt_int(1)
 a = c - b - 1
 enc_kp = encrypt_int(100)
-kp = (2**3 + a*2 + b) - enc_kp
+kp = (100**3 + a*100 + b) - enc_kp
 
 if debug:
     print(a)
@@ -320,8 +322,9 @@ f = x^3 + a * x + b - enc
 rts = f.roots()
 print(rts)
 
-flag = rts[0][0]
-print(long_to_bytes(flag))
+for root in rts:
+    flag = root[0]
+    print(long_to_bytes(flag))
 
 r.interactive()
 ```
