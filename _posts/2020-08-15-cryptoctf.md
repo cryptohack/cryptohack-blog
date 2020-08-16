@@ -2296,6 +2296,212 @@ print(long_to_bytes(pow(flag, d, n)))
 
 ---
 
-## Gengol
+## GenGol
 
-No writeup yet
+### Challenge
+
+> We updated the cryptosystem to encrypt large messages. Try to break it!
+
+We can connect to a server and read a snippet of source code:
+
+```python
+def genkey(k, nbit):
+    assert 2*k <= nbit
+    while True:
+        p = random.randint(1, 2**(nbit - k)) * 2**k + 1
+        if isPrime(p):
+            q = getPrime(nbit)
+            n = p * q
+            while True:
+                y = random.randint(1, n)
+                jp, jq = pow(y, (p-1)/2, p), pow(y, (q-1)/2, q)
+                if (jp + jq == p + q - 2):
+                    d = random.randint(int(exp(0.272 * log(n))), int(exp(0.292 * log(n)))) | 1
+                    e = inverse(d, (p - 1)*(n/p - 1))
+                    if e * d % ((p - 1)*(n/p - 1)) == 1:
+                        return (n, y, k, e), (p, d)
+
+def encrypt(msg, pkey):
+    n, y, k, _ = pkey
+    m = bytes_to_long(msg)
+    assert m <= 2**k - 1
+    x = random.randint(1, n)
+    c = pow(y, m, n) * pow(x, 4**k, n) % n
+    return c
+```
+
+We can also request public keys and encrypted ciphertexts.
+
+### Solution
+
+This is a strange cryptosystem with elements of RSA and obviously faulty key generation. The private exponent `d` is not directly used in the decryption, but `d` would give us the factorisation of the modulus which looks to be relevant in the decryption. Furthermore, the lines about `jp` and `jq` ensure that that `y` is a quadratic non-residue (i.e. not a square root) modulo `p` and `q`. The use of quadratic residuosuity reminds us of the probabilistic [Goldwasser-Micali cryptosystem](https://en.wikipedia.org/wiki/Goldwasser%E2%80%93Micali_cryptosystem).  
+
+Immediately, we noted that the upper bounds on `d` (N<sup>0.292</sup>) is the upper bound of the Boneh-Durfee attack (B-D). B-D, an extension of Coppersmith's Method, is able to recover d from the modulus if `d` is small enough.
+
+We tried using the "off-the-shelf" implementation of B-D provided by David Wong [here](https://github.com/mimoo/RSA-and-LLL-attacks/blob/master/boneh_durfee.sage), however it didn't work even after tweaking the `delta` and `m` parameters.
+
+In the meantime, we needed to figure out how to decrypt ciphertexts after recovering the factorisation of the modulus. We found the paper [Efficient Cryptosystems From 2k-th Power Residue Symbols](https://core.ac.uk/download/pdf/81581037.pdf) which describes the cryptosystem we see here, a sort of "Generalized Goldwasser-Micali", thus the challenge name "GenGol". Section 3.2 contains the decryption algorithm.
+
+We were able to solve the challenge when pcback had a clever idea to alter the B-D attack, using the fact that the prime $p$ had an unusal form. As we already know the lower half bits of the prime `p`, he was able to reimplement [David Wong's script](https://github.com/mimoo/RSA-and-LLL-attacks/blob/master/boneh_durfee.sage) by changing the polynomial
+
+```py
+P.<x,y> = PolynomialRing(ZZ)
+# A = int((N+1)/2)
+# pol = 1 + x * (A + y)
+A = (N - int(N%(2**512))) // 2**512
+pol = inverse_mod(2**512, e) + x*(A - y)
+```
+
+With this modification, the B-D attack successfully recovered the private key.
+
+
+### Factoring the modulus
+
+Running pcback's modified [script](https://blog.cryptohack.org/assets/scripts/gengol.sage), we get the following output
+```
+=== solution found ===
+x: 26831241432833160806520729053166227091993916416483668950238588764594692681480769707324016554574698948603027409300338968573544143950532532690604344744985338216091633964853639094807
+y: 12067175061535056740866328614179238011084703807935942170222332594324074913836918898452931825405156276243520869293655223677329902044037479631524145496590233
+d
+p:  68051654200085157207332136111091263403260677985149014940942748721163833107639364882355808718200151519497304188154695981671131677635619224129781969654824622900517674305201415050592661606881387625228654411615892410789900017222366193872604384511674439510956828703775115042284171259024209520418324094905850265601
+q:  93742711281970123687375274125008994006083293818248949034193069509248449466340860308831673133907193988724549474397518306519671830205855974368567497715523859186789480391221672901717451785259798844945176989467876128830079144227608792557456138362303322064034291267314238570313761147918058776114912984468505970527
+=== 3.14493989944458 seconds ===
+```
+
+### Decrypting the flag
+
+While pcback was learning how to solve the modified B-D script, UnblvR was working on implementing the generalised Goldwasser-Micali protocol, which he implemented using python
+
+```py
+from math import log, exp
+import random
+from Crypto.Util.number import getPrime, isPrime, inverse, bytes_to_long, long_to_bytes
+
+def legendre_symbol(a, p):
+    ls = pow(a, (p - 1) // 2, p)
+    return -1 if ls == p - 1 else ls
+
+def genkey(k, nbit):
+    assert 2*k <= nbit
+    while True:
+        p = random.randint(1, 2**(nbit - k)) * 2**k + 1
+        if isPrime(p):
+            q = getPrime(nbit)
+            n = p * q
+            while True:
+                y = random.randint(1, n)
+                jp, jq = pow(y, (p-1)/2, p), pow(y, (q-1)/2, q)
+                if (jp + jq == p + q - 2):
+                    d = random.randint(int(exp(0.272 * log(n))), int(exp(0.292 * log(n)))) | 1
+                    e = inverse(d, (p - 1)*(n/p - 1))
+                    if e * d % ((p - 1)*(n/p - 1)) == 1:
+                        return (n, y, k, e), (p, d)
+
+def encrypt(msg, pub):
+    n, y, k, _ = pub
+    m = bytes_to_long(msg)
+    assert m <= 2**k - 1
+    x = random.randint(1, n)
+    c = pow(y, m, n) * pow(x, 4**k, n) % n
+    return c
+
+def decrypt(c, pub, priv):
+    n, y, k, e = pub
+    p, _ = priv
+    m = 0
+    B = 1
+    D = pow(y, inverse((p-1), p) // (2**k), p)
+    C = pow(c, (p-1) // (2**k), p)
+    for j in range(1, k):
+        z = pow(C, 2**(k-j), p)
+        if z != 1:
+            m += B
+            C = (C * D) % p
+        B *= 2
+        D = pow(D, 2, p)
+    if C != 1:
+        m += B
+
+    m -= (1<<512)
+    return abs(m) % (2**k)
+
+pub, priv = genkey(512, 1024)
+msg = "CCTF{this_is_a_test_message}"
+c = encrypt(msg, pub)
+m = decrypt(c, pub, priv)
+assert long_to_bytes(m) == msg
+```
+
+All that remained was to combine their work and grab the flag. We can correctly identify the primes `p,q` while solving to ensure we supply the right prime for the Goldwasser protocol:
+
+```py
+if solx > 0:
+    print ("=== solution found ===")
+    if True:
+        print ("x:", solx)
+        print ("y:", soly)
+
+    k = solx
+    s = (N + 1 + inverse_mod(Integer(k), e)) % e
+    P.<x> = PolynomialRing(ZZ)
+    pol = x**2 - s*x + N
+    pf = pol.roots()[0][0]
+    if (pf - 1) % 2^512 == 0:
+        print("p: ", pf)
+        print("q: ", N / pf)
+    else:
+        print("p: ", N / pf)
+        print("q: ", pf)
+```
+
+### Implementation
+
+```py
+from math import log, exp
+import random
+from Crypto.Util.number import getPrime, isPrime, inverse, bytes_to_long, long_to_bytes
+
+# Challenge data
+n = 6379346571939052419405006365144325711659387692572782917521683850800146277195077976472486871485207229367019052490145665163297786566841633505558063871407960795788255964350193702239693210208145457308480545438217518577295330054116121151347373114755560782091795900164067254792640967719557771138249404058566890490954215416904510736083128047275573547308653508508251678297758665771062241007774510795971063027233829414573035463227197757331376462301069384355548431423078078671509117155387034876199982416794024112992052740183312425799530813901896580055307267728332744004833470059699636327292472801239570572097698759537227941727
+k = 512
+e = 4000705832641304831719820890641730711910595477856628944800595532469774487124283398595587403418104883916158926323730475515283033807566520890825290575737835755837019474596405167016523680812524942147799183649264128776713591855426323904428490647193012502206272373739479178297498877035678377912075921414938337936441439527485344460693469140843705290948854072709663611286438938424604142221724677897600208962741594421412113507006294275515274270872733834184850544011087358368882662400066213073468442612453749942502454640340800031956110689070630604631216896059360054567160909689614639022142186132301488748492678008324441165927
+c = 2076236531012576199455804061453889820064642138786354892007120685667610037384949798864855497275350216543927355263467568914282559982665624697899244269603116820671588426350142943143919069494292292917499297783442122092319467511971155786587154474978936572036643051684240363366549216293871321423431247376852947896978619912748318233407621803493738044334513430337745241122514134334555592413303034448331818630278695850858212374697195140803112644060181702284649554514396789034431504588176012105166481555153278186747662435177630254069907052265989634607771522027224143282081835102477403756195979837266124386568855830451903339893
+
+# From modified B-D script
+p =  68051654200085157207332136111091263403260677985149014940942748721163833107639364882355808718200151519497304188154695981671131677635619224129781969654824622900517674305201415050592661606881387625228654411615892410789900017222366193872604384511674439510956828703775115042284171259024209520418324094905850265601
+q =  93742711281970123687375274125008994006083293818248949034193069509248449466340860308831673133907193988724549474397518306519671830205855974368567497715523859186789480391221672901717451785259798844945176989467876128830079144227608792557456138362303322064034291267314238570313761147918058776114912984468505970527
+y = 6255502986116389228034984139242857374780790206304260235834031195913508784283825002169624192827940892131883506676728076842604216458764403070962446250597366611280772436223737779107366455847534672514863767917991550218275567549715295673378289958318905912165633828914581687895303874971235130850309582018888579000769679146004573091024149780380179513271132597140774030458709765002293555647353152272279119678905532272007948898539648658232027312618546750301948096187377831661685014650055118190776205003734702444247745395809759638757742466287334983047217540475915861943863479573235864782496267138830878462336954417976083797888
+assert n == p*q
+
+pub = (n, y, k, e)
+assert n == p*q
+
+def decrypt(c, pub, p):
+    _, y, k, _ = pub
+
+    m = 0
+    B = 1
+    D = pow(y, inverse((p-1), p) // (2**k), p)
+    C = pow(c, (p-1) // (2**k), p)
+    for j in range(1, k):
+        z = pow(C, 2**(k-j), p)
+        if z != 1:
+            m += B
+            C = (C * D) % p
+        B *= 2
+        D = pow(D, 2, p)
+    if C != 1:
+        m += B
+
+    m -= (1<<512)
+    return abs(m) % (2**k)
+
+m = decrypt(c, pub, p)
+print(long_to_bytes(m))
+```
+
+### Flag
+
+`CCTF{9en3r4liZed_adDi7iv3lY_h0mOmorphiC_Goldwa5ser_Mic4Li}`
+
+---
