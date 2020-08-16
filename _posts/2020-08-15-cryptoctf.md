@@ -21,7 +21,7 @@ _We will be publishing more writeups here as soon as they are finished. If you s
 | Challenge Name  | Category | Solved By | Points |
 | --------------- | -------- | --------- | -----: |
 | [Trailing Bits](#trailing-bits)     | Bitshifting     | willwam845     | 30
-| [Amsterdam](#amsterdam)     | Encoding    | rkm0959     | 55
+| [Amsterdam](#amsterdam)     | Encoding    | randomdude999, rkm0959     | 55
 | [Gambler](#gambler)     | PRNG     | Cryptanalyse, willwam845     | 87
 | [Three Ravens](#three-ravens)     | RSA     | TheBlueFlame121     | 90
 | [Model](#model)     | RSA     | TheBlueFlame121, rkm0959, joachim  | 112
@@ -1748,7 +1748,7 @@ public exponent: 10001
 ```
 where the modulus is some `2048` bit integer. As we are given a `X.509` key, esrever suggested looking at a database of [predictable RSA keys](https://github.com/g0tmi1k/debian-ssh), which contains 30k public keys which were insecure. We downloaded these and looked for a common factor between our common modulus and one of these known, weak keys. We didnt have any luck though.
 
-Another idea was that maybe this would be solved with Fermat factorisation, with "Decent RSA" being a pun for the infinite decent method. I let the algorithm run for a while but eventually killed it.
+Another idea was that maybe this would be solved with Fermat factorisation, with "Decent RSA" being a pun for the infinite descent method. I let the algorithm run for a while but eventually killed it.
 
 The solution came from looking at the modulus in various bases. My initial hope was that the primes might be Mersenne primes, which would be exposed by looking at the modulus in base 2, but it turns our the right base for the solve is base 11.
 
