@@ -1301,13 +1301,15 @@ print(encrypt(flag, r))
 
 ### Solution
 
-The challenge's `a(n)` is the [A028365](http://oeis.org/A028365) sequence on OEIS, which is the Order of general affine group over $GF(2)$, $AGL(n,2)$. We can rewrite the function into a simpler form (written in PARI) as `a(n) = prod(k=1, n, 2^k-1)*2^((n^2+n)/2)`, allowing us to calculate `a(n)` for large `n`. After the functin `strip` is applied, we `a(n)` is only `prod(k=1, n, 2^k-1)`.
+The challenge's `a(n)` is the [A028365](http://oeis.org/A028365) sequence on OEIS, which has a simpler form (written in PARI) is `a(n) = prod(k=1, n, 2^k-1)*2^((n^2+n)/2)`, and after stripped `a(n)` is only `prod(k=1, n, 2^k-1)`.
 
 We estimated `r` and got `r >= 605`, factored `a(r)` by `FactorDB's API`, but the huge modulus took forever for calculating. So we took 2 prime factors from the factors of `a(r)` and let their product be the new modulus, and we finally got the flag.
 
+Alternate solution uses the estimate of `r >= 60`. We can take all prime factors of `a(60)` that are less than `500000`, and solve `x ** e = enc (mod p)` for each of them by brute force. If we find a unique solution, we recover the value of `flag (mod p)`. We combine these with Chinese Remainder Theorem to finish.
 
 ### Implementation
 
+#### Solution 1
 ```python
 from factordb.factordb import FactorDB
 from itertools import combinations
@@ -1335,6 +1337,49 @@ for i,j in combinations(fac2, 2):
         break
 ```
 
+#### Solution 2
+
+```python
+from factordb.factordb import FactorDB
+from itertools import combinations
+
+enc = ZZ(open("./flag.enc", 'r').read())
+
+n = 1
+e = 0x10001 + 0x02
+totph = 1
+wow = []
+res = 1
+for i in tqdm(range(2, 68)):
+    res = res * (2**i - 1)
+    f = FactorDB(2**i - 1)
+    f.connect()
+    A = f.get_factor_list()
+    for num in A:
+        if num in wow:
+            totph = totph * num
+        else:
+            totph = totph * (num - 1)
+            wow.append(num)
+
+AA = 0
+BB = 1
+
+wow.sort()
+for i in tqdm(range(0, len(wow))):
+    print(wow[i])
+    if wow[i] > 50000:
+        continue
+    cnt = 0
+    whi = 0
+    for j in range(0, wow[i]):
+        if pow(j, e, wow[i]) == enc % wow[i]:
+            cnt = cnt + 1
+            whi = j
+    if cnt == 1:
+        AA, BB = CRT(AA, BB, whi, wow[i])
+        print(long_to_bytes(AA))
+```
 ### Flag
 
 `CCTF{R3arR4n9inG_7He_9Iv3n_eQu4t10n_T0_7h3_mUcH_MOrE_traCt4bLe_0n3}`
