@@ -1341,9 +1341,27 @@ for i,j in combinations(fac2, 2):
 
 ```python
 from factordb.factordb import FactorDB
-from itertools import combinations
+from tqdm import tqdm
+from Crypto.Util.number import long_to_bytes
 
-enc = ZZ(open("./flag.enc", 'r').read())
+## modular inverse of a mod b, can be replaced with Crypto.Util.number's inverse
+def minv(a, b):
+    if a == 1:
+        return 1
+    return b - minv(b%a, a) * b // a
+
+
+## Chinese Remainder Theorem
+def CRT(a, b, c, d):
+    na = d * minv(d, b) * a + b * minv(b, d) * c
+    nb = b * d
+    na %= nb
+    assert na % b == a
+    assert na % d == c
+    return na, nb
+
+
+enc = int(open("./flag.enc", 'r').read())
 
 n = 1
 e = 0x10001 + 0x02
@@ -1380,6 +1398,7 @@ for i in tqdm(range(0, len(wow))):
         AA, BB = CRT(AA, BB, whi, wow[i])
         print(long_to_bytes(AA))
 ```
+
 ### Flag
 
 `CCTF{R3arR4n9inG_7He_9Iv3n_eQu4t10n_T0_7h3_mUcH_MOrE_traCt4bLe_0n3}`
