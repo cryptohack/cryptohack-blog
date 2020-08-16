@@ -1271,7 +1271,73 @@ for i in range(19):
 
 ## Strip
 
-No writeup yet
+### Challenge
+
+> Sometimes it is the people no one imagines anything of who do the things that no one can imagine.
+
+```python
+#!/usr/bin/python
+
+from Crypto.Util.number import *
+from secret import flag, r
+
+def a(n): # WARNING: very slow implementation...
+	if n <= 2:
+		return n
+	elif n == 3:
+		return 24
+	else:
+		return (6*a(n-1)**2*a(n-3) - 8*a(n-1)*a(n-2)**2) // (a(n-2)*a(n-3))
+
+def strip(n):
+	return int(bin(n)[2:].rstrip('0'), 2)
+
+def encrypt(msg, r):
+	n = strip(a(r))
+	return pow(bytes_to_long(msg.encode('utf-8')), 0x10001 + 0x02, n)
+
+print(encrypt(flag, r))
+```
+
+### Solution
+
+The challenge's `a(n)` is the [A028365](http://oeis.org/A028365) sequence on OEIS, which is the Order of general affine group over $GF(2)$, $AGL(n,2)$. We can rewrite the function into a simpler form (written in PARI) as `a(n) = prod(k=1, n, 2^k-1)*2^((n^2+n)/2)`, allowing us to calculate `a(n)` for large `n`. After the functin `strip` is applied, we `a(n)` is only `prod(k=1, n, 2^k-1)`.
+
+We estimated `r` and got `r >= 605`, factored `a(r)` by `FactorDB's API`, but the huge modulus took forever for calculating. So we took 2 prime factors from the factors of `a(r)` and let their product be the new modulus, and we finally got the flag.
+
+
+### Implementation
+
+```python
+from factordb.factordb import FactorDB
+from itertools import combinations
+
+c = ZZ(open("./flag.enc", 'r').read())
+
+fac = []
+for i in range(1, 606):
+    print(i, end=' ')
+    f = FactorDB(2^i - 1)
+    f.connect()
+    fac += f.get_factor_list()
+
+fac2 = sorted(list(set(fac)), reverse=True)
+
+n_ = 1
+phi_ = 1
+for i,j in combinations(fac2, 2):
+    n_ = i*j
+    phi_ = (i - 1)*(j - 1)
+    d_ = inverse_mod(e, phi_)
+    m = long_to_bytes(pow(c, d_, n_))
+    if b'CCTF' in m:
+        print(m)
+        break
+```
+
+### Flag
+
+`CCTF{R3arR4n9inG_7He_9Iv3n_eQu4t10n_T0_7h3_mUcH_MOrE_traCt4bLe_0n3}`
 
 ---
 
@@ -1576,7 +1642,437 @@ for lc in product(range(2), repeat=A2.right_nullity()):
 
 ## Fatima
 
-No writeup yet
+### Challenge
+> I think we should all learn elliptic curves and fatima is a good start, enjoy!
+
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from fastecdsa.curve import Curve
+from fastecdsa.point import Point
+import math, random
+from flag import flag
+import time
+
+def multiply(A, B):
+	ac, ar, bc, br = len(A[0]), len(A), len(B[0]), len(B)
+	if ac != br:
+		return None
+	result = []
+	for i in range(ar):
+		r = []
+		for j in range(bc):
+			r.append(0)
+		result.append(r)
+	for i in range(ar):
+		for j in range(bc):
+			for k in range(br):
+				result[i][j] += A[i][k] * B[k][j] 	
+	return result
+
+def pow_matrix(A, n):
+	R = circulant([1] + [0 for i in range(len(A)-1)])
+	for _ in range(n):
+		R = multiply(R, A)
+	return R
+
+def circulant(v):
+	C, n = [], len(v)
+	for i in range(n):
+		C.append(v)
+		tmp = []
+		tmp.append (v[-1])
+		tmp.extend(v[:-1])
+		v = tmp
+	return C
+
+def spiral(A):
+	row = len(A)
+	col = len(A[0])
+	top = 0
+	left = 0
+	tmp = []
+
+	while (top < row and left < col) :       
+		for i in range(left,col) :
+			tmp.append(A[top][i])              
+		top += 1
+		for i in range(top,row) :
+			tmp.append(A[i][col - 1])     
+		col -= 1
+		if ( top < row) :
+			for i in range(col - 1,(left - 1),-1) :
+				tmp.append(A[row - 1][i])  
+			row -= 1
+
+		if (left < col) :
+			for i in range(row - 1,top - 1,-1) :
+				tmp.append(A[i][left])   
+			left += 1
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def revspiral(A):
+	tmp = sum(spiral(A),[])
+	tmp = tmp[::-1]
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def sinwaveform(A):
+	row = len(A)
+	col = len(A[0])
+	tmp = []
+	for j in range(col):
+		if j%2 == 0:
+			for i in range(row):
+				tmp.append(A[i][j])
+		else:
+			for i in range(row-1,-1,-1 ):
+				tmp.append(A[i][j])
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def helical(A):
+	row = len(A)
+	col = len(A[0])
+	tmp = []
+	dir = 0
+	for k in range(0,row):
+		if dir == 0:
+			i = k
+			for j in range(0,k+1):
+				tmp.append(A[i][j])
+				i -= 1
+			dir = 1
+		else:
+			j = k
+			for i in range(0,k+1):
+				tmp.append(A[i][j])
+				j -= 1
+			dir = 0
+	for k in range(1, row):
+		if dir == 0:
+			i = row - 1
+			for j in range(k, row):
+				tmp.append(A[i][j])
+				i -= 1
+			dir = 1
+		else:
+			j = row - 1
+			for i in range(k, row):
+				tmp.append(A[i][j])
+				j -= 1
+			dir = 0
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def revhelical(A):
+	tmp = sum(helical(A),[])
+	tmp = tmp[::-1]
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+dict_traversal = {
+	1: spiral,
+	2: revspiral,
+	3: sinwaveform,
+	4: helical,
+	5: revhelical
+}
+
+def c2p(c, G):
+	C = ord(c) * G
+	return bin(C.x)[2:].zfill(8) + bin(C.y)[2:].zfill(8)
+
+def aux(msg, G):
+	enc = ''
+	for c in msg:
+		enc += c2p(c, G)
+	return enc
+
+def enmat(c, l):
+	s = int(math.sqrt(len(c) // l))
+	return [[int(c[i*l:i*l+l], 2) for i in range(s * j, s * (j + 1))] for j in range(s) ]
+
+def encrypt(msg):
+	name = 'curve'.encode('utf-8')
+	p, a, b, q, gx, gy, aux = 241, 173, 41, 256, 53, 192, ''
+	curve = Curve(name, p, a, b, q, gx, gy)
+	G = Point(gx, gy, curve = curve)
+
+	for c in msg:
+		aux += c2p(c, G)
+	B = enmat(aux, 3)
+	S = list(range(1,6))
+	random.shuffle(S)
+	for i in range(5):
+		B = dict_traversal[S[i]](B)
+	C = circulant([0 for i in range(len(B)-1)] + [1])
+	a, l = [random.randint(2, len(B)) for _ in '01']
+	CL = pow_matrix(C, l)
+	CAL = pow_matrix(CL, a)
+	enc = (CL[0], multiply(B, CAL))
+	return enc
+print("enc = ", encrypt(flag))
+```
+
+### Solution
+
+Note that `pow_matrix(C, i) == circulant([0]*(100 - i) + [1] + [0]*(i - 1))` with `C = circulant([0 for i in range(len(B)-1)] + [1])`, with knowing that we can recover the plaintext step-by-step.
+
+```
+enc[1] = B*C^(a*l)
+enc[1]*C^k = B*C^(a*l + k)
+```
+
+Therefore if we can find `k` such that `a*l + k == 0 (mod 100)`, which mean `C^(a*l + k)` is the identity matrix, we can recover `B`. Note that `C^k` has the form `circulant([0]*(100 - i) + [1] + [0]*(i - 1))` so we can just bruteforce `i` and check for each case which produces the right plaintext. The traversal operators and EC part can be reversed using look-up tables.
+
+
+### Implementation
+```python
+from Crypto.Util.number import *
+import itertools
+import tqdm
+from fastecdsa.curve import Curve
+from fastecdsa.point import Point
+import math, random
+
+############ Reuse code of the challenge ############
+def multiply(A, B):
+	ac, ar, bc, br = len(A[0]), len(A), len(B[0]), len(B)
+	if ac != br:
+		return None
+	result = []
+	for i in range(ar):
+		r = []
+		for j in range(bc):
+			r.append(0)
+		result.append(r)
+	for i in range(ar):
+		for j in range(bc):
+			for k in range(br):
+				result[i][j] += A[i][k] * B[k][j] 	
+	return result
+
+def pow_matrix(A, n):
+	R = circulant([1] + [0 for i in range(len(A)-1)])
+	for _ in range(n):
+		R = multiply(R, A)
+	return R
+
+def circulant(v):
+	C, n = [], len(v)
+	for i in range(n):
+		C.append(v)
+		tmp = []
+		tmp.append (v[-1])
+		tmp.extend(v[:-1])
+		v = tmp
+	return C
+
+def spiral(A):
+	row = len(A)
+	col = len(A[0])
+	top = 0
+	left = 0
+	tmp = []
+
+	while (top < row and left < col) :       
+		for i in range(left,col) :
+			tmp.append(A[top][i])              
+		top += 1
+		for i in range(top,row) :
+			tmp.append(A[i][col - 1])     
+		col -= 1
+		if ( top < row) :
+			for i in range(col - 1,(left - 1),-1) :
+				tmp.append(A[row - 1][i])  
+			row -= 1
+
+		if (left < col) :
+			for i in range(row - 1,top - 1,-1) :
+				tmp.append(A[i][left])   
+			left += 1
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def revspiral(A):
+	tmp = sum(spiral(A),[])
+	tmp = tmp[::-1]
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def sinwaveform(A):
+	row = len(A)
+	col = len(A[0])
+	tmp = []
+	for j in range(col):
+		if j%2 == 0:
+			for i in range(row):
+				tmp.append(A[i][j])
+		else:
+			for i in range(row-1,-1,-1 ):
+				tmp.append(A[i][j])
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def helical(A):
+	row = len(A)
+	col = len(A[0])
+	tmp = []
+	dir = 0
+	for k in range(0,row):
+		if dir == 0:
+			i = k
+			for j in range(0,k+1):
+				tmp.append(A[i][j])
+				i -= 1
+			dir = 1
+		else:
+			j = k
+			for i in range(0,k+1):
+				tmp.append(A[i][j])
+				j -= 1
+			dir = 0
+	for k in range(1, row):
+		if dir == 0:
+			i = row - 1
+			for j in range(k, row):
+				tmp.append(A[i][j])
+				i -= 1
+			dir = 1
+		else:
+			j = row - 1
+			for i in range(k, row):
+				tmp.append(A[i][j])
+				j -= 1
+			dir = 0
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+def revhelical(A):
+	tmp = sum(helical(A),[])
+	tmp = tmp[::-1]
+	result = []
+	for i in range(len(A)):
+		r = []
+		for j in range(len(A[0])):
+			r.append(tmp[i*len(A[0]) + j])
+		result.append(r)
+	return result
+
+dict_traversal = {
+	1: spiral,
+	2: revspiral,
+	3: sinwaveform,
+	4: helical,
+	5: revhelical
+}
+#####################################################
+
+enc =  # REDACTED
+
+# Create lookup tables for all permutations
+def qn(n=100):
+    lookup = list(range(n**2))
+    res = []
+    for it in tqdm.tqdm(itertools.permutations(range(1, 6))):
+        B = [lookup[i:i+n] for i in range(0, n**2, n)]
+        for i in it:
+            B = dict_traversal[i](B)
+        B = sum(B, [])
+        B = [B.index(i) for i in range(n**2)]
+        res.append([B[i:i+n] for i in range(0, n**2, n)])
+    return res
+
+def apply_lookup(A, lk):
+    n = len(A)
+    A = sum(A, [])
+    lk = sum(lk, [])
+    return [[A[j] for j in lk[i:i+n]] for i in range(0, n**2, n)]
+
+kk = qn()  #  Around 6 mins, can be cached
+
+# Look-up table for ec part
+rev = [[None for i in range(256)] for j in range(256)]
+for i in range(256):
+    t = i*G
+    rev[t.x][t.y] = chr(i)
+
+for i in tqdm.trange(99, -1, -1):
+    CC = circulant([0]*i + [1] + [0]*(100 - i - 1))
+    B = multiply(enc[1], CC)
+    for lk in kk:
+        BB = [x[::] for x in B]
+        BB = apply_lookup(BB, lk)
+        BB = sum(BB, [])
+        s = ''
+        for x in BB:
+            s += bin(x)[2:].zfill(3)
+        m = ''
+        for j in range(0, len(s), 16):
+            px, py = int(s[j:j+8], 2), int(s[j+8:j+16], 2)
+            if rev[px][py] is not None:
+                m += rev[px][py]
+                continue
+        if 'CCTF' in m:
+            print(m)
+            break
+```
+
+And this is the output, a paragraph from [`Our Lady of Fátima`](https://en.wikipedia.org/wiki/Our_Lady_of_F%C3%A1tima#Marian_apparitions).
+
+> Beginning in the spring of 1917, the children reported apparitions of an Angel, and starting in May 1917, apparitions of the Virgin Mary, whom the children described as the Lady more brilliant than the Sun. The children reported a prophecy that prayer would lead to an end to the Great War, and that on 13 October that year the Lady would reveal her identity and perform a CCTF{Elliptic_Curv3_1s_fun_&_simpLE_Circulaitng_it_make_it_funnier!!} so that all may believe. Newspapers reported the prophecies, and many pilgrims began visiting the area. The children's accounts were deeply controversial, drawing intense criticism from both local secular and religious authorities. A provincial administrator briefly took the children into custody, believing the prophecies were politically motivated in opposition to the officially secular First Portuguese Republic established in 1910.[6] The events of 13 October became known as the Miracle of the Sun...
+
+### Flag
+
+`CCTF{Elliptic_Curv3_1s_fun_&_simpLE_Circulaitng_it_make_it_funnier!!}`
 
 ---
 
