@@ -2346,8 +2346,8 @@ We were able to solve the challenge when pcback had a clever idea to alter the B
 
 ```py
 P.<x,y> = PolynomialRing(ZZ)
-# A = int((N+1)/2)
-# pol = 1 + x * (A + y)
+# [-] A = int((N+1)/2)
+# [-] pol = 1 + x * (A + y)
 A = (N - int(N%(2**512))) // 2**512
 pol = inverse_mod(2**512, e) + x*(A - y)
 ```
