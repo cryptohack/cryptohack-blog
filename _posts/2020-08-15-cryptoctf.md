@@ -2357,7 +2357,7 @@ With this modification, the B-D attack successfully recovered the private key.
 
 ### Factoring the modulus
 
-Running pcback's modified [script](https://blog.cryptohack.org/assets/scripts/gengol.sage), we get the following output
+Running pcback's modified [script](https://blog.cryptohack.org/assets/scripts/gengol-pcback.sage), we get the following output
 ```
 === solution found ===
 x: 26831241432833160806520729053166227091993916416483668950238588764594692681480769707324016554574698948603027409300338968573544143950532532690604344744985338216091633964853639094807
