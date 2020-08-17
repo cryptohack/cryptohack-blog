@@ -2406,20 +2406,6 @@ We tried using the "off-the-shelf" implementation of B-D provided by David Wong 
 
 In the meantime, we needed to figure out how to decrypt ciphertexts after recovering the factorisation of the modulus. We found the paper [Efficient Cryptosystems From 2k-th Power Residue Symbols](https://core.ac.uk/download/pdf/81581037.pdf) which describes the cryptosystem we see here, a sort of "Generalized Goldwasser-Micali", thus the challenge name "GenGol". Section 3.2 contains the decryption algorithm.
 
-We were able to solve the challenge when pcback had a clever idea to alter the B-D attack, using the fact that the prime $p$ had an unusal form. As we already know the lower half bits of the prime `p`, he was able to reimplement [David Wong's script](https://github.com/mimoo/RSA-and-LLL-attacks/blob/master/boneh_durfee.sage) by changing the polynomial
-
-```py
-P.<x,y> = PolynomialRing(ZZ)
-# [-] A = int((N+1)/2)
-# [-] pol = 1 + x * (A + y)
-A = (N - int(N%(2**512))) // 2**512
-pol = inverse_mod(2**512, e) + x*(A - y)
-```
-
-With this modification, the B-D attack successfully recovered the private key.
-
-
-
 
 ### Factoring the modulus
 
@@ -2519,7 +2505,7 @@ m = decrypt(c, pub, priv)
 assert long_to_bytes(m) == msg
 ```
 
-All that remained was to combine their work and grab the flag. We can correctly identify the primes `p,q` while solving to ensure we supply the right prime for the Goldwasser-Micali protocol:
+All that remained was to combine their work and grab the flag. We can correctly identify the primes `p,q` while solving to ensure we supply the right prime for the Goldwasser protocol:
 
 ```py
 if solx > 0:
