@@ -3,8 +3,7 @@ title: CryptoHack Blog
 #   name:
 #   email: your-email@domain.com
 description: > # this means to ignore newlines until "show_excerpts:"
-  CryptoHack's blog, containing updates about the website, cryptography news,
-  and CTF writeups.
+  Updates about the CryptoHack platform, cryptography news, and CTF writeups.
 
 show_excerpts: True # set to true to show excerpts on the homepage
 
