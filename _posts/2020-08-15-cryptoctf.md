@@ -397,7 +397,7 @@ $$
 \end{align*}
 $$
 
-So, since $k|n$, we can solve $m \equiv m^{1+\phi(k)} \pmod k$ as if it was a single-prime RSA problem. And because $m < k$, the residue $[m]_k$ (the rest when dividing $m$ by $k$) is exactly equal to $m$.
+So, since $k\|n$, we can solve $m \equiv m^{1+\phi(k)} \pmod k$ as if it was a single-prime RSA problem. And because $m < k$, the residue $[m]_k$ (the rest when dividing $m$ by $k$) is exactly equal to $m$.
 
 ### Implementation
 
