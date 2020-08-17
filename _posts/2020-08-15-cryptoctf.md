@@ -2419,9 +2419,33 @@ pol = inverse_mod(2**512, e) + x*(A - y)
 With this modification, the B-D attack successfully recovered the private key.
 
 
+
+
 ### Factoring the modulus
 
-Running pcback's modified [script](https://blog.cryptohack.org/assets/scripts/gengol-pcback.sage), we get the following output
+We were able to solve the challenge when pcback had a clever idea to alter the B-D attack, using the fact that the prime $p$ had an unusal form. Let $p_0$ be the top 512 bits of $p$, and $p_1$ the bottom 512 bits. Then $p = 2^{512} p_0 + p_1$, and $p_1 = 1$. Similarly, let $q = 2^{512} q_0 + q_1$. Then $N = 2^{1024} p_0 q_0 + 2^{512} p_0 q_1 + 2^{512} q_0 + q_1$. Now we are ready to derive a modified B-D attack:
+
+* $k \phi(N) + 1 = ed$
+* $k (p - 1) (q - 1) + 1 = 0 \pmod e$
+* $k 2^{512} p_0 (2^{512} q_0 + q_1 - 1) + 1 = 0 \pmod e$
+* $k (2^{512} p_0 q_0 + p_0 q_1 - p_0) + \frac{1}{2^{512}} = 0 \pmod e$
+* Let $A = \frac{N - N \pmod {512}}{2^{512}} = 2^{512} p_0 q_0 + p_0 q_1 + q_0$ (equivalent to `N >> 512`)
+* $k (A - q_0 - p_0) + \frac{1}{2^{512}} = 0 \pmod e$
+* $k (A - s) + \frac{1}{2^{512}} = 0 \pmod e$ with $s = p_0 + q_0$
+
+This results in a modified equation, similar to the original B-D equation: $k (A + s) + 1 = 0 \pmod e$ with $A = \frac{N + 1}{2}$ and $s = -\frac{p + q}{2}$. There is one crucial difference: $A$ and $s$ are ~512 bits smaller than in the original equation. This results in a faster computation, with a smaller lattice size.
+
+Now [David Wong's script](https://github.com/mimoo/RSA-and-LLL-attacks/blob/master/boneh_durfee.sage) can be upgraded by changing the polynomial:
+
+```py
+P.<x,y> = PolynomialRing(ZZ)
+# [-] A = int((N+1)/2)
+# [-] pol = 1 + x * (A + y)
+A = (N - int(N%(2**512))) // 2**512
+pol = inverse_mod(2**512, e) + x*(A - y)
+```
+
+We can then recover $p$ and $q$ from $k$. Running pcback's modified [script](https://blog.cryptohack.org/assets/scripts/gengol-pcback.sage), we get the following output
 ```
 === solution found ===
 x: 26831241432833160806520729053166227091993916416483668950238588764594692681480769707324016554574698948603027409300338968573544143950532532690604344744985338216091633964853639094807
@@ -2495,7 +2519,7 @@ m = decrypt(c, pub, priv)
 assert long_to_bytes(m) == msg
 ```
 
-All that remained was to combine their work and grab the flag. We can correctly identify the primes `p,q` while solving to ensure we supply the right prime for the Goldwasser protocol:
+All that remained was to combine their work and grab the flag. We can correctly identify the primes `p,q` while solving to ensure we supply the right prime for the Goldwasser-Micali protocol:
 
 ```py
 if solx > 0:
