@@ -383,6 +383,21 @@ $$
 
 but we can simplify this when the encrypted message $m$ is small enough. If we have $m < k$, we can instead find $\phi(k) = k-1$, and find $e^{-1} \mod \phi(k)$, and solve!
 
+Observe that for any $n, l$, as long as $l | n$, any equivalence $a \equiv b \pmod n$ also holds mod $l$: $a \equiv b \pmod l$ (but note that the other way around does not necessarily hold).
+To fully see this, we can write
+
+$$
+\begin{align*}
+	a &\equiv b \pmod n \\
+	\Leftrightarrow \\
+	a &= b + kn
+	\\&=b + ktl \quad(\text{since } l|n\text{, so } n = tl)\\
+	\Rightarrow\\
+	a &\equiv b \pmod l
+\end{align*}
+$$
+
+So, since $k|n$, we can solve $m \equiv m^{1+\phi(k)} \pmod k$ as if it was a single-prime RSA problem. And because $m < k$, the residue $[m]_k$ (the rest when dividing $m$ by $k$) is exactly equal to $m$.
 
 ### Implementation
 
