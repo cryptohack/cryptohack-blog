@@ -451,16 +451,28 @@ $$
 So encrypting a message `m` we have, for some integer $k$,
 
 $$
-m^e \equiv m^{1 + \frac{k(q-1)}{2}} \equiv m \cdot \left( \frac{m}{q} \right)^k \equiv \pm m \pmod q
+m^e \equiv m^{1 + \frac{k(q-1)}{2}} \equiv m \cdot m^\frac{k(q-1)}{2}  \pmod q
 $$
 
-Therefore, we can compute $q = \text{gcd}(m^e \pm m, n)$ to factorize $n$.
+Looking at the second term, it can be reduced using Fermat's little theorem as follows:
 
-One last step that needs attention is that we recover $q$, not $p$, which matters for the recovery of $e$, as the primes are not interchangeable here.
+$$
+m^{\frac{k*(q-1)}{2}}\equiv (m^{(q-1)})^{\frac{k}{2}}\equiv 1^{\frac{k}{2}} \equiv 1^{\frac{1}{2}} \pmod q
+$$
+
+$1$ can have only two roots here, namely $\pm 1$. Therefore the encryption becomes
+
+$$
+m^e \equiv m^{1 + \frac{k(q-1)}{2}} \equiv \pm m  \pmod q
+$$
+
+and we can compute $q = \text{gcd}(m^e \mp m, n)$ to factorize $n$ because $m^e \mp m \equiv 0 \pmod q$ is a multiple of $q$.
+
+One last step that needs attention is that we recover $q$, not $p$, which matters for the recovery of $e$, as the primes are not interchangeable there.
 
 ### Implementation
 
-```python
+```py
 from Crypto.Util.number import *
 import math
 
