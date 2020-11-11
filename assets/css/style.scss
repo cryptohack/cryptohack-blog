@@ -439,3 +439,9 @@ img[src$="centerme"] {
   display:block;
   margin: 0 auto;
 }
+
+img[src$="centermesmall"] {
+  display:block;
+  margin: 0 auto;
+  max-width: 250px;
+}

@@ -9,7 +9,7 @@ meta: "CryptoHack New Challenges November 2020"
 
 We're really excited to be sharing a new set of challenges with you all, with puzzles contributed by CryptoHack as well as the community. One of our motivations for CryptoHack was to create an excuse to learn as much as we could, and we love having the opportunity to play your puzzles and learn new areas of maths and cryptography.
 
-![Halloween Challenges](/assets/images/halloween.png?style=centerme)
+![Halloween Challenges](/assets/images/halloween.png?style=centermesmall)
 
 Recently we've been playing the Ledger Donjon [Capture the Fortress](https://donjon-ctf.io) CTF as the *CryptoHackers* team. The competition focusses on challenge areas that we don't often see in CTFs, such as side channel attacks and blockchain exploitation. This is our second group competition we've played, after CryptoCTF back in August ([writeups](https://blog.cryptohack.org/cryptoctf2020)). There's still a week left in the competition and we're working hard for the number one spot.
 
@@ -29,4 +29,3 @@ Here's an intro to the new challenges that will be released tomorrow:
 - **Cofactor Cofantasy** (Maths Brainteasers): For those who prefer the mathematical side of cryptography, we have another absorbing brainteaser which Robin and Thunderlord stumbled on while creating their last challenge.  _Contributed by Robin Jadoul and Thunderlord_
 - **RSA Backdoor Viability** (RSA Primes): Following _Fast Primes_, this challenge explores a way to create RSA public keys that appear to be strong but can be cracked open if you do your research.  _Contributed by Joachim_
 - **Jeff's LFSR** (LFSRs): This begins a series of challenges about linear-feedback shift registers and their vulnerabilities when used in cryptography. This attack has a lovely intuition behind it.  _Contributed by Cryptanalyse_
-
