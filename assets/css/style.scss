@@ -433,3 +433,9 @@ html.light-mode table a:hover{
 html.light-mode tbody tr:nth-child(odd){
   background-color: rgba(0,0,0,0.035);
 }
+
+// nasty hack to centre images in markdown
+img[src$="centerme"] {
+  display:block;
+  margin: 0 auto;
+}
