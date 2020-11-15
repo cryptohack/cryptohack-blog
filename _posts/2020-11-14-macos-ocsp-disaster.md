@@ -39,15 +39,15 @@ This is where certificate revocation comes in. It's an additional step in the si
 
 Originally, at least on the web, this was done the simplest way you can imagine. The certificate authority would give you a Certificate Revocation List (CRL), containing serial numbers of all revoked certificates, and you could check the certificate you are currently verifying is not on the list. However, this approach stopped being used by web browsers since the list got longer and longer and failed to scale. Especially after terrifying exploits like [Heartbleed](https://en.wikipedia.org/wiki/Heartbleed) demanded mass revocation of certificates.
 
-Online Certificate Status Protocol (OCSP) is an alternative allowing real-time checking of certificates. Each certificate can include a baked-in "OSCP Responder", a URL that you can query that will report whether the certificate has been revoked. In Apple's case, that's "ocsp.apple.com". So now, in addition to verifying the cryptographic validity of the signature, each time you launch an app you're performing a real-time check with Apple (subject to some caching) to ensure they still think the developer's ID certificate is legitimate.
+Online Certificate Status Protocol (OCSP) is an alternative allowing real-time checking of certificates. Each certificate can include a baked-in "OCSP Responder", a URL that you can query that will report whether the certificate has been revoked. In Apple's case, that's "ocsp.apple.com". So now, in addition to verifying the cryptographic validity of the signature, each time you launch an app you're performing a real-time check with Apple (subject to some caching) to ensure they still think the developer's ID certificate is legitimate.
 
 ### OCSP's Availability Problem
 
-There's a huge problem with OCSP: it makes an external service a single point of failure. What happens if the OSCP Responder is down or unreachable? Do we just refuse to verify the certificate (hard-fail)? Or do we pretend that the check was successful (soft-fail)?
+There's a huge problem with OCSP: it makes an external service a single point of failure. What happens if the OCSP Responder is down or unreachable? Do we just refuse to verify the certificate (hard-fail)? Or do we pretend that the check was successful (soft-fail)?
 
 Apple are forced to use the soft-fail behaviour, otherwise apps wouldn't work when you're offline. As it happens, all major browsers also implement the soft-fail behaviour, since OCSP Responders have traditionally been unreliable, and browsers want to keep displaying websites even if certificate authorities' responders are temporarily down.
 
-But soft-fail isn't great, because it means that an attacker with network control can block requests to the responder, and the revocation check will be skipped. In fact, that was the hotfix widely shared on Twitter during this incident: blackhole traffic to "oscp.apple.com" by adding a line to _/etc/hosts_. A lot of people won't be removing that line anytime soon, since disabling OCSP doesn't cause any noticeable problems.
+But soft-fail isn't great, because it means that an attacker with network control can block requests to the responder, and the revocation check will be skipped. In fact, that was the hotfix widely shared on Twitter during this incident: blackhole traffic to "ocsp.apple.com" by adding a line to _/etc/hosts_. A lot of people won't be removing that line anytime soon, since disabling OCSP doesn't cause any noticeable problems.
 
 ### The Incident
 
@@ -61,7 +61,7 @@ In addition to OCSP's availability problems, the protocol wasn't initially desig
 
 ![OCSP packet in wireshark](/assets/images/apple-ocsp-wireshark.jpg?style=centerme)
 
-Adding encryption is possible, and there's a better, more private version called [OSCP stapling](https://en.wikipedia.org/wiki/OCSP_stapling), but Apple is not using either of these things. 
+Adding encryption is possible, and there's a better, more private version called [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling), but Apple is not using either of these things. 
 
 
 ### A Better Future
