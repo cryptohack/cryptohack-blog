@@ -27,7 +27,7 @@ When you run an app, its signature is verified against the public key of the dev
 
 This is similar to the TLS Public Key Infrastructure used on the internet. But it's also fundamentally different since Apple has total control over its own chain of trust. Other certificate authorities are not allowed to issue valid certificates for code signing as all certificates must chain back up to Apple.
 
-If the verification process wasn't successful, then users will see a scary dialogue which might be difficult to bypass:
+If the verification process wasn't successful, then users will see a scary dialogue which is difficult to bypass:
 
 ![Apple failed to verify popup](/assets/images/apple-failed-verify.png?style=centerme)
 
@@ -74,7 +74,7 @@ Theoretically, macOS devices could pull updates to this list periodically and do
 
 ### Conclusion
 
-Overall, the incident this week was a good time to reflect on the trust model that has been promoted by organisations like Apple and Microsoft. Malware has grown in sophistication and most people aren't in a position to judge whether it's safe to run particular binaries. Code signing seems like a neat way to leverage cryptography to determine whether or not to trust applications, or to at least associate apps with known developers. And revocation is a necessary part of maintaining that trust.
+Overall, the incident this week was a good time to reflect on the trust model that has been promoted by organisations like Apple and Microsoft. Malware has grown in sophistication and most people aren't in a position to judge whether it's safe to run particular binaries. Code signing seems like a neat way to leverage cryptography to determine whether or not to trust applications, and to at least associate apps with known developers. And revocation is a necessary part of maintaining that trust.
 
 However, by adding several mundane failure modes to the verification process, OCSP spoils any cryptographic elegance the code signing and verifying process has. While OCSP is also widely used for TLS certificates on the internet, the large number of PKI certificate authorities and relaxed attitude of browsers means that failures are less catastrophic. Moreover, people are accustomed to seeing websites become unavailable from time to time, but they don't expect the same from apps on their own devices. macOS users were alarmed at how their apps could become collateral damage for an infrastructure issue at Apple. Yet this was an inevitable outcome arising from the fact that certificate verification depends on external infrastructure, and no infrastructure is 100% reliable.
 
