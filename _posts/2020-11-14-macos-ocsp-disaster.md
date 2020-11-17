@@ -21,9 +21,9 @@ On their developer portal, Apple explain [the purpose of code signing](https://d
 
 > Code signing your app assures users that it is from a known source and the app hasn't been modified since it was last signed. Before your app can integrate app services, be installed on a device, or be submitted to the App Store, it must be signed with a certificate issued by Apple.
 
-In other words, if developers want their apps to be trusted on macOS, they must sign them using a certificate keypair provided by Apple. Apple gives each developer a unique "Developer ID" certificate, which includes a private key for the developer to use, and a public key for distribution. The developer uses the private key to produce cryptographic signatures on their apps as part of their release process.
+In other words, if developers want their apps to be trusted on macOS, they must sign them using their own certificate keypair. Keychain is used to generate a unique "Developer ID" certificate, which includes a private key for the developer to use, and a public key for distribution. After Apple have signed the Developer ID certificate, the developer can use the private key to produce cryptographic signatures on their apps as part of their release process.
 
-When you run an app, its signature is verified against the public key of the developer's certificate. Then, the certificate itself is verified, by checking that it hasn't expired yet (certificates are typically valid for 1 year), and that it's ultimately signed by Apple's root certificate. There may also be intermediate certificates as part of the chain up to the root certificate.
+When you run an app, its signature is verified against the public key of the developer's certificate. Then, the certificate itself is verified, by checking that it hasn't expired yet (certificates are typically valid for 1 year), and that it's ultimately signed by Apple's root certificate. There may also be intermediate certificates as part of the chain up to the root certificate. A "chain of trust" has been created, because the developer ID certificate signed an app, an intermediate certificate signed the developer ID certificate, and Apple's root certificate signed the intermediate certificate. Any Apple device can verify this chain of trust and therefore approve an app to run.
 
 This is similar to the TLS Public Key Infrastructure used on the internet. But it's also fundamentally different since Apple has total control over its own chain of trust. Other certificate authorities are not allowed to issue valid certificates for code signing as all certificates must chain back up to Apple.
 
@@ -61,7 +61,7 @@ In addition to OCSP's availability problems, the protocol wasn't initially desig
 
 ![OCSP packet in wireshark](/assets/images/apple-ocsp-wireshark.jpg?style=centerme)
 
-Adding encryption is possible, and there's a better, more private version called [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling), but Apple is not using either of these things. 
+Adding encryption is possible, and there's a better, more private version called [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling), but Apple is not using either of these things. In fact OSCP stapling wouldn't make sense in this scenario, but it illustrates how OCSP needs improvements to not leak data by default. 
 
 
 ### A Better Future
