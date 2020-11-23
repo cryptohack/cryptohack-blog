@@ -9,7 +9,7 @@ meta: "Hardware Wallet Sudoku: Elliptic Relations Ledger Donjon CTF Writeup"
 
 This challenge was the only one in the reverse engineering category of [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/). Writeup by [rbtree](http://rb-tree.xyz/).
 
-### Elliptic Relations (300pts)
+## Elliptic Relations (300pts)
 
 >We found this binary, which seems to come from a well known hardware wallet.
 >We were told it contains a secret. Can you retrieve it?
