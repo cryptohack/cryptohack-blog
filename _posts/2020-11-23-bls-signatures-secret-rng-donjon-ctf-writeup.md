@@ -24,13 +24,13 @@ This means that we can use pairings to solve the Decisional Diffie–Hellman pro
 
 #### BLS signatures
 
-The second occurence of BLS refers to the Boneh–Lynn–Shacham signature scheme, that relies on pairing-friendly elliptic curves (so we can instantiate that curve with a BLS curve for example). The first thing we need for this is a function $H$ that maps (hashes) an arbitrary message $m$ onto the group $\mathbb{G}_1$. Our public keys will live in $\mathbb{G}_2$. We write the keypair $(sk, pk) = (sk, [sk]g_2)$.
+The second occurrence of BLS refers to the Boneh–Lynn–Shacham signature scheme, that relies on pairing-friendly elliptic curves (so we can instantiate that curve with a BLS curve for example). The first thing we need for this is a function $H$ that maps (hashes) an arbitrary message $m$ onto the group $\mathbb{G}_1$. Our public keys will live in $\mathbb{G}_2$. We write the keypair $(sk, pk) = (sk, [sk]g_2)$.
 
 Now to sign a message $m$, we compute $\sigma = [sk]H(m)$, and to verify the signature, we can check that $$e(\sigma, g_2) = e(H(m), pk)$$, since:
 
 $$e(\sigma, g_2) = e([sk]H(m), g_2) = e(H(m), [sk]g_2) = e(H(m), pk)$$
 
-by the bilearity of the pairing.
+by the bilinearity of the pairing.
 
 #### Forgery ahead
 
