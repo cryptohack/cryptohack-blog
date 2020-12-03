@@ -60,11 +60,13 @@ Here is the extended binary GCD mentioned in the description and part of the giv
 - There are about 360 spikes for each trace. This is close to 1.5 spike per input bit (the input is 256-bit). We think that the number of iterations is roughly the same as the size of input - which is wrong - and guess that there is one spike for an even `a` and two spikes for the odd case.
 - The traces end with a short-wide spike!
 - After some experiments, we find that the number of iterations is actually around 360, so it should probably be one spike per iteration:
+
 ```
 - short-narrow => a is even
 - short-wide => a is odd and a >= b (no swap)
 - long-wide => a is odd and a < b (swap)
 ```
+
 With this, we are able to consistently recover the input of the extended binary GCD. However, it seems that the inverse is taken against the elliptic group size rather than the field characteristic. Luckily, the problem setter confirm that it is a mistake on their side and release a new set of traces.
 
 Here is the script to recover the projective coordinates. It does not work for some traces because of premature thresholds, but it finds enough coordinates for the attack.
