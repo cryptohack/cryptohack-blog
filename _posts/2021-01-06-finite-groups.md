@@ -402,7 +402,7 @@ $$
 \{(a + ib), - (a + ib), (-b + ia), (b - ia)\}.
 $$
 
-There are a few ways to compute the gcd of two Gaussian integers, but a particularly nice one is that for $z,w \in \mathbb{Z}[i]$ we find that $\gcd(z,w) = \gcd(N(w), N(w), N(z + w))$. As we wont directly need this for our solutions, we don't say much more on this. I enjoyed [this example](https://math.stackexchange.com/questions/82350/how-to-calculate-gcd-of-gaussian-integers) showing the Euclidean algorithm for Gaussian integers and recommend it, if you're interested.
+There are a few ways to compute the gcd of two Gaussian integers, but a particularly nice one is that for $z,w \in \mathbb{Z}[i]$ we find that $N(\gcd(z,w)) = \gcd(N(z), N(w), N(z + w))$. As we wont directly need this for our solutions, we don't say much more on this. I enjoyed [this example](https://math.stackexchange.com/questions/82350/how-to-calculate-gcd-of-gaussian-integers) showing the Euclidean algorithm for Gaussian integers and recommend it, if you're interested.
 
 ### Congruences and Residue classes
 
