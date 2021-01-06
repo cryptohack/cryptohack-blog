@@ -50,6 +50,10 @@ body {
   font-feature-settings: 'ss01' 1, 'zero' 1;
 }
 
+ol, ul{
+  margin-bottom: 1em!important;
+}
+
 h1,h2,h3,h4,h5,h6,thead{
     font-weight: 600;
     font-family: 'IBM Plex Mono', Andale Mono, AndaleMono, monospace;
@@ -130,6 +134,20 @@ a.site-title, a.site-title:visited, a.site-title:hover{
 
 .post-list li p{
   text-align: justify;
+}
+
+.post-tags{
+  margin: -0.2em 0em 1.5em -0.5em;
+}
+
+.post-tag{
+  padding: 0.2em 0.5em;
+  background-color: #feb32b;
+  border-radius: 0.3em;
+  margin: 0 0.5em;
+  color: #0c1221;
+  font-family: 'IBM Plex Mono', Andale Mono, AndaleMono, monospace;
+  font-size: 0.9em;
 }
 
 // post
@@ -365,7 +383,12 @@ html.light-mode a.post-link,html.light-mode a.post-link:visited, html.light-mode
   transition: border ease 0.3s;
 }
 
+// Light Mode home
 
+html.light-mode .post-tag{
+  background-color: #f04e23;
+  color: #ffffff;
+}
 
 // Light Mode footer
 

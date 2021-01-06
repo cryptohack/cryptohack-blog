@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<div class="wrapper">  
+<div class="wrapper">
   <div class="home">
     {%- if page.title -%}
       <h1 class="page-heading">{{ page.title }}</h1>
@@ -37,6 +37,11 @@ layout: default
               {{ post.title | escape }}
             </a>
           </h3>
+          <div class="post-tags">
+            {%- for tag in post.tags -%}
+              <span class="post-tag">{{tag}}</span>
+            {%- endfor -%}
+          </div>
           {%- if site.show_excerpts -%}
             {{ post.excerpt }}
           {%- endif -%}

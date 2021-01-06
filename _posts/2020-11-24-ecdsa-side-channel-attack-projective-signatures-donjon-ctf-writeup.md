@@ -7,7 +7,7 @@ author: esrever and joachim
 meta: "ECDSA Side Channel Attack: Projective Signatures Ledger Donjon CTF Writeup"
 ---
 
-This challenge involved a special side channel attack on elliptic curve cryptography. It was one of the hardest challenges in the [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/). Writeup by esrever and joachim. 
+This challenge involved a special side channel attack on elliptic curve cryptography. It was one of the hardest challenges in the [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/). Writeup by esrever and joachim.
 
 ## Projective Signatures (500pts)
 
@@ -364,4 +364,3 @@ print(f"Private key: {private_key}")
 Finally, with the private key `15847465188978300083942528449491794939171261456473785532093406410497100707097` we can executed the provided `decrypt_flag.py` script.
 
 This gives us the flag: `CTF{0n(3464!n1|=a|_|_1nToMy|*|?0j3ct1v3w4y5....}` ("Once again I fall into my projective ways....").
-
