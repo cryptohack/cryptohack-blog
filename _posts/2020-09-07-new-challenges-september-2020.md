@@ -5,6 +5,7 @@ categories: New Challenges
 permalink: new-challenges-sept-2020
 author: hyperreality
 meta: "CryptoHack New Challenges September 2020"
+tags: Announcement CryptoHack
 ---
 
 As CryptoHack has grown, we've released more and more challenges submitted by the community. We love receiving new challenges especially in those areas which are currently not well-covered on the site.

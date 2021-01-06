@@ -6,6 +6,7 @@ permalink: cryptoctf2020
 author:
 - CryptoHackers
 meta: "CryptoCTF 2020"
+tags: Writeup CryptoCTF
 ---
 
 Here are our challenge writeups from the CryptoCTF 2020 competition. Members of the CryptoHack community played under the team "CryptoHackers" and came second overall, solving 18 of the 20 challenges during the 24 hour competition. This was the first time we all played a CTF together, and we will definitely be doing it again in the future. It was truly a pleasure to get so many cryptographic brains together in one chatroom and collaborate on cracking some mindbending puzzles.

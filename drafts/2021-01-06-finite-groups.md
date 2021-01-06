@@ -3,14 +3,14 @@ layout: post
 title: "Finite Groups, Gaussian Integers & TetCTF 2021"
 categories: CTF Write-up
 permalink: tetctf-2021
-meta: "Finite Groups, Gaussian Integers & TetCTF 2021"
 author: Jack
-tags: Finite-Fields, Gaussian-Integers, Writeup
+meta: "Finite Groups, Gaussian Integers & TetCTF 2021"
+tags: Writeup Finite-Fields Gaussian-Integers
+excerpt_separator: <!--more-->
 ---
 
-
 Last weekend [TetCTF](https://ctf.hackemall.live/) held their new year CTF competition. I felt particularly nostalgic playing this, as it was the TetCTF 2020 CTF where Hyper and I played the crypto challenges and soon after decided to make CryptoHack together. Something about Ndh's crypto challenges really make me want to keep learning.
-
+<!--more-->
 There are already very good write-ups from [rkm0959](https://rkm0959.tistory.com/192), [Mystify](https://mystiz.hk/posts/2021-01-03-tetctf-unevaluated/) and [TheBlueFlame](https://hackmd.io/@TheBlueFlame121/HJPbMVk0v) offering discussion of the cryptography challenges that Ndh created. This blog post sums up a few days of conversation in the [CryptoHack discord](https://discord.gg/eJaJ3xC), where several of us spent time trying to break these challenges into their fundamental pieces. I think the quality of the conversation about these challenges is testament to the beauty of Ndh's challenges as well as the impressive knowledge of the community.
 
 The challenges implemented public-key crypto using Gaussian integers (more on these later). The first challenge  `Unimplemented` required writing the decrypt function for an RSA-like system. The second challenge `Unevaluated` required solving the discrete logarithm problem for Gaussian integers.  

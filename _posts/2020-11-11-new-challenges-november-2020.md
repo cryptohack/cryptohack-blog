@@ -5,6 +5,7 @@ categories: New Challenges
 permalink: new-challenges-nov-2020
 author: hyperreality and Jack
 meta: "CryptoHack New Challenges November 2020"
+tags: Announcement CryptoHack
 ---
 
 We're really excited to be sharing a new set of challenges with you all, with puzzles contributed by CryptoHack as well as the community. One of our motivations for CryptoHack was to create an excuse to learn as much as we could, and we love having the opportunity to play your puzzles and learn new areas of maths and cryptography.
