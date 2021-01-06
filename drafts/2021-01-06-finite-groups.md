@@ -2,10 +2,9 @@
 layout: post
 title: "Finite Groups, Gaussian Integers & TetCTF 2021"
 categories: CTF Write-up
-permalink: finite-groups-gaussian-integers-tetctf-2021
+permalink: tetctf-2021
 meta: "Finite Groups, Gaussian Integers & TetCTF 2021"
-author:
-- Jack
+author: Jack
 tags: Finite-Fields, Gaussian-Integers, Writeup
 ---
 
@@ -52,13 +51,13 @@ For a set $G$ to be considered as a group we require a binary operator $\circ$ s
 - **Identity**: there exists an element $e$ such that $e \circ a = a \circ e = a$ for all $a \in G$
 - **Inverse**: for every element $a \in G$ there is an element $b \in G$ such that $a \circ b = e$  
 
-**Note** when we discuss rings or fields we only consider the binary operation of addition and multiplication (and their inverses subtraction and division to use conventional terms). For groups, the composition law can be any operation which obeys these properties. As an example, consider a symmetry group of rotations which can be represented by matrices and the binary operation is matrix multiplication.
+**Note**: when we discuss rings or fields we only consider the binary operation of addition and multiplication (and their inverses subtraction and division to use conventional terms). For groups, the composition law can be any operation which obeys these properties. As an example, consider a symmetry group of rotations which can be represented by matrices and the binary operation is matrix multiplication.
 
 - **Commutative**: this is not a required property, but when a group has a binary operation such that $a \circ b = b \circ a$ we say the group is commutative. In my more familiar physics language, we refer to these groups as Abelian groups after the Norwegian mathematician Niels Abel.
 
 ### An introduction to orders
 
-Let us first consider the group of integers $F_p^+ = (F_p, +)$ which are the integers modulo $p$ with the group operation of addition. We know that addition is associative, and the identity element in addition is the number which when added "does nothing": $a + 0 = 0 + a = a$ for all $a \in F_p^+$. 
+Let us first consider the group of integers $F_p^+ = (\mathbf{F}_p, +)$ which are the integers modulo $p$ with the group operation of addition. We know that addition is associative, and the identity element in addition is the number which when added "does nothing": $a + 0 = 0 + a = a$ for all $a \in F_p^+$. 
 
 To verify the existence of an inverse for each element, we need elements such that $a + b = 0$ in the group, or more precisely $a + b \equiv 0 \mod p$. Put this way, the inverse is fairly obvious, and we understand $b = p - a$ such that 
 
@@ -68,7 +67,7 @@ $$
 
 Having recovered both the identity and inverse for this set of integers, we can understand $F_p^+$ as a group.
 
-We say that the **order** of a group $(G, \circ)$ is the number of elements in $G$, which we denote $\|G\|$. For the example above there are $p$ elements in the group $F_p^+$, which are simply the integers from $\{0,\ldots p-1\}$, as such we know that $\|F_p^+\| = p$.
+We say that the **order** of a group $(G, \circ)$ is the number of elements in $G$, which we denote $\|G\|$. For the example above there are $p$ elements in the group $F_p^+$, which are simply the integers from $\\{0,\ldots p-1\\}$, as such we know that $\|F_p^+\| = p$.
 
 We say that the order of an element $a \in G$ is the smallest positive integer $k \in \mathbb{N}$ such that
 
@@ -86,7 +85,7 @@ $$
 When the order of an element is equal to the order of the group, this element is called a *generator* of the group in the sense that repeated operation of the element on itself will generate the whole group. For our current example, a generator of the group is $1$ as 
 
 $$
-\underbrace{(1 + 1 + \ldots + 1)}_{p-\text{times}} = p * 1 = p \equiv 0 \mod p.
+\underbrace{(1 + 1 + \ldots + 1)}_{p-\text{times}} = p \times 1 = p \equiv 0 \mod p.
 $$
 
 Not every element of $a \in G$ will be a generator, but will instead generate a subgroup with $k$ elements in. As a trivial example, consider the order of the element $e \in G$ which will always have order $k = 1$ as $e^1 = e$. [Lagrange's theorem](https://en.wikipedia.org/wiki/Lagrange%27s_theorem_(group_theory)) states that for any subgroup $H$ of a finite field $G$, the order of $H$ divides the order of $G$. An element of order $k$ is a generator for the subgroup $H$ with $k$ elements.
@@ -103,7 +102,7 @@ $$
 F_p^\star = (\mathbb{Z} / p\mathbb{Z})^\star = \{1,2,\ldots, p-1\},
 $$
 
-where the superscript $\star$ denotes that we have removed $0$ from out set. All that remains is that we ensure that for every element $a \in F_p^\times$ has an inverse $b \in F_p^\times$ such that $a \times b \equiv 1 \mod p$. We are guaranteed a solution to  $a \times b \equiv 1 \mod p$ if and only if $\gcd(a,p) = 1$. In other words, $a,p$ must be coprime and so share no common factors.
+where the superscript ${}^\star$ denotes that we have removed $0$ from out set. Sometimes this is written as $F_p^\star = F_p / \\{ 0\\}$. All that remains is that we ensure that every element $a \in F_p^\times$ has an inverse $b \in F_p^\times$ such that $a \times b \equiv 1 \mod p$. We are guaranteed a solution to  $a \times b \equiv 1 \mod p$ if and only if $\gcd(a,p) = 1$. In other words, $a,p$ must be coprime (share no common factors).
 
 As $p$ is itself prime and all $a \in F_p^\times$ obey $a < p$, we are guaranteed that $\gcd(a,p) = 1$ and so every element has an inverse! We will come back to this soon when we consider $(\mathbb{Z} / n\mathbb{Z})^\star$ where $n$ is a composite integer.
 
@@ -122,7 +121,7 @@ $$
 A generator of $F_p^\times$ has order $k = p-1$ and so in this case, we are simply talking of Fermat's little theorem. For elements with $k < (p-1)$ we can write $(p - 1) = k \times d$ for some integer $d \in \mathbb{N}$. We know that
 
 $$
-a^{(p-1)} = a^{kd} = (a^k)^d \equiv (1)^d \mod p = 1 \mod p.
+a^{(p-1)} = a^{kd} = (a^k)^d \equiv (1)^d \equiv 1 \mod p.
 $$
 
 This may appear as obvious, but it's worth understanding that taking an element to the power of the order of the group will necessarily return the identity of the group, even if the element itself has a different order.
@@ -135,7 +134,7 @@ $$
 
 for an element $a \in (\mathbb{Z}[i] / n \mathbb{Z}[i])^\times$ when the order of $a$ is unknown (the element $a$ is itself unknown!) and we use that it is enough to use an $f$ which is a multiple of the element's order. The order of the group is the most natural choice. 
 
-**Note**: For those who are already familiar with Diffie-Hellman key exchange, this discussion of elements in subgroups dividing the order might give you additional insight into why we call primes of the form $p = (2q - 1)$ *safe primes*, where $q$ itself is prime. The multiplicative group will have order $2q$ and so elements in the group will only ever have order $2$ or order $q$, which allows us to avoid small sub-group attacks, providing we don't use the element of order two as the generator!  
+**Note**: For those who are already familiar with Diffie-Hellman key exchange, this discussion of elements in subgroups dividing the order might give you additional insight into why we call primes of the form $p = (2q + 1)$ *safe primes*, where $q$ itself is prime. The multiplicative group will have order $2q$ and so elements in the group will only ever have order $2$ or order $q$. This allows us to avoid small sub-group attacks, providing we don't use the element of order two as the generator!  
 
 ### Multiplicative group of integers modulo n 
 
@@ -184,7 +183,7 @@ $$
 Using the totient $\phi(n)$, Fermat's little theorem can be generalised to composite modulus
 
 $$
-a^{\phi(n)} \equiv 1 \iff \gcd(a,n) = 1,
+a^{\phi(n)} \equiv 1 \mod n \iff \gcd(a,n) = 1,
 $$
 
 which is known as Euler's theorem.
@@ -206,7 +205,7 @@ $$
 from Euler's theorem. To decrypt this cryptosystem we need
 
 $$
-c^d \equiv (m^e)^d \equiv m \mod n.
+c^d = (m^e)^d \equiv m \mod n.
 $$
 
 We see that we can do this when $ed \equiv 1 \mod \phi(n)$. To solve the solution we simply need to compute
@@ -224,15 +223,17 @@ The first condition *should* be checked on encryption, the second condition is w
 
 From the above relations, we have that $\phi(n) = \phi(p)\phi(q) = (p-1)(q-1)$. Now we see that given $\\{p,q,e,c\\}$ we can compute $\\{\phi(n), d\\}$ and from this obtain $m$. This is what we mean when we say to decrypt a message we must factor $n$ when solving an RSA challenge. The hardness of RSA comes from the hardness to compute $\phi(n)$ which is believed to be as hard as computing the prime factorisation of $n$. 
 
-**Note**: I know this discussion covers things which seem simple, or off topic, but it recapped something fundamental which I think is often overlooked when you're racing to solve an RSA challenge:
+**Note**: I know this discussion covers things which seem simple, or off-topic, but it recapped something fundamental which I think is often overlooked when you're racing to solve an RSA challenge:
 
 - Solving RSA requires finding a solution to $e d \mod \phi(n) \equiv 1$ and this is true for other multiplicative groups, the case we consider next being the Gaussian integers.
 
 - We don't even need $\phi(n)$, all we really need is the order of the message $m$ as if we have
+
   $$
   m^k = 1 \mod n
   $$
-  then we could solve $e d \mod k = 1$ and still decrypt the message. It just turns out $\phi(n)$ is what we use as given the prime factorisation this is very easy to compute (and without the prime factorisation finding either $k$ or $\phi(n)$ is believed to be hard).
+
+  then we could solve $e d \mod k = 1$ and still decrypt the message. It just turns out $\phi(n)$ is what we use as given the prime factorisation of the modulus, this is very easy to compute (without the prime factorisation finding either $k$ or $\phi(n)$ is believed to be hard classically).
 
 - Following this, the famous quantum algorithm developed by [Shor](https://en.wikipedia.org/wiki/Shor%27s_algorithm) doesn't factor $n$, but rather computes the order of the element in $F_n^\times$. From this we could derive the factors, but by that point we don't need to as we would only use the factors to then compute $\phi(n)$.
 
@@ -274,7 +275,7 @@ $$
 c = m^e \mod n, \qquad {m,c \in \mathbf{K}}, \;\; {e,n} \in \mathbb{N},
 $$
 
-where $n = p^2 q^2$ and $p,q$ are large primes. The solution of this challenge requires finding the number of elements in $\mathbf{K}$, or alternatively the order of the element. We will solve this by computing the Euler totient $\phi(n)$ where we must find the number of relatively coprime Gaussian integers to $n$. 
+where $n = p^2 q^2$ and $p,q$ are large primes. The solution of this challenge requires finding the number of elements in multiplicative group formed from the elements of $\mathbf{K}$. We will solve this by computing the Euler totient $\phi(n)$ where we must find the number of relatively coprime Gaussian integers to $n$. 
 
 #### Unevaluated
 
@@ -300,18 +301,18 @@ Prime integers $p$ can be organised in the following way:
 
 A prime integer $p$ is additionally a Gaussian prime if and only if $p \equiv 3 \mod 4$. The remaining prime integers are composite Gaussian integers are are uniquely decomposed into two Gaussian primes which are each other's conjugates.
 
-The Gaussian primes $P = a + ib$ are in one of two forms:
+The Gaussian primes $\pi = a + ib$ are in one of two forms:
 
-- Either $a$ or $b$ is zero and $N(P) = p^2$ and $p$ is a prime integer of the form  $p \equiv 3 \mod 4$.
-- Both $a$ and $b$ are non zero and $N(P) = p$ is an integer prime with **either** $p = 2$ or $p \equiv 1 \mod 4$.
+- Either $a$ or $b$ is zero and $N(\pi) = p^2$ and $p$ is a prime integer of the form  $p \equiv 3 \mod 4$.
+- Both $a$ and $b$ are non zero and $N(\pi) = p$ is an integer prime with **either** $p = 2$ or $p \equiv 1 \mod 4$.
 
 #### Examples
 
-The prime $p = 11 \equiv 3 \mod 4$ is a integer prime and a Gaussian prime. For the integers we have the units $u = \\{1, -1\\}$ and understand the prime factors $\{11, -11\}$ as identified when they differ only by a unit element. For Gaussian integers there are four units $u = \\{1,-1,i,-i\\}$ and so we identify the four prime factors $\\{11, -11, 11i, -11i\\}$.
+The prime $p = 11 \equiv 3 \mod 4$ is a integer prime and a Gaussian prime. For the integers we have the units $u = \\{1, -1\\}$ and understand the prime factors $\\{11, -11\\}$ as identified when they differ only by a unit element. For Gaussian integers there are four units $u = \\{1,-1,i,-i\\}$ and so we identify the four prime factors $\\{11, -11, 11i, -11i\\}$.
 
 The prime $p = 5 \equiv 1 \mod 4$ is a Gaussian integer which can be decomposed into two Gaussian primes $(1 + 2i)(1 - 2i)$. 
 
-**Note**: another way of thinking about this is when $p \not\equiv 3 \mod 4$ we can write $p = a^2 + b^2$ for $a,b \in \mathbb{N}$. 
+**Note**: another way of thinking about this is when we have some integer prime $p \not\equiv 3 \mod 4$ we can write $p = a^2 + b^2$ for $a,b \in \mathbb{N}$. 
 
 As these two Gaussian integers are not related by multiplication of the units, we understand them as distinct Gaussian primes
 
@@ -320,7 +321,7 @@ $$
 (1 - 2i) \equiv -(1 - 2i) \equiv (-2 - i) \equiv (2 + i).
 $$
 
-When we consider $p = 2$ we have the Gaussian factorisation $2 = (1 + i)(1 - i) = i(1 - i)^2$. This is the only integer prime which can be represented as a square of a Gaussian prime. This is because $(1 + i)$ and $(1 - i)$ differ only by a unit: $i(1 - i) = (i - i^2) = (1 + i).$
+When we consider $p = 2$, we have the Gaussian factorisation $2 = (1 + i)(1 - i) = i(1 - i)^2$. This is the only integer prime which can be represented as a square of a Gaussian prime. This is because $(1 + i)$ and $(1 - i)$ differ only by a unit: $i(1 - i) = (i - i^2) = (1 + i).$
 
 **Note**: another way people talk about this is with the language of algebraic number theory. The Gaussian primes which are integer primes are said to be inert. The prime integers with $p \equiv 1 \mod 4$ are said to split. Finally, $p = 2$ is the unique prime integer for the Gaussian integers which ramifies. As it appears as a square, we say the *ramification index* is $e = 2$. For more information on the splitting of prime ideals, this Wikipedia page has an example with the [Gaussian integers](https://en.wikipedia.org/wiki/Splitting_of_prime_ideals_in_Galois_extensions#Example_—_the_Gaussian_integers).
 
@@ -329,10 +330,10 @@ When we consider $p = 2$ we have the Gaussian factorisation $2 = (1 + i)(1 - i) 
 Understanding the structure of the Gaussian primes, we can represent any Gaussian integer uniquely in the following form
 
 $$
-z = i^k P_1^{e_1} \ldots P_n^{e_n},
+z = i^k \pi_1^{e_1} \ldots \pi_n^{e_n},
 $$
 
-where $P_i$ are Gaussian primes and $e_i$ are positive integers. Just like we can compute $\phi(n)$ with the prime factors of $n$, we can compute $\phi(z)$ with the prime factorisation of $z$. We will return to this when we consider the group of Gaussian integers mod $n$, which is the set of Gaussian integers with multiplicative inverses modulo $n$, whose order is counted by $\phi(n)$.
+where $\pi_i$ are Gaussian primes and $e_i$ are positive integers. Just like we can compute $\phi(n)$ with the prime factors of $n$, we can compute $\phi(z)$ with the prime factorisation of $z$. We will return to this when we consider the group of Gaussian integers mod $n$, which is the set of Gaussian integers with multiplicative inverses modulo $n$, whose order is counted by $\phi(n)$.
 
 ### The Norm Map
 
@@ -411,12 +412,12 @@ $$
 \mathbf{K} = \frac{\mathbb{Z}[i]}{n \mathbb{Z}[i]} = \{z \mod n \;\; | \;\; z \in \mathbb{Z}[i]  \}, \qquad n \in \mathbb{N}.
 $$
 
-As with the integers, we say that $z \equiv w \mod n$ when $n \|\| (z - w)$. In words: $z$ is congruent to $w$ modulo $n$ when the difference between $z$ and $w$ is a multiple of $n$.
+As with the integers, we say that $z \equiv w \mod n$ when $n \| (z - w)$. In words: $z$ is congruent to $w$ modulo $n$ when the difference between $z$ and $w$ is a multiple of $n$.
 
-We wish to compute the order of the multiplicative group of a subset of these Gaussian integers just as we did for our integers before: we want to have the collection of Gaussian integers such that $\gcd(z,n) = 1$:
+We wish to compute the order of the multiplicative group of a subset of these Gaussian integers just as we did for our integers before: we want to have the collection of Gaussian integers which are coprime to the modulus:
 
 $$
-(\mathbb{Z[i]} / n\mathbb{Z[i]})^\times = \{z \in \mathbf{K} \;\; | \;\;\gcd(z,n) = 1\}
+(\mathbb{Z[i]} / n\mathbb{Z[i]})^\times = \{z \in \mathbf{K} \;\; | \;\;\gcd(z,n) = 1\},
 $$
 
 guaranteeing every element of our set is invertible modulo $n$. To compute the order of this group, we wish to generalise Euler's totient function for Gaussian integers. This is the group we work with in both of the following challenges.
@@ -436,7 +437,7 @@ elements in the group $(\mathbb{Z[i]} / p\mathbb{Z[i]})^\times$, all of which ar
 As with the integers, we can show that when $\gcd(z,w) = 1$ we can split apart Euler's totient in the following way
 
 $$
-\phi(z,w) = \phi(z) \phi(w).
+\phi(zw) = \phi(z) \phi(w).
 $$
 
 This means that when given the prime factorisation of a Gaussian integer, we have the formula for the totient as
@@ -574,16 +575,16 @@ From the formula discussed above this requires knowing the Gaussian prime factor
 - $p \equiv 1 \mod 4 $
 - $q \equiv 3 \mod 4 $
 
-This means that $q$ can be considered as a Gaussian prime with $N(q) = q^2$ and $p$ is a Gaussian integer which factors into two Gaussian primes $ p = P P^\star $ where $ N(P) = N(P^\star) = p$. 
+This means that $q$ can be considered as a Gaussian prime with $N(q) = q^2$ and $p$ is a Gaussian integer which factors into two Gaussian primes $ p = \pi \pi^\star $ where $ N(\pi) = N(\pi^\star) = p$. 
 
-As such, the prime factorisation of the modulus is $n = q^2 P^2 P^{\star 2}$. We can compute the totient for $n$ in the following way
+As such, the prime factorisation of the modulus is $n = q^2 \pi^2 \pi^{\star 2}$. We can compute the totient for $n$ in the following way
 
 $$
 \begin{aligned}
-\phi(n) &= \phi(p^2 q^2) =  \phi(P^2 P^{\star 2} q^2) \\
- &= \phi(P^2) \phi(P^{\star 2}) \phi(q^2) \\
-&= N(P) \phi(P) \cdot N(P^\star) \phi(P^\star) \cdot N(q) \phi(q)  \\
-&= [N(P)(N(P) - 1)]^2 \cdot N(q)(N(q) - 1) \\
+\phi(n) &= \phi(p^2 q^2) =  \phi(\pi^2 \pi^{\star 2} q^2) \\
+ &= \phi(\pi^2) \phi(\pi^{\star 2}) \phi(q^2) \\
+&= N(\pi) \phi(\pi) \cdot N(\pi^\star) \phi(\pi^\star) \cdot N(q) \phi(q)  \\
+&= [N(\pi)(N(\pi) - 1)]^2 \cdot N(q)(N(q) - 1) \\
 &= [p(p-1)]^2 \cdot q^2 (q^2 - 1).
 \end{aligned}
 $$
@@ -826,7 +827,7 @@ However, despite the low number of solves this challenge can be computed in a re
 - The norm is a group homomorphism (see above)
 - The `private_key` has only 256 bits, rather than being of the size of the order of $\|G\|$ which has 378 bits
 - This means solving the discrete log after taking the norm map will recover *most* of the `private_key`
-- Pari has an implementation for solving the discrete log must faster than `discrete_log` offered by default from Sage for $n = p^k$.
+- Pari has an implementation for solving the discrete log much faster than `discrete_log` offered by default from Sage for $n = p^k$.
 
 Let's discuss the solution, and then look at the implementation
 
@@ -858,15 +859,15 @@ $$
 k = \log_{N(G)} (N(P)) \mod |N(G)|.
 $$
 
-However, the order of $(\mathbb{Z} / n \mathbb{Z})^\times$ is $p(p-1)$, and so the order of $N(G) \mod n$ is going to be some divisor of this. Looking at our challenge, $p(p-1)$ has 255 bits, therefore the secret we recover will be slightly truncated. As it's very close in size, this is no problem but solving using the norm map would be infeasible if $k$ had 378 bits.
+However, the order of $(\mathbb{Z} / n \mathbb{Z})^\times$ is $p(p-1)$, and so the order of $N(G) \mod n$ is going to be some divisor of this. Looking at our challenge, $p(p-1)$ has 255 bits, therefore the secret we recover will be slightly truncated. As it's very close in size, this is no problem, but solving using the norm map would be infeasible if $k$ had 378 bits.
 
 We can obtain the full secret from the expression
 
 $$
-k_{\text{all}} = k + m \times |N(G)|.
+k_{\text{all}} = k + m \times |N(G)|,
 $$
 
-Luckily the order of $N(G)$ is very easy to compute in Sage
+for some $m \in \mathbb{N}$. Luckily the order of $N(G)$ is very easy to compute in Sage
 
 ```python
 R = Integers(n)
@@ -994,4 +995,3 @@ if __name__ == '__main__':
 # Secret: 36448648214228125938240931382630080621576419859132411658551075951915466230810
 # Flag: b'TetCTF{h0m0m0rph1sm_1s_0ur_fr13nd-mobi:*100*231199111007#}\x00\x00\x00\x00\x00\x00'
 ```
-
