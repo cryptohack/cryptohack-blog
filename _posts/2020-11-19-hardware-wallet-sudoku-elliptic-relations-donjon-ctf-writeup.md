@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: hardware-wallet-sudoku-elliptic-relations-donjon-ctf-writeup
 author: rbtree
 meta: "Hardware Wallet Sudoku: Elliptic Relations Ledger Donjon CTF Writeup"
+tags: Writeups ECC Reversing Cryptocurrency
 ---
 
 This challenge was the only one in the reverse engineering category of [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/). Writeup by [rbtree](http://rb-tree.xyz/).

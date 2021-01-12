@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: multisignatures-donjon-ctf-writeup
 author: josephsurin
 meta: "Fast Multisignatures and One Time-Based Signature Ledger Donjon CTF Writeup"
+tags: Writeup Multisignatures
 ---
 
 These two challenges in the Crypto category of [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/) involved exploiting vulnerable signature schemes. Writeup by [josephsurin](https://www.josephsurin.me/).

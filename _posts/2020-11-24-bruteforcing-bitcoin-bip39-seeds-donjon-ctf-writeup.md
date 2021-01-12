@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: bruteforcing-bitcoin-bip39-seeds-donjon-ctf-writeup
 author: joachim
 meta: "Bruteforcing Bitcoin BIP39 Seeds: Scissors Secret Sharing Ledger Donjon CTF Writeup"
+tags: Writeup Cryptocurrency Blockchain
 ---
 
 This challenge was one of the most straightforward to understand in the [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/). It involved bruteforcing a 12-word Bitcoin seed passphrase by starting off with partial information about it. Writeup by joachim. 

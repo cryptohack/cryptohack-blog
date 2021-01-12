@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: atmega-pwn-picohsm-donjon-ctf-writeup
 author: Robin Jadoul
 meta: "Atmega Pwn: PicoHSM Challenges Donjon CTF Writeup"
+tags: Writeup Hardware Pwn
 ---
 
 This was a series of three hardware exploitation challenges in [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/). All three challenges built on each other and ran on the same physical hardware hosted by the organizers. Writeup by Robin_Jadoul.

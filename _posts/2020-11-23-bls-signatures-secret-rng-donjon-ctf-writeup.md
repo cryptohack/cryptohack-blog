@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: bls-signatures-secret-rng-donjon-ctf-writeup
 author: Robin Jadoul
 meta: "BLS Signatures and Secret RNG Donjon CTF Writeup"
+tags: Writeup ECC RNG Signatures
 ---
 
 Following on from our [Fast Multisignatures and One Time-Based Signature](https://blog.cryptohack.org/multisignatures-donjon-ctf-writeup) writeups for Ledger Donjon CTF, here are two more for vulnerable signatures schemes from the pure cryptography category. Writeups by Robin_Jadoul.

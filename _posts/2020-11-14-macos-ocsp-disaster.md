@@ -5,6 +5,7 @@ categories: Web
 permalink: macos-ocsp-disaster
 author: hyperreality
 meta: "Can't open apps on macOS: an OCSP disaster waiting to happen"
+tags: News MacOS OCSP PKI
 ---
 
 Two days ago, macOS users experienced worrying hangs when opening applications not downloaded from the Mac App Store. Many users suspected hardware issues with their devices, but as they took to social media, they found it was a widespread problem. And it was no coincidence that it was happening so soon after the launch of macOS "Big Sur".

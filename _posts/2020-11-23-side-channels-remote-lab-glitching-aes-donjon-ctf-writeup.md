@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: side-channels-remote-lab-glitching-aes-donjon-ctf-writeup
 author: joachim and esrever
 meta: "Side Channels: Remote Lab and Glitching AES Ledger Donjon CTF Writeup"
+tags: Writeup Side-Channels AES
 ---
 
 These two challenges were part of the side channels category of [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/), and involved exploiting fault attacks. Writeups by joachim and esrever respectively.

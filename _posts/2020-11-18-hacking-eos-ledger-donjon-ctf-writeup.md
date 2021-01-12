@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: hacking-eos-ledger-donjon-ctf-writeup
 author: Robin Jadoul and hyperreality
 meta: "Hacking EOS: Modern Cryptocomputer Ledger Donjon CTF Writeup"
+tags: Writeup Blockchain Cryptocurrency Smart-Contracts
 ---
 
 These two challenges in the Hardware/Pwn category of [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/) saw us exploit an EOS node with smart contracts.

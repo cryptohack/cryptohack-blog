@@ -5,6 +5,7 @@ categories: CTF Writeup
 permalink: ecdsa-side-channel-attack-projective-signatures-donjon-ctf-writeup
 author: esrever and joachim
 meta: "ECDSA Side Channel Attack: Projective Signatures Ledger Donjon CTF Writeup"
+tags: Writeup ECDSA Side-Channels Signatures
 ---
 
 This challenge involved a special side channel attack on elliptic curve cryptography. It was one of the hardest challenges in the [Ledger Donjon CTF](https://donjon.ledger.com/Capture-the-Fortress/). Writeup by esrever and joachim.
