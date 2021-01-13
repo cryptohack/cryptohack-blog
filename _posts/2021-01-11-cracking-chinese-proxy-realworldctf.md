@@ -234,7 +234,7 @@ riv := sha256.New().Sum(c.key)[:c.info.ivLen]
 
 This sets the Initialisation Vector (IV) for the block cipher encryption to be the SHA256 of the key (and `wiv` is just an additional SHA256 hash of this value). This means the IV is static. The impact of a static IV depends on which block cipher mode is used, but ranges from bad to catastrophic.
 
-In most block cipher modes, it's critical that the IV is a different pseudorandom value for each encrypted stream. This enables the block cipher to achieve semantic security ("repeated usage of the scheme under the same key does not allow an attacker to infer relationships between segments of the encrypted message" - [Wikipedia](https://en.wikipedia.org/wiki/Initialization_vector)). On CryptoHack we have a couple of simple challenges based on exploiting misuse of the IV.
+In most block cipher modes, it's critical that the IV is a different pseudorandom value for each encrypted stream. This enables the cipher to achieve semantic security ("repeated usage of the scheme under the same key does not allow an attacker to infer relationships between segments of the encrypted message" - [Wikipedia](https://en.wikipedia.org/wiki/Initialization_vector)). On CryptoHack we have a couple of simple challenges based on exploiting misuse of the IV.
 
 But which block cipher mode is actually being used by Shadowtunnel? Let's backtrack to the Shadowtunnel source code and find the default value for `method`: 
 
@@ -256,7 +256,7 @@ Armed with these facts, we start thinking how we can exploit this.
 
 It doesn't seem like we can find the encryption key, but can we get the remote Shadowtunnel+SOCKS proxy to decrypt the encrypted data in the packet capture for us?
 
-We need to exploit the malleability of the ciphertext of the SOCKS handshake we've been given to flip the existing unknown IP bytes to an IP we control. Due to the way CFB mode works and the IV issue outlined above, flipping the IP to our own will only corrupt the decryption of the next single block of the ciphertext, which may not matter.
+We need to exploit the malleability of the ciphertext of the SOCKS handshake we've been given to flip the existing unknown IP bytes to an IP we control. Due to the way CFB mode works and the IV issue outlined above, flipping the IP to our own will corrupt the decryption of the single next block of the ciphertext, but depending on the content, this may not matter.
 
 If we can get the remote proxy to form a connection back to our own server, we can replay the remaining encrypted data we have over the tunnel. It should decrypt it and forward it on to us!
 
@@ -325,7 +325,7 @@ Client Ciphertext: 7805cba2092b82ceeb89060ae06c
 Server Ciphertext: 7807cea30c2b2eda2b239cf1
 ```
 
-The underlying plaintext bytes are often the same or only vary by a few flipped bits, so you can see the similarity between the ciphertexts.
+Several of the underlying plaintext bytes are the same or only vary by a few bits, so you can see the similarity between the ciphertexts.
 
 Since these are just the SOCKS messages encrypted, we XOR them with the known plaintext values we recorded above to recover parts of the keystream.
 
@@ -362,7 +362,7 @@ Unfortunately because "Server Message 1" is two bytes shorter than "Client Messa
 
 At this point, we believed we had enough information to solve the challenge. We thought we could just run through all possibilities for the last two bytes of the IP (only ~65000 values).
 
-We realised we didn't need to get the port correct as we could just tcpdump everything connecting to our server and try to catch the remote connecting to us on some unknown port to relay SOCKS traffic.
+We realised we didn't need to get the port correct as we could just tcpdump everything connecting to our server and try to catch the remote connecting to us on some unknown port.
 
 The following script copies the data from the pcap, runs through possible IPs and flips the bits to try to get the SOCKS proxy to connect to cryptohack.org. We confirmed it works locally:
 
@@ -434,7 +434,7 @@ We left the script running then wasted a lot of time combing through the packet 
 
 ## More Known Plaintext
 
-Of course, the challenge description said there was no need to bruteforce, and making 65000 connections to the server could be counted as that. Soon after the CTF ended we discovered that the intended solution was to cause the SOCKS server to send a different type of "Server Message 2" which is a different length and would give us more known plaintext to play with.
+Of course, the challenge description said there was no need to bruteforce, and making 65000 connections to the server could be counted as that. Soon after the CTF ended we discovered that the intended solution was to cause the SOCKS server to send a different type of "Server Message 2" which would contain more known plaintext for us to play with.
 
 For instance, trying to connect to 123.123.123.123:80, the plaintext exchange s:
 
@@ -445,9 +445,9 @@ Client Message 2: 050100017b7b7b7b0050
 Server Message 2: 05060001000000000000
 ```
 
-The "Server Message 2" is full of nullbytes because the host was unreachable. This leaks the pure keystream at these indexes.
+The "Server Message 2" is full of nullbytes because the host was unreachable. This leaks the pure keystream at these indexes, which overlap with the entire "Client Message 2" IP.
 
-Knowing this, we can easily learn the original IP in "Client Message 2" in the packet capture, and flip them to whatever we please. We find out that the IP is 192.168.31.239, and after plugging that into our script, get an inbound connection on port 8000.
+Knowing this, we can easily learn the original requested IP in the packet capture, and flip them to whatever we please. We find out that the IP is 192.168.31.239, and after plugging that into our script, get an inbound connection on port 8000.
 
 Here is our final solution script:
 
