@@ -17,40 +17,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript">
-      function togglePageContentLightDark() {
-          var html = document.getElementsByTagName('html')[0]
-          var currentClass = html.className
-          var newClass = html.className == 'dark-mode' ? 'light-mode' : 'dark-mode'
-          html.className = newClass
-
-          document.cookie = 'theme=' + (newClass == 'light-mode' ? 'light' : 'dark') + '; SameSite=Strict; path=/; domain=cryptohack.org; expires=Fri, 31 Dec 9999 23:59:59 GMT'
-          console.log('Cookies are now: ' + document.cookie)
-
-          var elem = document.querySelector('#changeTheme');
-          elem.innerHTML = isLightThemeSelected() ? 'Dark Mode' : 'Light Mode'
-      }
-
-      function isLightThemeSelected() {
-          return document.cookie.match(/theme=light/i) != null
-      }
-
-      function setThemeFromCookie() {
-          var html = document.getElementsByTagName('html')[0]
-          html.className = isLightThemeSelected() ? 'light-mode' : 'dark-mode'
-
-          var elem = document.querySelector('#changeTheme');
-          elem.innerHTML = isLightThemeSelected() ? 'Dark Mode' : 'Light Mode'
-
-          console.log('Loaded cookie: ' + document.cookie)
-      }
-
-      (function() {
-        setThemeFromCookie()
-      })();
-
       $("#changeTheme").on("click", function(e){
         togglePageContentLightDark();
       });
-    </script>
+  </script>
 
 </html>
