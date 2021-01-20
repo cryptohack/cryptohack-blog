@@ -17,9 +17,18 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript">
-      $("#changeTheme").on("click", function(e){
-        togglePageContentLightDark();
-      });
+    function updateThemeToggleFooter() {
+        var elem = document.querySelector('#changeTheme');
+        elem.innerHTML = isLightThemeSelected() ? 'Dark Mode' : 'Light Mode'
+    }
+
+    (function() {
+      updateThemeToggleFooter()
+    })();
+
+    $("#changeTheme").on("click", function(e){
+      togglePageContentLightDark();
+    });
   </script>
 
 </html>

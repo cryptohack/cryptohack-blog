@@ -67,10 +67,6 @@ tex2jax: {
   function setThemeFromCookie() {
       var html = document.getElementsByTagName('html')[0]
       html.className = isLightThemeSelected() ? 'light-mode' : 'dark-mode'
-
-      var elem = document.querySelector('#changeTheme');
-      elem.innerHTML = isLightThemeSelected() ? 'Dark Mode' : 'Light Mode'
-
       console.log('Loaded cookie: ' + document.cookie)
   }
 
