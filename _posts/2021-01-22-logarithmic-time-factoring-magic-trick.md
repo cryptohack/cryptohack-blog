@@ -54,6 +54,7 @@ Where it gets a bit weird however, is that it is said that $p = 4a + 3$ and $q =
 ### Line 2: a wild formula appeared
 
 The mathematical notation is not very great, so let's first try to make it a bit more readable. We quickly spot a `log[...]/log[2]`, which is simply $\log_2(\ldots)$. From there, most of it is fairly easily transcribed and rendered with the ever-magical $\LaTeX$:
+
 $$
 p = -1 + 2\left(\log_2\left(-4\left(k - \frac{N + 1}{2}\right)\right) + \frac{2in\pi}{\ln 2}\right)
 $$
