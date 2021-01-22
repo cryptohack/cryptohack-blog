@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "Factoring in logarithmic time: a mathemagic trick"
-categories:
+categories: News
 author: Robin Jadoul
 meta: "Factoring in logarithmic time: a mathemagic trick"
-tags:
+tags: RSA Broken-Cryptography
 excerpt_separator: <!--more-->
 ---
 
-When you have an interest in cryptography, and you occasionally browse reddit, you've probably seen something like this before. Someone creates a new post on r/crypto or r/cryptography, claiming to be able to efficiently factor integers or RSA moduli. This then usually goes hand in hand with a serious lack of context and explanation, notation that is questionable at best, often just plain unreadable, and an aversion of providing proper proof by factoring an actual, cryptographically big modulus. Yet because it's hard to understand, and somethings there's math involved that at first glance seems like it might have some deeper meaning, you're left wondering, is there some insight to be found here.
+When you have an interest in cryptography, and you occasionally browse reddit, you've probably seen something like this before. Someone creates a new post on r/crypto or r/cryptography, claiming to be able to efficiently factor integers or RSA moduli. This then usually goes hand in hand with a serious lack of context and explanation, notation that is questionable at best, often just plain unreadable, and an aversion to providing even minimal proof by factoring an actual, cryptographically big modulus. Yet because it's hard to understand, and sometimes there's math involved that at first glance seems like it might have some deeper meaning, you're left wondering, is there some insight to be found here.
 
 **Spoiler alert**: nope...
 <!--more-->
@@ -19,7 +19,7 @@ As a case study, we'll have a closer look at [this reddit post](https://www.redd
 
 ![Image containing mostly unreadable math with a small RSA modulus factored by hand as example](/assets/images/mathemagictrick.png)
 
-The claim in the title is immediately very interesting: "Integer factorization in log[(N + 1)/2]/log[2]". We'll come back to the notation in a bit, but we can see at a glance that the author claims to solve factorization in logarithmic time (so in polynomial/linear time in the number of bits, commonly known as "efficient"). Anyone with a passing knowledge on the topic of cryptography, and more in particular of RSA, will know that this is thought to be a hard problem. So either someone just made an enormous breakthrough, and we need to start changing a lot of the underlying infrastructure of most of our previously thought to be secure communication, or (and this is the far more likely option), there's something wrong with the proof.
+The claim in the title is immediately very interesting: "Integer factorization in log[(N + 1)/2]/log[2]". We'll come back to the notation in a bit, but we can see at a glance that the author claims to solve factorization in logarithmic time (so in polynomial/linear time in the number of bits, commonly known as "efficient"). Anyone with a passing knowledge on the topic of cryptography, and more in particular of RSA, will know that this is thought to be a hard problem. So either someone just made an enormous breakthrough, and we need to start changing a lot of the underlying infrastructure of most of our previously thought-to-be-secure communication, or (and this is the far more likely option), there's something wrong with the proof.
 
 ## A first look: line by line
 
@@ -53,7 +53,7 @@ Where it gets a bit weird however, is that it is said that $p = 4a + 3$ and $q =
 
 ### Line 2: a wild formula appeared
 
-The mathematical notation is not very great, so let's first try to make it a bit more readable. We quickly spot a `log[...]/log[2]`, which of course is simply $\log_2(\ldots)$. From there, most of it is fairly easily transcribed and rendered with the ever-magical $\LaTeX$:
+The mathematical notation is not very great, so let's first try to make it a bit more readable. We quickly spot a `log[...]/log[2]`, which is simply $\log_2(\ldots)$. From there, most of it is fairly easily transcribed and rendered with the ever-magical $\LaTeX$:
 $$
 p = -1 + 2\left(\log_2\left(-4\left(k - \frac{N + 1}{2}\right)\right) + \frac{2in\pi}{\ln 2}\right)
 $$
