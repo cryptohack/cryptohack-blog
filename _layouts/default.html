@@ -26,6 +26,18 @@
       updateThemeToggleFooter()
     })();
 
+    function togglePageContentLightDark() {
+        var html = document.getElementsByTagName('html')[0]
+        var currentClass = html.className
+        var newClass = html.className == 'dark-mode' ? 'light-mode' : 'dark-mode'
+        html.className = newClass
+
+        document.cookie = 'theme=' + (newClass == 'light-mode' ? 'light' : 'dark') + '; SameSite=Strict; path=/; domain=cryptohack.org; expires=Fri, 31 Dec 9999 23:59:59 GMT'
+        console.log('Cookies are now: ' + document.cookie)
+
+        updateThemeToggleFooter()
+    }
+
     $("#changeTheme").on("click", function(e){
       togglePageContentLightDark();
     });
