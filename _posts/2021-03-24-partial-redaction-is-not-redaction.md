@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Partial Redaction is not Redaction"
+title: "Recovering a full PEM Private Key when half of it is redacted"
 categories: Twitter CTF-Challenge
 permalink: twitter-secrets
 author:
