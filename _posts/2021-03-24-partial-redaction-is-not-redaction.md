@@ -7,6 +7,7 @@ author:
 - CryptoHackers
 meta: "PEM"
 tags: Twiter RSA PEM
+excerpt_separator: <!--more-->
 ---
 
 The [@CryptoHack__](https://twitter.com/cryptohack__) account was pinged today by ENOENT, with a CTF-like challenge found in the wild: [Source tweet](https://twitter.com/ENOENT_/status/1374679885101285376?s=20). Here's a write-up covering how given a partially redacted PEM, the whole private key can be recovered.
