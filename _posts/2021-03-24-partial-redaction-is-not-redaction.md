@@ -154,7 +154,7 @@ Comparing these headers with the ordering of data given above, we determine that
 - The last bits of the prime `p`
 - All of the the prime `q`
 - All of `dp = d % (p-1)`
-- The first bits of `dq = d % (p-1)`
+- The first bits of `dq = d % (q-1)`
 
 Additionally, we have the first ~2000 bits of the public modulus (not shown in the screenshot).
 
