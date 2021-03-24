@@ -6,7 +6,7 @@ permalink: twitter-secrets
 author:
 - CryptoHackers
 meta: "PEM"
-tags: Twiter RSA PEM
+tags: Twitter RSA PEM
 excerpt_separator: <!--more-->
 ---
 
