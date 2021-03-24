@@ -24,18 +24,18 @@ Whether this image was shared for a CTF challenge, or because SAXX didn't realis
 
 ## Timeline (GMT+0)
 
-- **11:09** - _jack_ shared the Tweet on CH discord -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824239899682930699)
+**11:09** - _jack_ shared the Tweet on CH discord -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824239899682930699) <br>
 
 ### Transcription
 
-- **12:02** - _Zeecka_ OCR completed (with some typos) -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824251721089810452)
-- **12:15** - _\$in_ identified the parameters -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824255162889404436)
+**12:02** - _Zeecka_ OCR completed (with some typos) -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824251721089810452)<br>
+**12:15** - _\$in_ identified the parameters -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824255162889404436)
 
 ### Solving
 
-- **12:46** - _Drago_1729_ recovered $q$ by hand with $e=65537$ -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824262983223083058)
-- **13:50** - _Mystiz_ proposed that it is $q$ and $dp$ instead of $dp$ and $dq$ we have in full -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824279036099559495)
-- **13:58** - _joachim_ recovered the modulus $n$ -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824281068566872195)
+**12:46** - _Drago_1729_ recovered $q$ by hand with $e=65537$ -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824262983223083058)<br>
+**13:50** - _Mystiz_ proposed that it is $q$ and $dp$ instead of $dp$ and $dq$ we have in full -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824279036099559495)<br>
+**13:58** - _joachim_ recovered the modulus $n$ -- [Discord message](https://discord.com/channels/692694094111309866/695239931790098434/824281068566872195)
 
 ## OCR
 
