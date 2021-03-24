@@ -14,6 +14,8 @@ The [@CryptoHack__](https://twitter.com/cryptohack__) account was pinged today b
 <!--more-->
 The Twitter user, SAXX, shared a partially redacted private RSA key in a tweet about a penetration test where they had recovered a private key. Precisely, a screenshot of a PEM was shared online with 31 of 51 total lines of the file redacted.
 
+![Challenge Tweet](assets/images/tweet.png)
+
 As ENOENT correctly identified, the redaction they had offered wasn't sufficient, and from the shared screenshot, it was possible to totally recover the private key.
 
 This was done as a bit of fun within the CryptoHack discord, but the take away should be:
@@ -41,7 +43,7 @@ Whether this image was shared for a CTF challenge, or because SAXX didn't realis
 
 From ENOENT's tweet, the question was: given a partially redacted private key, could the full key be derived? To answer this question, the first step was to obtain the key, which meant transcribing it from the screenshot.
 
-![Challenge image](https://pbs.twimg.com/media/ExPF9EnXIAEY8QU?format=png)
+![Challenge image](/assets/images/ExPF9EnXIAEY8QU.png)
 
 _Zeecka_ used OCR with manual tweaks to obtain an almost perfect transcription (typos would be spotted later when analysing the details). The transcription was found to be
 
