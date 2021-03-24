@@ -180,9 +180,9 @@ Given this, we can recover $p$ with a quick brute search in the following way.
 
 ## Looking for p
 
-> well, it's not too hard: `e*dp = kp * (p - 1) + 1` by definition
-> we just brute force `kp`
-> ~ joachim
+> well, it's not too hard: `e*dp = kp * (p - 1) + 1` by definition <br>
+> we just brute force `kp` <br>
+> ~ joachim <br>
 
 We know that:
 
