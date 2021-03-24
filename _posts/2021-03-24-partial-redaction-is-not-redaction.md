@@ -9,8 +9,6 @@ meta: "PEM"
 tags: Twiter RSA PEM
 ---
 
-# Partial redaction is not redaction
-
 The [@CryptoHack__](https://twitter.com/cryptohack__) account was pinged today by ENOENT, with a CTF-like challenge found in the wild: [Source tweet](https://twitter.com/ENOENT_/status/1374679885101285376?s=20). Here's a write-up covering how given a partially redacted PEM, the whole private key can be recovered.
 <!--more-->
 The Twitter user, SAXX, shared a partially redacted private RSA key in a tweet about a penetration test where they had recovered a private key. Precisely, a screenshot of a PEM was shared online with 31 of 51 total lines of the file redacted.
