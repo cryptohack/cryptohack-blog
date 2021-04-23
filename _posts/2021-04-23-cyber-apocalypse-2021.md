@@ -776,7 +776,7 @@ One often-used approach to determine how close something is to text in a natural
 
 Every language has a more or less known and unique IoC, so by comparing the IoC of a piece of text to reference IoCs, we can try to identify if this is a text in a given language.
 
-Interestingly, this metric is invariant under monoalphabetic substitution and reodrering, so while in other cases this can give us some much needed extra flexibility and power, in this case it is not enough to determine $L$ directly, as any choice of $L$ would give the same IoC value.
+Interestingly, this metric is invariant under monoalphabetic substitution and reordering, so while in other cases this can give us some much needed extra flexibility and power, in this case it is not enough to determine $L$ directly, as any choice of $L$ would give the same IoC value.
 
 ##### Finding L (reprise)
 
