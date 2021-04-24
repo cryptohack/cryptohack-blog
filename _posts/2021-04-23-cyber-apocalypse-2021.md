@@ -796,7 +796,7 @@ After our discussion of the IoC, which can be considered as a summarizing metric
 
 In this case, we will assume we have a correctly untransposed piece of text, that is as such a simple monoalphabetic substitution.
 
-Our general approach will be one of [Hill Climbing]([https://en.wikipedia.org/wiki/Hill_climbing). That is, we will start off with a completely random alphabet key, and mutate it iteratively such that it maximally improves a fitness score.
+Our general approach will be one of [Hill Climbing](https://en.wikipedia.org/wiki/Hill_climbing). That is, we will start off with a completely random alphabet key, and mutate it iteratively such that it maximally improves a fitness score.
 
 For us, this fitness score will be then based on some reference quadgram statistics.
 
@@ -1145,7 +1145,7 @@ $$
 \phi(xy) = \phi(x)\phi(y), \qquad \phi(p^k) = p^{k-1} (p - 1) 
 $$
 
-for all integers $(x,y,k)$ and all primes $p$. Note that this is different from textbook RSA where:
+for all co-prime integers $(x,y)$ and all primes $p$. Note that this is different from textbook RSA where:
 
 $$
 N = pq, \qquad \phi(N) = (p-1)(q-1).
