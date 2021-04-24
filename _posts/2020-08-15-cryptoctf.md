@@ -2338,7 +2338,7 @@ where the modulus is some `2048` bit integer. As we are given a `X.509` key, esr
 
 Another idea was that maybe this would be solved with Fermat factorisation, with "Decent RSA" being a pun for the infinite descent method. I let the algorithm run for a while but eventually killed it.
 
-The solution came from looking at the modulus in various bases. My initial hope was that the primes might be Mersenne primes, which would be exposed by looking at the modulus in base 2, but it turns our the right base for the solve is base 11.
+The solution came from looking at the modulus in various bases. My initial hope was that the primes might be Mersenne primes, which would be exposed by looking at the modulus in base 2, but it turns out the right base for the solve is base 11.
 
 ```py
 sage: N.str(base=11)
