@@ -102,7 +102,7 @@ $$
 F_p^\star = (\mathbb{Z} / p\mathbb{Z})^\star = \{1,2,\ldots, p-1\},
 $$
 
-where the superscript ${}^\star$ denotes that we have removed $0$ from out set. Sometimes this is written as $F_p^\star = F_p / \\{ 0\\}$. All that remains is that we ensure that every element $a \in F_p^\times$ has an inverse $b \in F_p^\times$ such that $a \times b \equiv 1 \mod p$. We are guaranteed a solution to  $a \times b \equiv 1 \mod p$ if and only if $\gcd(a,p) = 1$. In other words, $a,p$ must be coprime (share no common factors).
+where the superscript ${}^\star$ denotes that we have removed $0$ from our set. Sometimes this is written as $F_p^\star = F_p \ \\{ 0\\}$. All that remains is that we ensure that every element $a \in F_p^\times$ has an inverse $b \in F_p^\times$ such that $a \times b \equiv 1 \mod p$. We are guaranteed a solution to  $a \times b \equiv 1 \mod p$ if and only if $\gcd(a,p) = 1$. In other words, $a,p$ must be coprime (share no common factors).
 
 As $p$ is itself prime and all $a \in F_p^\times$ obey $a < p$, we are guaranteed that $\gcd(a,p) = 1$ and so every element has an inverse! We will come back to this soon when we consider $(\mathbb{Z} / n\mathbb{Z})^\star$ where $n$ is a composite integer.
 
