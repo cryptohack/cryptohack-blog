@@ -25,12 +25,12 @@ We would like to thank our Patreons for continued support. Our next goal is to r
 - **SSH Keys** (Data Formatting): Easy challenge that has a brief intro to SSH and describes how the keys are formatted.
 - **Roll Your Own** (Maths Brainteasers): Discrete logarithms seem like a great foundation for building a public key cryptosystem, what could go wrong? _Contributed by mystiz_
 - **Dancing Queen** (Symmetric Ciphers): Daniel Bernstein's next generation ciphers like ChaCha and Salsa are often praised for being more misuse-resistant compared to what came before. But are they resistant to being implemented incorrectly? _Contributed by yaumn and Synacktiv_
-- **The Matrix Trilogy** (Diffie-Hellman) a set of three Diffie-Hellman Key exchange challenges which focus on studying matrices over finite fields _Contributed by Jschnei_
+- **The Matrix Trilogy** (Diffie-Hellman) a set of three Diffie-Hellman Key exchange challenges which focus on studying matrices over finite fields. _Contributed by Jschnei_
 - **Montgomery's Ladder** (ECC): This challenge kicks off a side channel attack stage for Elliptic Curve Cryptography, with a nice tutorial. Side channel attacks are a big concern of modern cryptography and something we'd like to explore more on CryptoHack.
 - **Double and Broken** (ECC): Similar to the previous challenge, we can't say much more without giving the game away (perhaps the title already does)
 - **Hash Stuffing** (Hashing): Can you cause a collision in a simple custom hashing function?
 - **LFSR Destroyer** (LFSRs): Adding to Cryptanalyse's set teaching how to break LFSRs, is a challenge based on a similar construction to the GEA algorithms that were recently suggested to be deliberately backdoored. _Contributed by Cryptanalyse_
-- **RSA or HMAC Part 2** (Crypto on the Web): Here's another JWT challenge, a trick which involves a little more maths than the previous ones.
+- **RSA or HMAC Part 2** (Crypto on the Web): Here's another JWT challenge, a trick which involves a little more work than the previous ones.
 
 ### Current scoreboard
 
