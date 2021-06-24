@@ -14,7 +14,7 @@ The main thing we've done recently was team up with HackTheBox for [Cyber Apocal
 
 As a community, we had our biggest success on social media yet with the blog post ["Recovering a full PEM Private Key when half of it is redacted"](/twitter-secrets). This was a fun effort from many people in the chat and was discussed on [Twitter](https://twitter.com/CryptoHack__/status/1374758520642531331), [Reddit](https://old.reddit.com/r/netsec/comments/mcar4f/recovering_a_whole_pem_private_key_when_half_of/), and several security newsletters.
 
-We're also collaborating with the [Isogeny School](https://isogenyschool2020.co.uk), organised by Chloe Martindale and Christophe Petit, to create and share a set of dynamic exercises and CTF-like puzzles to support the virtual learning programme on isogeny-based cryptography. Registration for the school is open now and will run between July-September 2021.
+We're also collaborating with the [Isogeny School](https://isogenyschool2020.co.uk), organised by Chloe Martindale and Christophe Petit, to create and share a set of dynamic exercises and CTF-like puzzles to support the virtual learning programme on isogeny-based cryptography. [Registration](https://isogenyschool2020.co.uk/register/) for the school is open now and will run between July-September 2021.
 
 Finally, in terms of the chat, Jack has been running a reading group looking at a different famous cryptography paper each week. We also brought on Robin Jadoul to the admin team; his patience in answering the questions of newcomers and in sharing his huge knowledge has been a big part of what's made the CryptoHack Discord such an awesome community.
 
