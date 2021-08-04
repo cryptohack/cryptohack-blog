@@ -1565,7 +1565,6 @@ print(long_to_bytes(t))
 
 
 ## Robert
-##### 194 pts (19/444 solves)
 ### Challenge
 
 > Oh, Robert, you can always handle everything!
@@ -1646,9 +1645,8 @@ Slowing down on an occasional $m$ that might have been hard to factor or have a 
 
 ### Challenge
 > I wish I could say more, but I don't want to!
-`nc 02.cr.yp.toc.tf 23010`
-
-- [TRUNC.txz](https://cr.yp.toc.tf/tasks/TRUNC_dd1e2d91b790125fdfc7596f0076fa476446d2fb.txz)
+> `nc 02.cr.yp.toc.tf 23010`
+> [TRUNC.txz](https://cr.yp.toc.tf/tasks/TRUNC_dd1e2d91b790125fdfc7596f0076fa476446d2fb.txz)
 
 ```python
 #!/usr/bin/env python3
@@ -2076,11 +2074,14 @@ First, $k \phi + 1 \equiv 0 \pmod{e}$, so that gives $256$ bit information on $e
 
 Second, $\phi \equiv 0 \pmod x$, so that gives another $256$ bit information on $x$. 
 
-Finally, $|\phi - n_1| = |(p-1)(r-1) - pr| \approx p + r \le 2^{513}$. 
+Finally, 
+
+$$
+|\phi - n_1| = |(p-1)(r-1) - pr| \approx p + r \le 2^{513}
+$$ 
 
 Therefore, we can use the first two facts to find $\phi \pmod{ex}$.
 Since $ex$ is around $512$ bits, we can get a small number of candidates for $\phi$ using the known bound for $\phi$. If we know $\phi$, we can easily decrypt $c_1$ to find the flag.
-
 
 
 ```python
@@ -2173,9 +2174,8 @@ We have $n$ which we probably need to factor, along with $221$ LSBs of $d$. We a
 ### Factorization of $n$
 
 It's known that with lower $1/4$ bits of $d$, we can factorize $n$ in polynomial time of $e$. To learn how, check out Theorem 9 on [Twenty Years of Attacks on the RSA Cryptosystem](https://crypto.stanford.edu/~dabo/papers/RSA-survey.pdf). 
-Basically, we can compute $\mathcal{O}(e \log_2 e)$ candidates for the lower half bits of $p$ by solving some quadratic congruences, which we can apply Coppersmith afterwards to factorize $n$. 
 
-TODO : it would be great if someone could write about how to solve the quadratic congruences
+Basically, we can compute $\mathcal{O}(e \log_2 e)$ candidates for the lower half bits of $p$ by solving some quadratic congruences, which we can apply Coppersmith afterwards to factorize $n$. 
 
 ### Solving the Diophantine
 
