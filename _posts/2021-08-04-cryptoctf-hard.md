@@ -13,7 +13,7 @@ Last week, CryptoHackers got together to play CryptoCTF for the second time as a
 
 ![CTF Scoreboard](/assets/images/cryptoctf-2021.png)
 
-Not only was it a lot of fun for us all to play together, but it was amazing to see how many CryptoHack friends played the CTF either solo or in small teams and who were able to get a top 15 spot. We're honoured to have so many talented people in our Discord, chatting with us about maths and cryptography. We even have a guest writeups from [rkm0959](https://rkm0959.tistory.com) talking about the solutions of [DoRSA](#dorsa) and [Polish](#polish)
+Not only was it a lot of fun for us all to play together, but it was amazing to see how many CryptoHack friends played the CTF either solo or in small teams and who were able to get a top 15 spot. We're honoured to have so many talented people in our Discord, chatting with us about maths and cryptography. We even have guest writeups from [rkm0959](https://rkm0959.tistory.com) talking about the solutions of [DoRSA](#dorsa) and [Polish](#polish)
 
 Here are the write-ups for the hardest challenges in the CTF. We'll be writing further blog posts detailing the solutions to all the other challenges very soon! 
 
@@ -349,12 +349,22 @@ Such that the two curves are given by
 
 $$
 E_p: y^2 = x^3 + pq x  + pq \pmod p = x^3 \\
-E_q: y^2 = x^3 + pq x  + pq \pmod p = x^3 \\ 
+E_q: y^2 = x^3 + pq x  + pq \pmod q = x^3 \\ 
 $$
 
-Which are singular curves (in particular, these singular curves with triple zeros, known as cusps). We can translate the discrete log over these curves to solving in the additive group of $F_p$   and so the discrete log is division, and trivial. See this [link](https://crypto.stackexchange.com/questions/61302/how-to-solve-this-ecdlp) for an example.
+Which are singular curves (in particular, these singular curves have triple zeros, known as cusps). We can translate the discrete log over these curves to solving in the additive group of $F_p$   and so the discrete log is division, and trivial. See this [link](https://crypto.stackexchange.com/questions/61302/how-to-solve-this-ecdlp) for an example.
 
-We solve this discrete log in the following way
+Basically, we use the homomorphism
+
+$$
+\phi(x,y) \to \frac{x}{y}
+$$
+
+such that we can solve this discrete log in the following way
+
+$$
+H = [k] G, \;\;, g = \frac{G_x}{G_y}, \;\;, h = \frac{H_x}{H_y}, \;\; k = \frac{h}{g}
+$$
 
 ```python
 p = 227297987279223760839521045903912023553
@@ -374,7 +384,7 @@ l = Fq(Fq(lQx) / Fq(lQy)) / Fq(Fq(Qx) / Fq(Qy))
 print(f'{k}, {l}')
 ```
 
-However, these primes aren't special, so maybe this also isn't intended?
+However, these primes aren't special (re: the flag), so maybe this also isn't intended?
 
 ## ELEGANT CURVE
 ### Challenge
