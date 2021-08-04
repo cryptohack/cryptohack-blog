@@ -571,7 +571,7 @@ Supplying these curves, you are given two pairs of points and the challenge is t
 
 ### Solution
 
-This challenge I solved in an identical way to Tiny ECC. I generated an anomalpus curve $E_p$  and then used `q= next_prime(p)`. I then searched for a pair $(c,d)$  where $\\#E_q$  was smooth. I think the intended solution was to generate two singular elliptic curves with smooth primes $p,q$  so you could solve the discrete log in $F_p^{\star}$ , but seeing as the last solution worked, this was already in my mind.
+This challenge I solved in an identical way to [Tiny ECC](#tiny-ecc). I generated an anomalpus curve $E_p$  and then used `q = next_prime(p)`. I then searched for a pair $(c,d)$  where $\\#E_q$  was smooth. I think the intended solution was to generate two singular elliptic curves with smooth primes $p,q$  so you could solve the discrete log in $F_p^{\star}$ , but seeing as the last solution worked, this was already in my mind.
 
 First I needed an anomalous curve with 160 bit prime. Luckily, this is in the paper [Generating Anomalous Elliptic Curves](http://www.monnerat.info/publications/anomalous.pdf) as an example, so I can use their $m$  value. 
 
@@ -718,9 +718,20 @@ P + P = (5565164868721370436896101492497307801898270333, 49692132810606252850802
 We have a curve equation $ax(y^2 - 1) \equiv by(x^2 - 1) \mod p$ with unknown $a$, $b$, $p$; $P$ and $Q$ are some points on it, and we have $P + Q$, $Q + Q$ and $P + P$.
 
 We need to recover $x$-coordinates of $P$ and $Q$, since they contain parts of the flag.
-Addition here is commutative and associative, so we have $(P + P) + (Q + Q) = P + P + Q + Q = P + Q + P + Q = (P + Q) + (P + Q)$.
+Addition here is commutative and associative, so we have 
 
-We have 2 ways of representing $x$- and $y$-coordinates of $P + P + Q + Q$. Set $P + Q = (x_1, y_1)$, $Q + Q = (x_2, y_2)$, $P + P = (x_3, y_3)$, $P + P + Q + Q = (x_0, y_0)$. Then from addition formulas for $x$ we have $x0 \equiv \frac{(x_2+x_3)(1+y_2y_3)}{(1+x_2x_3)(1-y_2y_3)} \mod p$ and $x0 \equiv \frac{2x_1(1+y_1^2)}{(1+x_1^2)(1-y_1^2)} \mod p$, from where we get this:
+$$
+(P + P) + (Q + Q) = P + P + Q + Q = P + Q + P + Q = (P + Q) + (P + Q).
+$$
+
+We have 2 ways of representing $x$- and $y$-coordinates of $P + P + Q + Q$. Set $P + Q = (x_1, y_1)$, $Q + Q = (x_2, y_2)$, $P + P = (x_3, y_3)$, $P + P + Q + Q = (x_0, y_0)$. Then from addition formulas for $x$ we have 
+
+$$
+x_0 \equiv \frac{(x_2+x_3)(1+y_2y_3)}{(1+x_2x_3)(1-y_2y_3)} \mod p \\
+x_0 \equiv \frac{2x_1(1+y_1^2)}{(1+x_1^2)(1-y_1^2)} \mod p
+$$,
+
+from where we get this:
 
 $$
 p|((1+x_1^2)(1-y_1^2)(x_2+x_3)(1+y_2y_3) - 2x_1(1+y_1^2)(1+x_2x_3)(1-y_2y_3))
@@ -751,13 +762,11 @@ $$
 x_3y_3 \equiv \frac{4x_4y_4}{(x_4^2-1)(y_4^2-1)} \equiv 4k(\frac{x_4}{x_4^2 - 1})^2 \mod p
 $$
 
-and then $(\frac{x_4^2-1}{x_4})^2 \equiv \frac{4k}{x_3y_3} \mod p$.
-
-We have $\frac{x_4^2-1}{x_4} \equiv \pm l \mod p$, where $l \equiv (\frac{4k}{x_3y_3})^{\frac{p+1}{4}} \mod p$, since $p \equiv 3 \mod 4$.
+and then $(\frac{x_4^2-1}{x_4})^2 \equiv \frac{4k}{x_3y_3} \mod p$ and have $\frac{x_4^2-1}{x_4} \equiv \pm l \mod p$, where $l \equiv (\frac{4k}{x_3y_3})^{\frac{p+1}{4}} \mod p$, since $p \equiv 3 \mod 4$.
 
 From here we get $x_4^2 \mp lx_4 - 1 \equiv 0 \mod p$. Discriminant in both cases is equal to $D \equiv l^2 + 4 \mod p$, and we get roots of both equations with $\frac{\pm l \pm \sqrt{D}}{2} \mod p$. Check each one of them, the one that results into printable text gives us the first half of the flag. Analogously we can recover $x$-coordinate of $Q$ and get second half of the flag. By concatenating them, we will have the full flag. Judging by the flag, though, this may be an unintended solution.
 
-# Implementation
+### Implementation
 ```python
 #!/usr/bin/env python3
 from Crypto.Util.number import isPrime, long_to_bytes
@@ -800,7 +809,6 @@ print(flag)
 
 
 ## Ecchimera
-##### Points: 271
 ### Challenge
 > The [mixed](https://cryp.toc.tf/tasks/ecchimera_da57494454cba7683105130b6161f4f65c41306f.txz) version is a hard version!
 
@@ -836,7 +844,7 @@ Because $n$ isn't prime, we need to take a different approach to solve the discr
 According to this link https://link.springer.com/content/pdf/10.1007%2FBFb0054116.pdf (pg. 4), the number of points on the elliptic curve ($\\#E_{Z_n}$) is equivalent to the product of the order of the curve defined over $F_p$ and $F_q$. In other words,
 
 $$
-\\#E_{Z_n} = \\#E_{F_p} * \\#E_{F_q}
+\#E_{Z_n} = \#E_{F_p} * \#E_{F_q}
 $$
 
 Now because $p$ and $q$ are prime, it's very simple to figure out $\\#E_{F_p}$ and $\\#E_{F_q}$, we can do it directly in Sage
@@ -871,8 +879,8 @@ Now in order to solve the discrete log on the curve over the ring $Z_n$, what we
 If we look at the order of the curve over $F_p$ and $F_q$ we notice a few things.
 
 $$
-\\#E_{F_p} = p = 190116434441822299465355144611018694747 \\
-\\#E_{F_q} = 2^4 * 3 * 13 * 233 * 4253 * 49555349 * 7418313402470596923151
+\#E_{F_p} = p = 190116434441822299465355144611018694747 \\
+\#E_{F_q} = 2^4 * 3 * 13 * 233 * 4253 * 49555349 * 7418313402470596923151
 $$
 
 If the order of a curve defined over a field $F_p$ is equal to $p$, then that means the curve is anomalous, and there's an attack (called Smart's attack) that we can apply to solve the discrete log easily. So we can apply this to the curve defined over $F_p$. This also implies that every point generated by the curve also has an order of $p$.
@@ -882,8 +890,8 @@ For the other curve defined over $F_q$, notice that the order is somewhat smooth
 To summarize, we have a elliptic curve defined over $Z_n$ and we need to solve the discrete log problem to find a value $s$ given $G$ and $sG$. We can split the curve into 2 curves defined over $F_p$ and $F_q$. Then we solve the discrete log over these 2 curves for $s_p$ and $s_q$ such that
 
 $$
-s_p \equiv s \mod \\#E_{F_p} \\
-s_q \equiv s \mod \\#E_{F_q}
+s_p \equiv s \mod \#E_{F_p} \\
+s_q \equiv s \mod \#E_{F_q}
 $$
 
 Using the Chinese remainder theorem we combine these results to find
@@ -895,10 +903,10 @@ $$
 because
 
 $$
-\\#E_{Z_n} = \\#E_{F_p} * \\#E_{F_q}
+\#E_{Z_n} = \#E_{F_p} * \#E_{F_q}
 $$
 
-### Pohlig Hellman
+#### Pohlig Hellman
 
 We'll start with the curve defined over $F_q$. First we find the order of the point $G$ defined on the curve:
 
@@ -956,7 +964,7 @@ q_secret = crt(dlogs, primes[:-1])
 ```
 Running this we get $s_q = 9092500866606561$.
 
-### Smart's attack
+#### Smart's attack
 
 Onto the other curve. We know the order of the curve equals the prime $p$ (anomalous curve), so we can apply Smart's attack to solve the discrete log quickly.
 
@@ -1015,14 +1023,16 @@ p_secret = SmartAttack(Gp,sGp,p)
 
 Running that code we get $s_p = 35886536999264548257653961517736633452$
 
-### CRT
+#### CRT
 
 All that's left is to combine our 2 answers with CRT and solve for the flag.
 Let the order of $G$ on $E_{F_p}$ be $n_p$ and the order of $G$ on $E_{F_q}$ be $n_q$. 
 
 Also note that:
-$$\\#E_{F_p} = n_p\\
-\\#E_{F_q} = n_q \cdot 3 \cdot 7418313402470596923151$$
+$$
+\#E_{F_p} = n_p\\
+\#E_{F_q} = n_q \cdot 3 \cdot 7418313402470596923151
+$$
 
 We have the following equations:
 $$
