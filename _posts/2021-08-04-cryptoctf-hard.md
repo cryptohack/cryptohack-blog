@@ -1740,13 +1740,13 @@ if __name__ == '__main__':
 ```
 
 ### Solution
-Here we have a ECDSA-like signature scheme: nonces $k$ and $l$ are generated in such a way, that they always have their 25 LSBs dependent only on private key, thus always the same, then $u$ and $v$ are obtained as $x$-coordinates of $k * G$ and $l * G$ respectively, where $G$ is a generator on the curve `secp256k1`, then $h$ = `sha256(msg)` and $s \equiv k^{-1}*(hu - vd) \mod n$ are computed, where $d$ is the private key and $n$ is the order of the curve. $(u, v, s)$ is a signature for $h$.
+Here we have a ECDSA-like signature scheme: nonces $k$ and $l$ are generated in such a way, that they always have their 25 LSBs dependent only on private key, thus always the same, then $u$ and $v$ are obtained as $x$-coordinates of $kG$ and $lG$ respectively, where $G$ is a generator on the curve `secp256k1`, then $h$ = `sha256(msg)` and $s \equiv k^{-1}(hu - vd) \mod n$ are computed, where $d$ is the private key and $n$ is the order of the curve. $(u, v, s)$ is a signature for $h$.
 
-Verification works as follows: again, $h$ = `sha256(msg)` is computed, then $k \equiv hus^{-1} \mod n$ and $l \equiv vs^{-1} \mod n$ are computed, after that $X$ is derived as $x$-coordinate of $k * G - l * P$, where $P = G * d$ is the public key. Signature verifies iff $X \equiv u \mod n$.
+Verification works as follows: again, $h$ = `sha256(msg)` is computed, then $k \equiv hus^{-1} \mod n$ and $l \equiv vs^{-1} \mod n$ are computed, after that $X$ is derived as $x$-coordinate of $kG - lP$, where $P = G * d$ is the public key. Signature verifies iff $X \equiv u \mod n$.
 During interaction with the service we can obtain the public key by sending `p`, sign any message (except `Persian Gulf`) by sending `s`, verify a signature for a message with `v`, and if the signature for `Persian Gulf` verifies, we are given the flag, and quit with `q`.
 
 This is an unintended solution, which doesn't exploit odd nonce generation during signature creation.
-If $h_1$ is a hash of some message $m$, and $h_2$ is the hash for `Persian Gulf`, we can write $h_2 \equiv m*h_1 \mod n$, and if $(u_1, v_1, s_1)$ is a valid signature for $h_1$, then $(u_1, v_1m, s_1m)$ is a valid signature for $h_2$.
+If $h_1$ is a hash of some message $m$, and $h_2$ is the hash for `Persian Gulf`, we can write $h_2 \equiv m h_1 \mod n$, and if $(u_1, v_1, s_1)$ is a valid signature for $h_1$, then $(u_1, v_1m, s_1m)$ is a valid signature for $h_2$.
 
 Proof: during verification of $h_1$ we have $k \equiv h_1u_1s_1^{-1} \mod n$ and $l \equiv v_1s_1^{-1} \mod n$. During verification of $h_2$ we have $k \equiv h_1mu_1(ms_1)^{-1} \equiv h_1mu_1m^{-1}s_1^{-1} \equiv h_1u_1s_1^{-1}\mod n$ and $l \equiv v_1m(s_1m)^{-1} \equiv v_1ms_1^{-1}m^{-1} \equiv v_1s_1^{-1}\mod n$, so $k, l$ are the same, thus $X$ is the same. And since $u$ is also the same, this signature will also verify.
 
