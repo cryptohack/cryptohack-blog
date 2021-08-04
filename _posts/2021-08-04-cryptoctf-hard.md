@@ -39,8 +39,6 @@ _We will be publishing more writeups here as soon as they are finished. If you s
 
 
 ## Tiny ECC
-##### Score 217
-
 ### Challenge
 
 > Being Smart will mean completely different if you can use [special numbers](https://cr.yp.toc.tf/tasks/tiny_ecc_f6ba20693ddf6ba78f1537889d2c46a17b7a4d8b.txz)!
@@ -375,8 +373,6 @@ print(f'{k}, {l}')
 However, these primes aren't special, so maybe this also isn't intended?
 
 ## ELEGANT CURVE
-
-##### Score 217
 ### Challenge
 > Playing with [Fire](https://cr.yp.toc.tf/tasks/elegant_curve_ae8c3f188723d2852c9f939ba87d930398720a62.txz)!
 >
@@ -661,8 +657,6 @@ Sending the two keys, I get the flag
 
 
 ## Double Miff
-
-##### Score: 217
 ### Challenge
 - A new approach, a new attack. Can you attack this curve?
 [double_miff.txz](https://cr.yp.toc.tf/tasks/double_miff_58336b2ad5ed82754ac8e9b3bdcc8f25623c909c.txz)
@@ -1078,9 +1072,6 @@ print(flag)
 `CCTF{m1X3d_VeR5!0n_oF_3Cc!}`
 
 ## RoHaLd
-
-##### Score 180
-
 ### Challenge
 
 > There is always a [starting point](https://cr.yp.toc.tf/tasks/Rohald_86da9506b23e29e88d8c8f44965e9c2949a3dc41.txz), isn't it?
@@ -1554,7 +1545,6 @@ Slowing down on an occasional $m$ that might have been hard to factor or have a 
 
 
 ## Trunc
-##### Score: 334 (7 / 444 solves)
 
 ### Challenge
 > I wish I could say more, but I don't want to!
@@ -1717,7 +1707,6 @@ r.close()
 
 
 ## My Sieve
-##### Score 477
 ### Challenge
 > We have captured one of the most brilliant spies who successfully broke a private key! All the [information](https://cr.yp.toc.tf/tasks/recovered_54f706f7fb8fc9718a4600d0000987ea4bcb03d8.txz) gathered and we believe they are enough to reconstruct the way he used to break the key. Now, can you help us to find the secret message?
 
@@ -1906,9 +1895,6 @@ and so our idea was right, but we didnt not understand all the changes. Essentia
 
 
 ## DoRSA
-
-##### Score 450
-
 ### Challenge
 
 > Fun with RSA, this time [two times](https://cr.yp.toc.tf/tasks/DoRSA_17cab1318229a0207b1648615db1edc6497f8b62.txz)!
@@ -2061,8 +2047,6 @@ for i in tqdm(range(1, 150)):
 
 
 ## Polish
-##### Score 477
-
 ### Challenge
 
 > Maybe this time we should focus on important parts of [RSA](https://cr.yp.toc.tf/tasks/polish_attack_de0955bc42af9591300a30c39dc74aaceea2451d.txz)!
