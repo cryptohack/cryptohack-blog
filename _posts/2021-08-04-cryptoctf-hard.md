@@ -26,16 +26,16 @@ _We will be publishing more writeups here as soon as they are finished. If you s
 
 | Challenge Name                   | Category          | Solved By                         | Points  |
 |----------------------------------|-------------------|-----------------------------------|--------:|
-| [Tiny ECC](#Tiny-ECC)            | Elliptic Curves   | Jack                              | 217     |
-| [Elegant Curve](#Elegant-Curve)  | Elliptic Curves   | Jack                              | 217     |
-| [Double Miff](#Double-Miff)      | Elliptic Curves   | NeketmanX                         | 217     |
-| [Ecchimera](#Ecchimera)          | Elliptic Curves   | Vishiswoz, Kubie, NeketmanX       | 271     |
-| [RoHaLd](#RoHaLd)                | Elliptic Curves   | Jack, Esrever, Vishiswoz, UnblvR  | 180     |
-| [Robert](#Robert)                | Carmichael Lambda | Robin, DD                         | 194     |
-| [Trunc](#Trunc)                  | Signature forgery | NeketmanX                         | 334     |
-| [My Sieve](#My-Sieve)            | RSA               | Solved after end                  | 477     |
-| [DoRSA](#DoRSA)                  | RSA               | Super Guesser (Guest Post)        | 450     |
-| [Polish](#Polish)                | RSA               | Super Guesser (Guest Post)        | 477     |
+| [Tiny ECC](#tiny-ecc)            | Elliptic Curves   | Jack                              | 217     |
+| [Elegant Curve](#elegant-curve)  | Elliptic Curves   | Jack                              | 217     |
+| [Double Miff](#double-miff)      | Elliptic Curves   | NeketmanX                         | 217     |
+| [Ecchimera](#ecchimera)          | Elliptic Curves   | Vishiswoz, Kubie, NeketmanX       | 271     |
+| [RoHaLd](#rohald)                | Elliptic Curves   | Jack, Esrever, Vishiswoz, UnblvR  | 180     |
+| [Robert](#robert)                | Carmichael Lambda | Robin, DD                         | 194     |
+| [Trunc](#trunc)                  | Signature forgery | NeketmanX                         | 334     |
+| [My Sieve](#my-sieve)            | RSA               | Solved after end                  | 477     |
+| [DoRSA](#dorsa)                  | RSA               | Super Guesser (Guest Post)        | 450     |
+| [Polish](#polish)                | RSA               | Super Guesser (Guest Post)        | 477     |
 
 
 ## Tiny ECC
