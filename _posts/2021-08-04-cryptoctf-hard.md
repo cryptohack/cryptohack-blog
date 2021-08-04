@@ -13,7 +13,7 @@ Last week, CryptoHackers got together to play CryptoCTF for the second time as a
 
 ![CTF Scoreboard](/assets/images/cryptoctf-2021.png)
 
-Not only was it a lot of fun for us all to play together, but it was amazing to see how many CryptoHack friends played the CTF either solo or in small teams and who were able to get a top 15 spot. We're honoured to have so many talented people in our Discord, chatting with us about maths and cryptography. We even have a guest writeups from [rkm0959](https://rkm0959.tistory.com) talking about the solutions of [DoRSA](#DoRSA) and [Polish](#Polish)
+Not only was it a lot of fun for us all to play together, but it was amazing to see how many CryptoHack friends played the CTF either solo or in small teams and who were able to get a top 15 spot. We're honoured to have so many talented people in our Discord, chatting with us about maths and cryptography. We even have a guest writeups from [rkm0959](https://rkm0959.tistory.com) talking about the solutions of [DoRSA](#dorsa) and [Polish](#polish)
 
 Here are the write-ups for the hardest challenges in the CTF. We'll be writing further blog posts detailing the solutions to all the other challenges very soon! 
 
