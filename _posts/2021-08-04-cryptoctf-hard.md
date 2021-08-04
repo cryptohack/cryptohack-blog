@@ -199,10 +199,12 @@ if __name__ == '__main__':
 ```
 
 The challenge is to supply $a,b,p,q=2p+1$ to generate two curves
+
 $$
 E_p: y^2 = x^3 + ax + b \pmod p \\ 
 E_q: y^2 = x^3 + ax + b \pmod q
 $$
+
 The goal of the challenge is to solve the discrete log for a pair of points on each of these curves. Submitting the correct private keys gives you the flag.
 
 ### Solution
@@ -350,7 +352,7 @@ E_p: y^2 = x^3 + pq x  + pq \pmod p = x^3 \\
 E_q: y^2 = x^3 + pq x  + pq \pmod p = x^3 \\ 
 $$
 
-Which are singular curves (in particular, these singular curves with triple zeros, known as cusps). We can translate the discrete log over these curves to solving in the additive group of $F_p$   and so the discrete log is division, and trivial. See this link for an example: https://crypto.stackexchange.com/questions/61302/how-to-solve-this-ecdlp
+Which are singular curves (in particular, these singular curves with triple zeros, known as cusps). We can translate the discrete log over these curves to solving in the additive group of $F_p$   and so the discrete log is division, and trivial. See this [link](https://crypto.stackexchange.com/questions/61302/how-to-solve-this-ecdlp) for an example.
 
 We solve this discrete log in the following way
 
@@ -547,19 +549,21 @@ if __name__ == '__main__':
 ```
 
 The challenge is to supply two elliptic curves
+
 $$
 E_p: y^2 = x^3 + ax + b \pmod p \\
 E_p: y^2 = x^3 + cx + d \pmod q
 $$
+
 Where $0 < q - p < 2023$ and $0 < a,b < p$, $0 < c,d < q$. 
 
 Supplying these curves, you are given two pairs of points and the challenge is to solve this discrete log for both pairs. Supplying the two private keys to the server gives the flag.
 
 ### Solution
 
-This challenge I solved in an identical way to Tiny ECC. I generated an anomalpus curve $E_p$  and then used `q= next_prime(p)`. I then searched for a pair $(c,d)$  where $\#E_q$  was smooth. I think the intended solution was to generate two singular elliptic curves with smooth primes $p,q$  so you could solve the discrete log in $F_p^{\star}$ , but seeing as the last solution worked, this was already in my mind.
+This challenge I solved in an identical way to Tiny ECC. I generated an anomalpus curve $E_p$  and then used `q= next_prime(p)`. I then searched for a pair $(c,d)$  where $\\#E_q$  was smooth. I think the intended solution was to generate two singular elliptic curves with smooth primes $p,q$  so you could solve the discrete log in $F_p^{\star}$ , but seeing as the last solution worked, this was already in my mind.
 
-First I needed an anomalous curve with 160 bit prime. Luckily, this is in the paper http://www.monnerat.info/publications/anomalous.pdf as an example, so I can use their $m$  value. 
+First I needed an anomalous curve with 160 bit prime. Luckily, this is in the paper [Generating Anomalous Elliptic Curves](http://www.monnerat.info/publications/anomalous.pdf) as an example, so I can use their $m$  value. 
 
 Iterating over $c,d$ I found a curve
 
