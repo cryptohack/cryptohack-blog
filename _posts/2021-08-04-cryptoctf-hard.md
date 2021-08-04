@@ -213,7 +213,7 @@ My idea was to generate a curve $E_p$  with $\\#E_p = p$. This is an anomalous c
 
 #### Generating anomalous curves
 
-I refered to http://www.monnerat.info/publications/anomalous.pdf to generate anomalous curves, and iterated through all primes $p$ where $E_p$   was anomalous. If $q = 2p + 1$ was prime, then I stored the tuple $(p,a,b)$ in a list. I did this until I had plenty of curves to look through.
+I refered to [Generating Anomalous Elliptic Curves](http://www.monnerat.info/publications/anomalous.pdf) to generate anomalous curves, and iterated through all primes $p$ where $E_p$   was anomalous. If $q = 2p + 1$ was prime, then I stored the tuple $(p,a,b)$ in a list. I did this until I had plenty of curves to look through.
 
 ```python
 # http://www.monnerat.info/publications/anomalous.pdf
@@ -344,10 +344,12 @@ b = p*(2*p + 1)
 ```
 
 Such that the two curves are given by
+
 $$
 E_p: y^2 = x^3 + pq x  + pq \pmod p = x^3 \\
 E_q: y^2 = x^3 + pq x  + pq \pmod p = x^3 \\ 
 $$
+
 Which are singular curves (in particular, these singular curves with triple zeros, known as cusps). We can translate the discrete log over these curves to solving in the additive group of $F_p$   and so the discrete log is division, and trivial. See this link for an example: https://crypto.stackexchange.com/questions/61302/how-to-solve-this-ecdlp
 
 We solve this discrete log in the following way
