@@ -664,7 +664,7 @@ Sending the two keys, I get the flag
 
 ## Double Miff
 ### Challenge
-- A new approach, a new attack. Can you attack this curve?
+>A new approach, a new attack. Can you attack this curve?
 [double_miff.txz](https://cr.yp.toc.tf/tasks/double_miff_58336b2ad5ed82754ac8e9b3bdcc8f25623c909c.txz)
 
 ```python
@@ -706,17 +706,45 @@ P + P = (5565164868721370436896101492497307801898270333, 49692132810606252850802
 
 ### Solution
 We have a curve equation $ax(y^2 - 1) \equiv by(x^2 - 1) \mod p$ with unknown $a$, $b$, $p$; $P$ and $Q$ are some points on it, and we have $P + Q$, $Q + Q$ and $P + P$.
+
 We need to recover $x$-coordinates of $P$ and $Q$, since they contain parts of the flag.
 Addition here is commutative and associative, so we have $(P + P) + (Q + Q) = P + P + Q + Q = P + Q + P + Q = (P + Q) + (P + Q)$.
+
 We have 2 ways of representing $x$- and $y$-coordinates of $P + P + Q + Q$. Set $P + Q = (x_1, y_1)$, $Q + Q = (x_2, y_2)$, $P + P = (x_3, y_3)$, $P + P + Q + Q = (x_0, y_0)$. Then from addition formulas for $x$ we have $x0 \equiv \frac{(x_2+x_3)(1+y_2y_3)}{(1+x_2x_3)(1-y_2y_3)} \mod p$ and $x0 \equiv \frac{2x_1(1+y_1^2)}{(1+x_1^2)(1-y_1^2)} \mod p$, from where we get this:
-$$p|((1+x_1^2)(1-y_1^2)(x_2+x_3)(1+y_2y_3) - 2x_1(1+y_1^2)(1+x_2x_3)(1-y_2y_3))$$
+
+$$
+p|((1+x_1^2)(1-y_1^2)(x_2+x_3)(1+y_2y_3) - 2x_1(1+y_1^2)(1+x_2x_3)(1-y_2y_3))
+$$
+
 Analogously from addition formulas for y we get 
-$$p|((1+y_1^2)(1-x_1^2)(y_2+y_3)(1+x_2x_3)-2y_1(1+x_1^2)(1+y_2y_3)(1-x_2x_3))$$
+
+$$
+p|((1+y_1^2)(1-x_1^2)(y_2+y_3)(1+x_2x_3)-2y_1(1+x_1^2)(1+y_2y_3)(1-x_2x_3))
+$$
+
 We can compute gcd of 2 numbers above to get a small multiple of $p$ ($8p$ in this case), and from there we get $p = 1141623079614587900848768080393294899678477852887$.
 
-Recall that for any point on the curve we have $ax(y^2-1) \equiv by(x^2-1) \mod p$, from where we can compute $k \equiv \frac{a}{b} \equiv \frac{y(x^2 - 1)}{x(y^2-1)} \mod p$ by using any known point. Note that we also have $\frac{y}{y^2-1} \equiv k\frac{x}{x^2-1} \mod p$.
-Set $P = (x_4, y_4)$, and from addition formulas we get $x_3 \equiv \frac{2x_4(1+y_4^2)}{(1+x_4^2)(1-y_4^2)} \mod p$ and $y_3 \equiv \frac{2y_4(1+x_4^2)}{(1+y_4^2)(1-x_4^2)} \mod p$, from where we get $x_3y_3 \equiv \frac{4x_4y_4}{(x_4^2-1)(y_4^2-1)} \equiv 4k(\frac{x_4}{x_4^2 - 1})^2 \mod p$, and then $(\frac{x_4^2-1}{x_4})^2 \equiv \frac{4k}{x_3y_3} \mod p$.
+Recall that for any point on the curve we have $ax(y^2-1) \equiv by(x^2-1) \mod p$, from where we can compute $k \equiv \frac{a}{b} \equiv \frac{y(x^2 - 1)}{x(y^2-1)} \mod p$ by using any known point. 
+
+Note that we also have $\frac{y}{y^2-1} \equiv k\frac{x}{x^2-1} \mod p$.
+
+Set $P = (x_4, y_4)$, and from addition formulas we get:
+
+$$
+x_3 \equiv \frac{2x_4(1+y_4^2)}{(1+x_4^2)(1-y_4^2)} \mod p \\
+y_3 \equiv \frac{2y_4(1+x_4^2)}{(1+y_4^2)(1-x_4^2)} \mod p
+$$
+
+from where we get 
+
+$$
+x_3y_3 \equiv \frac{4x_4y_4}{(x_4^2-1)(y_4^2-1)} \equiv 4k(\frac{x_4}{x_4^2 - 1})^2 \mod p
+$$
+
+and then $(\frac{x_4^2-1}{x_4})^2 \equiv \frac{4k}{x_3y_3} \mod p$.
+
 We have $\frac{x_4^2-1}{x_4} \equiv \pm l \mod p$, where $l \equiv (\frac{4k}{x_3y_3})^{\frac{p+1}{4}} \mod p$, since $p \equiv 3 \mod 4$.
+
 From here we get $x_4^2 \mp lx_4 - 1 \equiv 0 \mod p$. Discriminant in both cases is equal to $D \equiv l^2 + 4 \mod p$, and we get roots of both equations with $\frac{\pm l \pm \sqrt{D}}{2} \mod p$. Check each one of them, the one that results into printable text gives us the first half of the flag. Analogously we can recover $x$-coordinate of $Q$ and get second half of the flag. By concatenating them, we will have the full flag. Judging by the flag, though, this may be an unintended solution.
 
 # Implementation
