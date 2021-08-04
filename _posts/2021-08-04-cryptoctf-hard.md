@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CryptoCTF 2021 - Hard"
+title: "CryptoCTF 2021 - Hard Challenges"
 categories: CTF Writeup
 permalink: cryptoctf2021-hard
 author:
@@ -209,7 +209,7 @@ The goal of the challenge is to solve the discrete log for a pair of points on e
 
 I solved this challenge in a fairly ugly and inelegant way. So I'll go through it quickly, then discuss what seems to be the intended solution after.
 
-My idea was to generate a curve $E_p$  with $\#E_p = p$. This is an anomalous curve, and using Smart's attack, the discrete log problem can be moved to solving the discrete log on $F_p^+$ , which is just division! Then after making one curve easy, I would keep generating primes $p$ until I found a $(q,a,b)$ where $E_q$ had a smooth order, allowing us to solve the discrete log easily.
+My idea was to generate a curve $E_p$  with $\\#E_p = p$. This is an anomalous curve, and using Smart's attack, the discrete log problem can be moved to solving the discrete log on $F_p^+$ , which is just division! Then after making one curve easy, I would keep generating primes $p$ until I found a $(q,a,b)$ where $E_q$ had a smooth order, allowing us to solve the discrete log easily.
 
 #### Generating anomalous curves
 
