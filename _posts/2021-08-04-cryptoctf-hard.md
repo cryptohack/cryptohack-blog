@@ -1551,7 +1551,7 @@ print(long_to_bytes(t))
 # b'\x05\x9e\x92\xbfO\xdf1\x16\xb0>s\x93\xc6\xc7\xe7\xa3\x80\xf0'
 # b'Ds_3LlipT!c_CURv3'
 
-# No idea why we need to do this... 
+# We have to do this, as we picked the wrong square-root.
 print(long_to_bytes(s % Q.order()))
 print(long_to_bytes(t))
 
@@ -1563,6 +1563,31 @@ print(long_to_bytes(t))
 
 `CCTF{nOt_50_3a5Y_Edw4rDs_3LlipT!c_CURv3}`
 
+#### Wrong Root
+
+When recovering the parameters we find:
+
+```py
+# Recovered from previous section
+p = 903968861315877429495243431349919213155709
+F = GF(p)
+cc = 495368774702871559312404847312353912297284
+c = F(cc).sqrt()
+d = 540431316779988345188678880301417602675534
+```
+
+however, there are two square roots to consider. By picking the wrong one, we introduce a minus sign in the scaling of the curves from $E_{a,c}$ to $E_{a}$ which creates an issue with the point we consider in $E_{A,B}$. This can be fixed by instead working with
+
+```py
+# Recovered from previous section
+p = 903968861315877429495243431349919213155709
+F = GF(p)
+cc = 495368774702871559312404847312353912297284
+c = F((-1 * F(cc).sqrt()))
+d = 540431316779988345188678880301417602675534
+```
+
+which would mean we did not need to take the reduction mod `Q.order()`.
 
 ## Robert
 ### Challenge
