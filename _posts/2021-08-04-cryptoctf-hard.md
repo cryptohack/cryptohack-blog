@@ -2104,7 +2104,9 @@ Indeed, we see that
 
 $$
 \frac{n_2}{n_1} = \frac{qs}{pr} = \frac{(uy+1)(kv+1)}{(uv+1)(xy+1)} \approx \frac{uykv}{uvxy} = \frac{k}{x}
-$$ and their difference is quite small, as 
+$$
+
+and their difference is quite small, as 
 
 $$
 \frac{n_2}{n_1} - \frac{k}{x} = \frac{(uy+1)(kv+1)x - (uv+1)(xy+1)k}{x(uv+1)(xy+1)} 
