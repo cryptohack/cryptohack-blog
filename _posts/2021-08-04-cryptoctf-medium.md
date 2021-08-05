@@ -623,8 +623,8 @@ c = 4866759227717160962317373990405484863256581375298572932012781434254701434296
 This challenge gives us the following set of three equations and three unknowns $x$, $y$, and $z$; it then generates parameters for RSA encryption using the following equations:
 
 $$
-p = nextPrime(\frac{x^2+y^2+z^2}{2^{76}})\\
-q = nextPrime(z^2+y^3- (xyz \oplus 67))
+p = \text{nextPrime}(\frac{x^2+y^2+z^2}{2^{76}})\\
+q = \text{nextPrime}(z^2+y^3- (xyz \oplus 67))
 $$
 
 It doesn't look like we can attack the equations for $p$ or $q$ directly, so we solve the diophantine equations first:
