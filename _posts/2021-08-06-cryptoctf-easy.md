@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CryptoCTF 2021 - Easy Challenges"
+title: "CryptoCTF 2021 - Easy"
 categories: CTF Writeup
 permalink: cryptoctf2021-easy
 author:
