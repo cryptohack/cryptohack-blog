@@ -120,7 +120,128 @@ for possible_key in F:
 
 ## Keybase
 
-> Coming Soon
+### Challenge
+> Recovering secrets is hard, but there is always some easy parts!
+> `nc 01.cr.yp.toc.tf 17010`
+
+```python
+#!/usr/bin/env python3
+
+from Crypto.Util import number
+from Crypto.Cipher import AES
+import os, sys, random
+from flag import flag
+
+def keygen():
+    iv, key = [os.urandom(16) for _ in '01']
+    return iv, key
+
+def encrypt(msg, iv, key):
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    return aes.encrypt(msg)
+
+def decrypt(enc, iv, key):
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    return aes.decrypt(enc)
+
+def die(*args):
+    pr(*args)
+    quit()
+
+def pr(*args):
+    s = " ".join(map(str, args))
+    sys.stdout.write(s + "\n")
+    sys.stdout.flush()
+
+def sc():
+    return sys.stdin.readline().strip()
+
+def main():
+    border = "+"
+    pr(border*72)
+    pr(border, " hi all, welcome to the simple KEYBASE cryptography task, try to    ", border)
+    pr(border, " decrypt the encrypted message and get the flag as a nice prize!    ", border)
+    pr(border*72)
+
+    iv, key = keygen()
+    flag_enc = encrypt(flag, iv, key).hex()
+
+    while True:
+        pr("| Options: \n|\t[G]et the encrypted flag \n|\t[T]est the encryption \n|\t[Q]uit")
+        ans = sc().lower()
+        if ans == 'g':
+            pr("| encrypt(flag) =", flag_enc)
+        elif ans == 't':
+            pr("| Please send your 32 bytes message to encrypt: ")
+            msg_inp = sc()
+            if len(msg_inp) == 32:
+                enc = encrypt(msg_inp, iv, key).hex()
+                r = random.randint(0, 4)
+                s = 4 - r
+                mask_key = key[:-2].hex() + '*' * 4
+                mask_enc = enc[:r] + '*' * 28 + enc[32-s:]
+                pr("| enc =", mask_enc)
+                pr("| key =", mask_key)
+            else:
+                die("| SEND 32 BYTES MESSAGE :X")
+        elif ans == 'q':
+            die("Quitting ...")
+        else:
+            die("Bye ...")
+
+if __name__ == '__main__':
+    main()
+```
+
+
+### Solution
+
+```python
+from pwn import *
+from Crypto.Cipher import AES
+
+def bxor(s1,s2):
+    return b''.join(bytes([a ^ b]) for a,b in zip(s1,s2))
+
+r = remote("01.cr.yp.toc.tf", 17010)
+
+# [G]et the encrypted flag
+r.sendlineafter("[Q]uit\n", "G")
+enc_flag = bytes.fromhex(r.recvline().strip().decode().split(" = ")[1])
+
+# [T]est the encryption
+# Loop this a few times until we get 4 characters of the plaintext in the beginning
+# as this makes the brute-force a bit easier code-wise
+while True:
+    r.sendlineafter("[Q]uit\n", "T")
+    r.sendlineafter("Please send your 32 bytes message to encrypt: \n", b"A"*32)
+    enc = r.recvline().strip().decode().split(" = ")[1]
+    key = r.recvline().strip().decode().split(" = ")[1]
+    prefix = enc.split("*")[0]
+    if len(prefix) == 4:
+        prefix = bytes.fromhex(prefix)
+        break
+
+# Brute force the last 2 bytes of the key
+key = bytearray.fromhex(key[:-4]) + b"\x00\x00"
+for k1 in range(256):
+    key[-2] = k1
+    for k2 in range(256):
+        key[-1] = k2
+        # Decrypt the second block alone, without CBC/IV, and XOR with the two unmasked bytes.
+        # Result should be original plaintext "AA.....".
+        if bxor(AES.new(key, AES.MODE_ECB).decrypt(bytes.fromhex(enc[-32:])), b"AA") == prefix:
+            # Recover full first block by xoring second block with known plaintext
+            block = bxor(AES.new(key, AES.MODE_ECB).decrypt(bytes.fromhex(enc[-32:])), b"A"*16)
+            # IV is whatever the first block was XORed with prior to encryption. Decrypt and XOR.
+            IV = bxor(AES.new(key, AES.MODE_ECB).decrypt(block), b"A"*16)
+            print(f"Recovered key candidate: {key.hex()} with IV {IV.hex()}")
+            print(AES.new(key, AES.MODE_CBC, IV).decrypt(enc_flag))
+```
+
+##### Flag
+
+`CCTF{h0W_R3cOVER_7He_5eCrET_1V?}`
 
 ## Rima
 ### Challenge
