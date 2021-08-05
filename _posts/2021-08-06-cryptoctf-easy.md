@@ -378,7 +378,7 @@ print("".join([str(x) for x in f]))
 ##### Score: 70
 ### Challenge
 > Oh, my eyes, my eyes! People still can solve this kind of cryptography? Mathematicians should love this one!
-![](https://i.imgur.com/Twgx15P.png)
+![Symbols Challenge](/assets/images/cryptoctf-symbols.png)
 
 ### Solution
 
