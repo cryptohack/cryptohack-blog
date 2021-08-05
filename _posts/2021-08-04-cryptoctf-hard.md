@@ -13,9 +13,9 @@ Last week, CryptoHackers got together to play CryptoCTF for the second time as a
 
 ![CTF Scoreboard](/assets/images/cryptoctf-2021.png)
 
-Not only was it a lot of fun for us all to play together, but it was amazing to see how many CryptoHack friends played the CTF either solo or in small teams and who were able to get a top 15 spot. We're honoured to have so many talented people in our Discord, chatting with us about maths and cryptography. We even have guest writeups from [rkm0959](https://rkm0959.tistory.com) talking about the solutions of [DoRSA](#dorsa) and [Polish](#polish)
+Not only was it a lot of fun for us all to play together, but it was amazing to see how many CryptoHack friends played the CTF either solo or in small teams and who were able to get a top 15 spot. We're honoured to have so many talented people in our Discord, chatting with us about maths and cryptography. We even have guest writeups from [rkm0959](https://rkm0959.tistory.com) talking about the solutions of [DoRSA](#dorsa) and [Polish](#polish).
 
-Here are the write-ups for the hardest challenges in the CTF. We'll be writing further blog posts detailing the solutions to all the other challenges very soon! 
+Here are the write-ups for the hardest challenges in the CTF. You can find write ups for the [easy](https://blog.cryptohack.org/cryptoctf2021-easy) and [medium](https://blog.cryptohack.org/cryptoctf2021-medium) challenges as other posts on our blog.
 
 Thank you to everyone who played for the CryptoHackers, and to ASIS CTF for organising this enjoyable event. Congratulations again to Super Guessers for being the ultimate crypto heros!
 
