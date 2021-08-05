@@ -1587,7 +1587,7 @@ c = F((-1 * F(cc).sqrt()))
 d = 540431316779988345188678880301417602675534
 ```
 
-which would mean we did not need to take the reduction mod `Q.order()`.
+which would mean we did not need to take the reduction mod `Q.order()`
 
 ## Robert
 ### Challenge
@@ -2081,7 +2081,12 @@ enc_1 = 481304047669211242896020323650513426293284751088327123650662527005830056
 enc_2 = 2343495138227787186038297737188675404905958193034177306901338927852369293111504476511643406288086128052687530514221084370875813121224208277081997620232397406702129186720714924945365815390097094777447898550641598266559194167236350546060073098778187884380074317656022294673766005856076112637129916520217379601
 ```
 
-Basically, we have $$ p = uv + 1, \quad q = uy + 1, \quad r = xy + 1, \quad s = kv + 1$$
+Basically, we have 
+
+$$
+p = uv + 1, \quad q = uy + 1, \quad r = xy + 1, \quad s = kv + 1
+$$
+
 where $p, q, r, s$ are all primes. Also, $\phi = (p-1)(r-1) = uvxy$ and $ed \equiv 1 \pmod \phi$. 
 $k$ is calculated by $k = (ed - 1)/\phi$. It is notable that $e$ is $256$ bits. 
 
@@ -2089,7 +2094,23 @@ Our goal is to decrypt RSA-encrypted messages, so we need to find one of $\phi(n
 
 ### Solution
 
-Not so long after starting this problem, rbtree suggested using continued fractions with $$ n_2 / n_1 \approx k / x $$ Indeed, we see that $$ \frac{n_2}{n_1} = \frac{qs}{pr} = \frac{(uy+1)(kv+1)}{(uv+1)(xy+1)} \approx \frac{uykv}{uvxy} = \frac{k}{x}$$ and their difference is quite small, as $$ \frac{n_2}{n_1} - \frac{k}{x} = \frac{(uy+1)(kv+1)x - (uv+1)(xy+1)k}{x(uv+1)(xy+1)} $$ and the numerator is around $256 \times 3$ bits, and the denominator is around $256 \times 5$ bits. 
+Not so long after starting this problem, rbtree suggested using continued fractions with 
+
+$$
+n_2 / n_1 \approx k / x
+$$ 
+
+Indeed, we see that 
+
+$$
+\frac{n_2}{n_1} = \frac{qs}{pr} = \frac{(uy+1)(kv+1)}{(uv+1)(xy+1)} \approx \frac{uykv}{uvxy} = \frac{k}{x}
+$$ and their difference is quite small, as 
+
+$$
+\frac{n_2}{n_1} - \frac{k}{x} = \frac{(uy+1)(kv+1)x - (uv+1)(xy+1)k}{x(uv+1)(xy+1)} 
+$$ 
+
+and the numerator is around $256 \times 3$ bits, and the denominator is around $256 \times 5$ bits. 
 
 Note that $k/x$ has denominator around 256 bits, and it approximates $n_2/n_1$ with difference around $2^{-512}$. If you know the proof for Wiener's Attack (highly recommend you study it!) you know that this implies that $k/x$ must be one of the continued fractions of $n_2/n_1$. Now, we can get small number of candidates for $k/x$. We also further assumed $\gcd(k, x) = 1$. If we want to remove this assumption, it is still safe to assume that $\gcd(k, x)$ is a small integer, and brute force all possible $\gcd(k, x)$ as well. Now we have a small number of candidates for $(k, x)$. 
 
@@ -2204,12 +2225,40 @@ Basically, we can compute $\mathcal{O}(e \log_2 e)$ candidates for the lower hal
 
 ### Solving the Diophantine
 
-We start by writing the equation as $$x^2(y-a) + y^2(x-a) = b$$ To solve this, we substitute $$u = x+y, \quad v = xy$$ and rewrite our equation as $$xy(x+y) - a(x^2+y^2) = b$$ $$uv - a(u^2 - 2v) = b$$ $$(u+2a) v = au^2 + b$$ $$v = \frac{au^2 + b}{u + 2a}$$
+We start by writing the equation as 
 
-Performing long division, we see that $$v = au - 2a^2 + \frac{4a^3 + b}{u + 2a}$$ This shows that $u + 2a$ is a factor of $4a^3 + b$. 
-Therefore, it makes sense to try and factorize $4a^3 + b$ to compute the possible values for $u$. 
+$$
+x^2(y-a) + y^2(x-a) = b
+$$
 
-Surprisingly, it turns out that $$ 4a^3 + b = n$$
+To solve this, we substitute 
+
+$$
+u = x+y, \quad v = xy
+$$ 
+
+and rewrite our equation as 
+
+$$
+xy(x+y) - a(x^2+y^2) = b \\
+uv - a(u^2 - 2v) = b \\
+(u+2a) v = au^2 + b \\
+v = \frac{au^2 + b}{u + 2a}
+$$
+
+Performing long division, we see that 
+
+$$
+v = au - 2a^2 + \frac{4a^3 + b}{u + 2a}
+$$ 
+
+This shows that $u + 2a$ is a factor of $4a^3 + b$. Therefore, it makes sense to try and factorize $4a^3 + b$ to compute the possible values for $u$. 
+
+Surprisingly, it turns out that 
+
+$$ 
+4a^3 + b = n
+$$
 
 Now we see that factorization of $n$ solves the problem. Since $n = pq$ has four divisors, we have a small number of candidates for $u+2a$. For each candidate, we can compute $u$, then compute $v$. From $u, v$, we can solve a quadratic to find $x, y$. Then, we can compute the flag. 
 
@@ -2217,11 +2266,22 @@ Now we see that factorization of $n$ solves the problem. Since $n = pq$ has four
 
 rbtree was writing the program to find the factorization of $n$. At first, we $n = pq$ would split evenly, i.e. both $p, q$ would have around $387$ bits.
 
-In this case, after we compute (a candidate of) $221$ LSBs of $p$, we have to find the remaining $166$ MSBs of $p$. To utilize Coppersmith attack, we used SageMath's small_roots with $\beta = 0.5$ and $\epsilon$ that $$2^{166} \le \frac{1}{2} n^{\beta^2 - \epsilon}$$ We decided to use $\epsilon = 0.034$ and run the algorithm. 
+In this case, after we compute (a candidate of) $221$ LSBs of $p$, we have to find the remaining $166$ MSBs of $p$. To utilize Coppersmith attack, we used SageMath's small_roots with $\beta = 0.5$ and $\epsilon$ that 
+
+$$
+2^{166} \le \frac{1}{2} n^{\beta^2 - \epsilon}
+$$
+We decided to use $\epsilon = 0.034$ and run the algorithm. 
 
 However, while running this algorithm, I suggested that $n = pq$ will not split evenly. 
 
-The logic is that one of the factors of $n$ would be $u + 2a$. If we guess that $x$ and $y$ have similar size, we would have something like $x \sim y \sim M$ where $M$ is the value such that $$2 M^2(M-a) = b$$ Since $b \sim a^3$ we would also have $M \sim a$ which implies $u + 2a \sim a$ as well. Here, $A \sim B$ when $A, B$ have a similar size, i.e. $\max(A, B) / \min(A, B)$ is a small value. 
+The logic is that one of the factors of $n$ would be $u + 2a$. If we guess that $x$ and $y$ have similar size, we would have something like $x \sim y \sim M$ where $M$ is the value such that 
+
+$$
+2 M^2(M-a) = b
+$$
+
+Since $b \sim a^3$ we would also have $M \sim a$ which implies $u + 2a \sim a$ as well. Here, $A \sim B$ when $A, B$ have a similar size, i.e. $\max(A, B) / \min(A, B)$ is a small value. 
 
 Since $a$ has around $256$ bits, what this means is that $u + 2a$ also has around $256$ bits, i.e. one of $p, q$ has around $256$ bits. Therefore, if our guess is correct, then $n$, which is $773$ bits, is composed of something like $258$ bit $p$ and $515$ bit $q$. This changes how we have to choose $\beta$ and $\epsilon$. 
 
