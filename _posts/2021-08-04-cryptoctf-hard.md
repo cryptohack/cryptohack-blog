@@ -363,7 +363,7 @@ $$
 such that we can solve this discrete log in the following way
 
 $$
-H = [k] G, \;\;, g = \frac{G_x}{G_y}, \;\;, h = \frac{H_x}{H_y}, \;\; k = \frac{h}{g}
+H = [k] G, \;\; g = \frac{G_x}{G_y}, \;\; h = \frac{H_x}{H_y}, \;\; k = \frac{h}{g}
 $$
 
 ```python
