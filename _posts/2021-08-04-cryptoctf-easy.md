@@ -26,9 +26,9 @@ _We will be publishing more writeups here as soon as they are finished. If you s
 
 | Challenge Name                      | Category              | Solved By                 | Points |
 |-------------------------------------|-----------------------|---------------------------|-------:|
-| [Farm](#farm)                       | Finite Fields         | 3m4                       | 41     |
+| [Farm](#farm)                       | Finite Fields         | evilmuffinha              | 41     |
 | [Keybase](#keybase)                 | AES                   | UnblvR (Coming Soon)      | 48     |
-| [Rima](#rima)                       | Encoding              | Willwam845, Randomdude999 | 56     |
+| [Rima](#rima)                       | Encoding              | Willwam845, randomdude999 | 56     |
 | [Symbols](#symbols)                 | Misc                  | Q7                        | 70     |
 | [Hyper Normal](#hyper-normal)       | Misc                  | Q7                        | 71     |
 | [Salt and Pepper](#salt-and-pepper) | Hash length extension | Willwam845                | 71     |
