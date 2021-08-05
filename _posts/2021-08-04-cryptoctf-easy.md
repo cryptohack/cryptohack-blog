@@ -266,11 +266,11 @@ In this challenge, we are given an image of math symbols, from the first couple 
 By using Mathpix Snip, a tool that can convert images into LaTeX for inline equations, we can get most of the symbols and get the flag.
 
 $$
-\Cap \Cap \Theta \Finv { \Pi \ltimes \aleph y _ \wp \infty \therefore \heartsuit _ \Lsh \aleph \Theta \eth \Xi }
+\Cap \Cap \Theta \Finv \{ \Pi \ltimes \aleph y \_ \wp \infty \therefore \heartsuit \_ \Lsh \aleph \Theta \eth \Xi \}
 $$
 
 ```
-\Cap \Cap \Theta \Finv { \Pi \ltimes \aleph y _ \wp \infty \therefore \heartsuit _ \Lsh \aleph \Theta \eth \Xi }
+\Cap \Cap \Theta \Finv \{ \Pi \ltimes \aleph y \_ \wp \infty \therefore \heartsuit \_ \Lsh \aleph \Theta \eth \Xi \}
 ```
 
 ##### Flag 
@@ -453,7 +453,7 @@ To get around this, I simply removed this check in the `main.cpp` file (line 255
 
 First, we will create a MD5 of (`salt` + `padding` + `n3T4Dm1n`) using the tool:
 
-```bash
+```
 hashpump -s "5f72c4360a2287bc269e0ccba6fc24ba" -d "" -a "n3T4Dm1n" -k 19
 ```
 
@@ -466,7 +466,7 @@ giving an output of
 
 Then, we will create our authentication hash by creating a SHA1 of (`pepper` + `padding` + `P4s5W0rd` + `95623660d3d04c7680a52679e35f041c`)
 
-```bash
+```
 hashpump -s "3e0d000a4b0bd712999d730bc331f400221008e0" -d "" -a "P4s5W0rd95623660d3d04c7680a52679e35f041c" -k 19
 ```
 
@@ -610,13 +610,13 @@ while True:
         break
 ```
 
-If we let $x, y = len(str(p)), len(str(q))$, we will get:
+If we let `x, y = len(str(p)), len(str(q))`, we will get:
 
 $$
 P = 10^{x}p + q,\, Q = 10^{y}q + p
 $$
 
-Also we let $x', y' = len(str(P)), len(str(Q))$, we will get:
+Also we let `x', y' = len(str(P)), len(str(Q))`, we will get:
 
 $$
 PP = 10^{x'}P+Q,\, QQ=10^{y'}Q+P
@@ -634,9 +634,9 @@ $$
 N = 10^{x+x'+y+y'}pq + \ldots +pq
 $$
 
-Since $x+x'+y+y'$ is big enough, so we know that $str(N)[:?]$ is actually $str(pq)[:?]$ and as the same, $str(N)[?:]$ is actually $str(pq)[?:]$.
+Since $x+x'+y+y'$ is big enough, so we know that `str(N)[:?]` is actually `str(pq)[:?]` and as the same, `str(N)[?:]` is actually `str(pq)[?:]`.
 
-After generating my own testcase, I find that $str(N)[:18] = str(pq)[:?]$, $str(N)[-18:] = str(pq)[-18:]$ and actually $len(str(pq)) = 38$ so we just need brute force 2 number between the high-part and low-part.
+After generating my own testcase, I find that `str(N)[:18] = str(pq)[:?]`, `str(N)[-18:] = str(pq)[-18:]` and actually `len(str(p*q)) = 38` so we just need brute force 2 number between the high-part and low-part.
 
 So we can get $pq$ and factor it to get $p$ and $q$. The next is simple decryption.
 
@@ -677,5 +677,5 @@ decrypt_RSA(c, 65537, PP, QQ)
 ```
 
 ##### Flag
-> CCTF{wH3Re_0Ur_Br41N_Iz_5uP3R_4CtIVe_bY_RSA!!}
+`CCTF{wH3Re_0Ur_Br41N_Iz_5uP3R_4CtIVe_bY_RSA!!}`
 
