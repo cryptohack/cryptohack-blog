@@ -256,9 +256,6 @@ Going through curves, I then looked to find $E_q$ of smooth order:
 for param in curves:
     p, a, b = param
     q = 2*p + 1
-
-    print(p,a,b)
-    exit()
     E1 = EllipticCurve(GF(p), [a,b])
     E2 = EllipticCurve(GF(q), [a,b])
     assert E1.order() == p
