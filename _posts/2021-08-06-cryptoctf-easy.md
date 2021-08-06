@@ -9,7 +9,7 @@ meta: "CryptoCTF 2021"
 tags: Writeup CryptoCTF
 ---
 
-Last week, CryptoHackers got together to play CryptoCTF for the second time as a team. We solved 26/29 of the challenges during the 24 hour window and came third overall. First and second places went to Super Guessers (Rkm and Rbtree are very friendly faces from CryptoHack) and a Vietnamese team working together to support the spirt of Ho Chi Minh city and nearby provinces. Congratulations to them both.
+Last week, CryptoHackers got together to play CryptoCTF for the second time as a team. We solved 26/29 of the challenges during the 24 hour window and came third overall. First and second places went to Super Guessers (Rkm and Rbtree are very friendly faces from CryptoHack) and a Vietnamese team working together to support the spirit of Ho Chi Minh city and nearby provinces. Congratulations to them both.
 
 ![CTF Scoreboard](/assets/images/cryptoctf-2021.png)
 
@@ -375,7 +375,6 @@ print("".join([str(x) for x in f]))
 `CCTF{_how_finD_7h1s_1z_s3cr3T?!}`
 
 ## Symbols
-##### Score: 70
 ### Challenge
 > Oh, my eyes, my eyes! People still can solve this kind of cryptography? Mathematicians should love this one!
 ![Symbols Challenge](/assets/images/cryptoctf-symbols.png)
