@@ -373,8 +373,220 @@ print('CCTF{'+flag+'}')
 
 
 ## Maid
+### Challenge
 
-> Coming Soon 
+```python
+#!/usr/bin/python3
+
+from Crypto.Util.number import *
+from gmpy2 import *
+from secret import *
+from flag import flag
+
+global nbit
+nbit = 1024
+
+def keygen(nbit):
+    while True:
+        p, q = [getStrongPrime(nbit) for _ in '01']
+        if p % 4 == q % 4 == 3:
+            return (p**2)*q, p
+
+def encrypt(m, pubkey):
+    if GCD(m, pubkey) != 1 or m >= 2**(2*nbit - 2):
+        return None
+    return pow(m, 2, pubkey)
+
+def flag_encrypt(flag, p, q):
+    m = bytes_to_long(flag)
+    assert m < p * q
+    return pow(m, 65537, p * q)
+
+def die(*args):
+    pr(*args)
+    quit()
+
+def pr(*args):
+    s = " ".join(map(str, args))
+    sys.stdout.write(s + "\n")
+    sys.stdout.flush()
+
+def sc():
+    return sys.stdin.readline().strip()
+
+def main():
+    border = "+"
+    pr(border*72)
+    pr(border, "  hi all, welcome to Rooney Oracle, you can encrypt and decrypt any ", border)
+    pr(border, "  message in this oracle, but the flag is still encrypted, Rooney   ", border)
+    pr(border, "  asked me to find the encrypted flag, I'm trying now, please help! ", border)
+    pr(border*72)
+
+    pubkey, privkey = keygen(nbit)
+    p, q = privkey, pubkey // (privkey ** 2)
+
+    while True:
+        pr("| Options: \n|\t[E]ncrypt message \n|\t[D]ecrypt ciphertext \n|\t[S]how encrypted flag \n|\t[Q]uit")
+        ans = sc().lower()
+        if ans == 'e':
+            pr("| Send the message to encrypt: ")
+            msg = sc()
+            try:
+                msg = int(msg)
+            except:
+                die("| your message is not integer!!")
+            pr(f"| encrypt(msg, pubkey) = {encrypt(msg, pubkey)} ")
+        elif ans == 'd':
+            pr("| Send the ciphertext to decrypt: ")
+            enc = sc()
+            try:
+                enc = int(enc)
+            except:
+                die("| your message is not integer!!")
+            pr(f"| decrypt(enc, privkey) = {decrypt(enc, privkey)} ")
+        elif ans == 's':
+            pr(f'| enc = {flag_encrypt(flag, p, q)}')
+        elif ans == 'q':
+            die("Quitting ...")
+        else:
+            die("Bye ...")
+
+if __name__ == '__main__':
+    main()
+```
+
+We are given access to an oracle which allows us to encrypt and decrypt data with
+
+$$
+c = m^2 \pmod n, \qquad n = p^2 e
+$$
+
+and we can request a flag encrypted as
+
+$$
+c = m^{e} \pmod {pq}, \qquad e = 65537
+$$
+
+Where $p,q$ are 1024 bit primes. The goal is to use the oracle to factor $n$ and hence obtain the flag.
+
+### Solution
+
+The first step is to obtain $n = p^2 q$, which we can do by computing:
+
+$$
+n = \gcd(m_1^2 - c_1, m^2_2 - c_2)
+$$
+
+by using the oracle to obtain $c_i$ from integers $m_i$. 
+
+Note: there may by other factors, and we actually compute $kn$ for some $k \in \mathbb{Z}$. We can ensure $k = 1$ by computing many $m_i,c_i$ and taking the gcd many times.
+
+The second step is to obtain one of the prime factors.
+
+We cannot send very large numbers to encrypt, but can get around this by sending $E(-X)$ for arbitary sized $X$. As the encryption is simply squaring, this makes no difference. **Defund** noticed that if you decrypt $X = D(2)$ and then compute $E(-X)$, you do not obtain $2$, but rather some very large integer.
+
+I'm not sure how **Defund** solved it, but playing with the numbers while writing it up, I noticed that:
+
+$$
+\gcd(n, D(-1) - 1) = p
+$$
+
+which allowed me to solve. Looking around online, some other people seem to have solved by doing something like 
+
+$$
+\gcd(n, D(m)^2 - m ) = p^2
+$$
+
+but seeing as we have no source, a bit of guess work needed to be done one way or another, which seems like a shame.
+
+#### Implementation
+
+```python
+from pwn import *
+from Crypto.Util.number import *
+from math import gcd
+import random
+
+r = remote('04.cr.yp.toc.tf', 38010)
+
+def encrypt(msg):
+    r.recvuntil(b"[Q]uit")
+    r.sendline(b"E")
+    r.recvuntil(b"encrypt: ")
+    r.sendline(str(msg))
+    r.recvuntil(b" = ")
+    return int(r.recvline().strip())
+
+def decrypt(msg):
+    r.recvuntil(b"[Q]uit")
+    r.sendline(b"D")
+    r.recvuntil(b"decrypt: ")
+    r.sendline(str(msg))
+    r.recvuntil(b" = ")
+    return int(r.recvline().strip())
+
+def get_flag():
+    r.recvuntil(b"[Q]uit")
+    r.sendline(b"S")
+    r.recvuntil(b" = ")
+    return int(r.recvline().strip())
+
+def recover_n():
+    # Obtain kn
+    m = 2**1536 - random.randint(1,2**1000)
+    c = encrypt(m)
+    n = m**2 - c
+    # Remove all factors of two
+    while n%2 == 0:
+        n = n // 2
+    # Compute a few more GCD to remove any other factors.
+    for _ in range(10):
+        m = 2**1536 - random.randint(1,2**1000)
+        c = encrypt(m)
+        n = gcd(n, m**2 - c)
+    return n
+
+def dec_flag(p,q):
+    c = get_flag()
+    d = pow(0x10001, -1, (p-1)*(q-1))
+    m = pow(c,d,p*q)
+    return long_to_bytes(m)
+
+def recover_factors(n):
+    X = decrypt(-1)
+    p = gcd(X - 1, n)
+    assert isPrime(p)
+    q = n // (p*p) 
+    assert isPrime(q)
+    return p, q
+
+n = recover_n()
+p, q = recover_factors(n)
+flag = dec_flag(p,q)
+print(flag)
+# CCTF{___Ra8!N_H_Cryp70_5YsT3M___}
+```
+
+##### Flag
+
+`CCTF{___Ra8!N_H_Cryp70_5YsT3M___}`
+
+### Decryption
+
+At the end of the CTF, Factoreal shared the decrypt function. Seeing this, the methods of solving make sense, but it seems like a shame that this wasn't included within the challenge
+
+```python
+def decrypt(c, privkey):
+    m_p = pow(c, (privkey + 1) // 4, privkey)
+    i = (c - pow(m_p, 2)) // privkey
+    j = i * inverse(2*m_p, privkey) % privkey
+    m = m_p + j * privkey
+    if 2*m < privkey**2:
+        return m
+    else:
+        return privkey**2 - m
+```
+
 
 ## Wolf
 ### Challenge
