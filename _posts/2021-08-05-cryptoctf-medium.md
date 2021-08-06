@@ -458,7 +458,7 @@ if __name__ == '__main__':
 We are given access to an oracle which allows us to encrypt and decrypt data with
 
 $$
-c = m^2 \pmod n, \qquad n = p^2 e
+c = m^2 \pmod n, \qquad n = p^2 q
 $$
 
 and we can request a flag encrypted as
