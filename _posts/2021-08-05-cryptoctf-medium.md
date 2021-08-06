@@ -28,7 +28,7 @@ _We will be publishing more writeups here as soon as they are finished. If you s
 | [Triplet](#triplet)            | RSA                   | Willwam845, Retroid, Vishiswoz      | 91     |
 | [Onlude](#onlude)              | Linear algebra        | Q7                                  | 95     |
 | [Improved](#improved)          | Asymmetric Collisions | Willwam845, Vishiswoz (Coming Soon) | 117    |
-| [Maid](#maid)                  | Rabin Cryptosystem    | Defund (Coming Soon)                | 119    |
+| [Maid](#maid)                  | Rabin Cryptosystem    | Defund                              | 119    |
 | [Wolf](#wolf)                  | AES-GCM               | DD                                  | 128    |
 | [Ferman](#ferman)              | Mathematics           | Jack                                | 134    |
 | [RSAphantine](#rsaphantine)    | Diophantine Equations | AC, UnblvR, Jack                    | 142    |
