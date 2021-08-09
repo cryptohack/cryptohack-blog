@@ -181,6 +181,10 @@ Example input:
 43589288709210633359625764026901174390804401096987086682930362519465081895858044399533,5191731325979249818708517
 ```
 
+##### Flag
+
+`CCTF{7HrE3_b4Bie5_c4rRi3d_dUr1nG_0Ne_pr39naNcY_Ar3_triplets}`
+
 ## Onlude
 ### Challenge
 > Encryption and Decryption could be really easy, while we expected the decryption to be harder!
