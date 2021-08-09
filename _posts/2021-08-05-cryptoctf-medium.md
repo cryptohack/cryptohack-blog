@@ -369,7 +369,9 @@ for k in range(24):
 print('CCTF{'+flag+'}')
 ```
 
-##### Flag: CCTF{LU__D3c0mpO517Ion__4L90?}
+##### Flag
+
+`CCTF{LU__D3c0mpO517Ion__4L90?}`
 
 ## Improved
 
