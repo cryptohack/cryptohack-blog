@@ -134,7 +134,9 @@ a.site-title, a.site-title:visited, a.site-title:hover{
 }
 
 .post-list li p{
-  text-align: justify;
+  // text-align: justify;
+  text-align: left;
+
 }
 
 .post-tags{
@@ -158,7 +160,9 @@ a.site-title, a.site-title:visited, a.site-title:hover{
 }
 
 .post-content p{
-  text-align: justify;
+  // text-align: justify;
+  text-align: left;
+
 }
 
 .post-meta{
