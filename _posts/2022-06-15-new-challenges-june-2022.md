@@ -25,7 +25,7 @@ Next week we'll be releasing a new set of challenges.
 - **Beatboxer** (Symmetric Ciphers): The beginning of a much-demanded linear cryptanalysis section, this challenge sees you break a slightly modified version of AES. _Contributed by yaumn and Synacktiv_
 - **Real Curve Crypto** (Elliptic Curves): A difficult and clever challenge for all the ECC junkies. _Contributed by jschnei_
 - **MDFlag** (Hash Functions): A more involved version of MD0 that sees you dig deeper into a famous attack on some hash functions. _Contributed by giladk_
-- **TLS Part 1** (Hash Functions): The first part of a practical tutorial on the nuts and bolts of TLS cryptography. 
+- **TLS Part 1** (Crypto On The Web): The first part of a practical tutorial on the nuts and bolts of TLS cryptography. 
 - **No Way Back Home** (Maths Brainteasers): Another one for fans of modular arithmetic challenges, which combines elements of multiple cryptosystems. _Contributed by DCryp7_
 
 ### Current scoreboard
