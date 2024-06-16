@@ -12,7 +12,7 @@ Hello CryptoHackers! It's been ages since our last challenge release. In this re
 
 #### Platform Changes
 
-We have a cool new career posting for a company called Aztec that is working on blockchain privacy and looking for crypto hackers (https://cryptohack.org/careers/aztec/). 
+We have a cool new career posting for a company called Aztec that is working on blockchain privacy and looking for crypto hackers (<a href="https://cryptohack.org/careers/aztec/">https://cryptohack.org/careers/aztec/</a>). 
 
 Due to popular request, it will be possible to view the flags of challenges you've previously solved. Thanks to Robin for adding the code for this.
 
