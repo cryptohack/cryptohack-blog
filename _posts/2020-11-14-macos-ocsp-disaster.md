@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Can't open apps on macOS: an OCSP disaster waiting to happen"
-categories: Web
+categories: News
 permalink: macos-ocsp-disaster
 author: hyperreality
 meta: "Can't open apps on macOS: an OCSP disaster waiting to happen"
