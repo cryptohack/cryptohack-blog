@@ -41,7 +41,7 @@ These challenges address some clear missing areas on the platform:
   - **Long Story Short**: involving PBKDF2-HMAC-SHA256
 - **Rhetorical Oracle** and **Rhetorical Oracle 2** (Symmetric Ciphers): two new additions to the padding attacks section _Contributed by versusdkp_
 - **Bad Temper** and **Bad Temper 2** (Misc - PRNG): finally, some cool challenges based on the famous Mersenne Twister _Contributed by versusdkp_
-- **Common Ground** (Mathematics - Brainteasers): involving a quirk of GCD math _Contributed by sem1tonos_
+- **Common Ground** (Mathematics - Brainteasers): involving a quirk of GCD math _Contributed by r4sti_
 
 Thanks as always to our contributors, and if you have a challenge you'd like to share, please message one of us on Discord.
 
